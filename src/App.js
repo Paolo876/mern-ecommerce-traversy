@@ -1,11 +1,20 @@
 import React from "react";
-
+import { Container } from "react-bootstrap";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Home from "./pages/Home";
 const App = () => {
   return (
     <>
-      <h1>Welcome to ProShop</h1>
+      <Header />
+      <main className="py-3">
+        <Container>
+          <Home />
+        </Container>
+      </main>
+      <Footer />
     </>
   );
-}
+};
 
 export default App;

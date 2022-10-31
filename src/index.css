@@ -1,0 +1,23 @@
+main {
+    min-height: 80vh;
+}
+
+h3 {
+    padding: 1rem 0;
+}
+
+.rating{
+    display: flex;
+    flex-direction: row;
+}
+
+.rating span{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: .1rem;
+}
+.rating span svg {
+    display: flex;
+    align-items: center;
+}
