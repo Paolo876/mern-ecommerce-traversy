@@ -5,16 +5,13 @@ import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import ProductPage from "./pages/ProductPage";
+import useProductsRedux from "./hooks/useProductsRedux";
 
-import { productsActions, fetchProducts } from "./reducers/productsSlice";
-import { useSelector, useDispatch } from "react-redux"
 const App = () => {
-  const dispatch = useDispatch();
-  const { products} = useSelector(state => state.productList);
+  const { fetchProducts } = useProductsRedux();
   useEffect(() => {
-    dispatch(fetchProducts())
+    fetchProducts()
   }, [])
-  console.log(products)
   return (
     <BrowserRouter>
       <Header />
