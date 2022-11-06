@@ -6,6 +6,13 @@ h3 {
     padding: 1rem 0;
 }
 
+svg {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em !important;
+    margin-right: .2em;
+}
+
 .rating{
     display: flex;
     flex-direction: row;
@@ -20,4 +27,7 @@ h3 {
 .rating span svg {
     display: flex;
     align-items: center;
+    margin-right: 0;
+
 }
+
