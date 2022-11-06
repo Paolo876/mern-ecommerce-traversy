@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem } from 'react-bootstrap'
+import { Link, useParams } from 'react-router-dom'
+import { Row, Col, Image, ListGroup, Button, ListGroupItem } from 'react-bootstrap'
 import Rating from '../components/Rating'
-import axios from 'axios'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import useProductsRedux from '../hooks/useProductsRedux'
 
 const ProductPage = () => {
     const params = useParams();
-    const navigate = useNavigate();
-    const [ product, setProduct ] = useState(null);
-
-    useEffect(() => {
-        axios.get(`http://localhost:3001/api/products/${params.id}`).then(res => setProduct(res.data))
-    }, [])
-    // useEffect(() => {
-    //     if(!product) navigate("/")
-    // }, [product])
-
+    const { productsList: { error, isLoading, products } } = useProductsRedux();
+    const product = products && products.find(item => item._id === params.id);
+    
   return (
     <>
         <Link className='btn btn-light my-3' to="/">Go Back</Link>
-        {product &&
+        {error && <Message variant="danger">Error: {error}</Message>}
+        {isLoading && <Loader/>}
+        {!isLoading && product &&
             <Row>
                 <Col md={6}><Image src={product.image} alt={product.name} fluid/></Col>
                 <Col md={3}>
