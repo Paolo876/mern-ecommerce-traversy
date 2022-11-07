@@ -8,11 +8,13 @@ import useProductsRedux from '../hooks/useProductsRedux'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import axios from 'axios'
+import useCartRedux from '../hooks/useCartRedux'
 
 const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate();
     const { productsList: { error, isLoading, products } } = useProductsRedux();
+    const { addToCart } = useCartRedux();
     const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
@@ -28,6 +30,8 @@ const ProductPage = () => {
     }, [products])
     const addToCartHandler = () => {
         setShowModal(true)
+        addToCart({...product, quantity})
+        setQuantity(1)
         // navigate("/cart")
     }
   return (

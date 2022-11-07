@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { cartActions, fetchCartItems } from "../reducers/cartSlice";
+import { cartActions, fetchCartItems, addToCart } from "../reducers/cartSlice";
 
 export default function useCartRedux() {
   const dispatch = useDispatch();
@@ -8,6 +8,7 @@ export default function useCartRedux() {
         cart: useSelector(state => state.cart),
         addItem: () => dispatch(cartActions.addItem()),
         fetchCartItems: data => dispatch(fetchCartItems(data)),
+        addToCart: item => dispatch(addToCart(item)),
     };
   } else {
     throw Error('Error accessing cart reducer.');

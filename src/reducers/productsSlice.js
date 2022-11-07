@@ -31,6 +31,7 @@ const productsSlice = createSlice({
         // }
     },
     extraReducers: {
+        //fetchProducts
         [fetchProducts.pending.type]: ( state ) => {
             state.isLoading = true;
         },

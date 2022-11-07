@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom"
 import ProductPage from "./pages/ProductPage";
 import useProductsRedux from "./hooks/useProductsRedux";
 import CartPage from "./pages/CartPage";
@@ -22,6 +22,8 @@ const App = () => {
   useEffect(() => {
     if(userData){
       fetchCartItems("user id here");
+    } else {
+      fetchCartItems("no_user");
     }
   }, [userData])
   return (
