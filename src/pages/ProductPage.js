@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, ListGroupItem, FormControl, Modal, ModalHeader, CloseButton, ModalTitle, ModalBody, ModalFooter } from 'react-bootstrap'
 import Rating from '../components/Rating'
@@ -7,14 +7,25 @@ import Loader from '../components/Loader'
 import useProductsRedux from '../hooks/useProductsRedux'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import axios from 'axios'
 
 const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate();
     const { productsList: { error, isLoading, products } } = useProductsRedux();
-    const product = products && products.find(item => item._id === params.id);
+    const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
+
+    useEffect(() => {
+        if(products.length !== 0 && !products.find(item => item._id === params.id)) {
+            axios.get(`http://localhost:3001/api/products/${params.id}`)
+                .then(res => setProduct(res.data))
+        }
+        if(products.length !== 0 && products.find(item => item._id === params.id)) {
+            setProduct(products.find(item => item._id === params.id))
+        }
+    }, [products])
     const addToCartHandler = () => {
         setShowModal(true)
         // navigate("/cart")

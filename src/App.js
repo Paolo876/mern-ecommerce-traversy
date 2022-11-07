@@ -7,12 +7,23 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import ProductPage from "./pages/ProductPage";
 import useProductsRedux from "./hooks/useProductsRedux";
 import CartPage from "./pages/CartPage";
+import useUserRedux from "./hooks/useUserRedux";
+import useCartRedux from "./hooks/useCartRedux";
 
 const App = () => {
   const { fetchProducts } = useProductsRedux();
+  const { user: { userData } } = useUserRedux();
+  const { fetchCartItems } = useCartRedux();
   useEffect(() => {
     fetchProducts()
   }, [])
+
+  //if user, check for cart items
+  useEffect(() => {
+    if(userData){
+      fetchCartItems("user id here");
+    }
+  }, [userData])
   return (
     <BrowserRouter>
       <Header />
