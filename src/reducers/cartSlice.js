@@ -1,26 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import useUserRedux from "../hooks/useUserRedux";
-export const fetchCartItems = createAsyncThunk('cart/fetchCartItems', async ( id, { rejectWithValue }) => {
-    try {
-        if(id === "no_user") return "no_user";
-        const res = await axios.get(`http://localhost:3001/api/cart/${id}`);
-        return res.data.cartItems
-    } catch (err){
-        return rejectWithValue(err.response.data)
-    }
-})
-
-export const addToCart = createAsyncThunk( 'cart/addToCart', async ( item, { rejectWithValue, getState }) => {
-  const { userData } = getState().user;
-  if(userData) {
-    //axios-post add to cart here
-  } else {
-    return { noUser: true, item } 
-  }
-})
-
-
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchCartItems, addToCart, changeCartItemQuantity } from "./cartReducers";
 const cartInitialState = {
     cartItems: [],
     isLoading: false,
@@ -30,16 +9,6 @@ const cartSlice = createSlice({
     name: "cart",
     initialState: cartInitialState,
     reducers: {
-        addItem( state, { payload }){
-            //check if item already exist
-            const existingItem = state.cartItems.find(item => item._id === payload._id);
-            if(existingItem){
-                // state.cartItems = [ ...state.cartItems, payload ]
-                existingItem.quantity += payload.quantity
-            } else {
-                state.cartItems = [ ...state.cartItems, payload ]
-            }
-        },
     },
     extraReducers: {
         //fetchCartItems
@@ -47,7 +16,7 @@ const cartSlice = createSlice({
             state.isLoading = true;
         },
         [fetchCartItems.fulfilled.type]: ( state, { payload }) => {
-            if(payload === "no_user") {
+            if(payload.noUser) {
                 state.isLoading = false;
                 state.cartItems = JSON.parse(localStorage.getItem("cartItems")) || []
             } else {
@@ -70,7 +39,12 @@ const cartSlice = createSlice({
                 const existingItem = cartItems.find(item => item._id === payload.item._id)
                 //if item exists, add quantity.
                 if(existingItem) {
-                    existingItem.quantity = parseInt(existingItem.quantity) + parseInt(payload.item.quantity);
+                    const totalQuantity = parseInt(existingItem.quantity) + parseInt(payload.item.quantity);
+                    if(totalQuantity > existingItem.countInStock) {
+                        existingItem.quantity = existingItem.countInStock;
+                    } else {
+                        existingItem.quantity = totalQuantity;
+                    }
                 } else {
                     cartItems.push(payload.item);
                 }
@@ -82,6 +56,27 @@ const cartSlice = createSlice({
             };
         },
         [addToCart.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        },
+        //changeCartItemQuantity
+        [changeCartItemQuantity.pending.type]: ( state ) => {
+            state.isLoading = true;
+        },
+        [changeCartItemQuantity.fulfilled.type]: ( state, { payload }) => {
+            if(payload.noUser) {
+                state.isLoading = false;
+                const cartItems = [ ...state.cartItems ];
+                const existingItem = cartItems.find(item => item._id === payload.item._id);
+                existingItem.quantity = payload.item.quantity;
+                state.cartItems = cartItems;
+                localStorage.setItem("cartItems", JSON.stringify(cartItems))
+            } else {
+                state.isLoading = false;
+                state.cartItems = payload;    
+            };
+        },
+        [changeCartItemQuantity.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         },

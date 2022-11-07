@@ -23,7 +23,7 @@ const App = () => {
     if(userData){
       fetchCartItems("user id here");
     } else {
-      fetchCartItems("no_user");
+      fetchCartItems();
     }
   }, [userData])
   return (

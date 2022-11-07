@@ -31,8 +31,11 @@ const ProductPage = () => {
     const addToCartHandler = () => {
         setShowModal(true)
         addToCart({...product, quantity})
-        setQuantity(1)
-        // navigate("/cart")
+    }
+
+    const handleHideModal = () => {
+      setShowModal(false);
+      setQuantity(1)
     }
   return (
     <>
@@ -61,7 +64,7 @@ const ProductPage = () => {
                         <ListGroupItem>
                             <Row>
                                 <Col>Status:</Col>
-                                <Col>{product.countInStock > 0 ? "In Stock" : "Out of Stock"}</Col>
+                                <Col>{product.countInStock > 0 ? `In Stock (${product.countInStock})` : "Out of Stock"}</Col>
                             </Row>
                         </ListGroupItem>
                             {product.countInStock > 0 && (
@@ -85,21 +88,21 @@ const ProductPage = () => {
                 </Col>
             </Row>
         }
-        {product && <Modal show={showModal} onHide={() => setShowModal(false)}>
+        {product && <Modal show={showModal} onHide={handleHideModal}>
             <ModalHeader closeButton>
             <ModalTitle>Successfully Added To Cart! <CheckCircleOutlineIcon style={{color: "green", marginLeft: ".25em"}}/> </ModalTitle></ModalHeader>
             <ModalBody>
             <Row>
-                <Col><Image src={product.image} alt={product.name} fluid style={{maxHeight: "100px"}}/></Col>
-                <Col><h6>{product.name}</h6></Col>
-                <Col><span>Price: <p>${product.price}</p></span></Col>
-                <Col><span>Quantity: <p>{quantity}</p></span></Col>
+                <Col md={3}><Image src={product.image} alt={product.name} fluid style={{maxHeight: "100px"}} rounded/></Col>
+                <Col md={5}><h6>{product.name}</h6></Col>
+                <Col md={2}><span>Price: <p>${product.price}</p></span></Col>
+                <Col md={2}><span>Quantity: <p>{quantity}</p></span></Col>
             </Row>
                 
 
             </ModalBody>
             <ModalFooter>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
+            <Button variant="secondary" onClick={handleHideModal}>Close</Button>
             <Button variant="primary" onClick={() => navigate("/cart")}>Go To Cart</Button>
             </ModalFooter>
         </Modal>}
