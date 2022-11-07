@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCartItems, addToCart, changeCartItemQuantity } from "./cartReducers";
+import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart } from "./cartReducers";
 const cartInitialState = {
     cartItems: [],
     isLoading: false,
@@ -77,6 +77,25 @@ const cartSlice = createSlice({
             };
         },
         [changeCartItemQuantity.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        },
+        //removeFromCart
+        [removeFromCart.pending.type]: ( state ) => {
+            state.isLoading = true;
+        },
+        [removeFromCart.fulfilled.type]: ( state, { payload }) => {
+            if(payload.noUser) {
+                state.isLoading = false;
+                const cartItems = state.cartItems.filter(item => item._id !== payload.id);
+                state.cartItems = cartItems;
+                localStorage.setItem("cartItems", JSON.stringify(cartItems))
+            } else {
+                state.isLoading = false;
+                state.cartItems = payload;    
+            };
+        },
+        [removeFromCart.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         },

@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchCartItems, addToCart, changeCartItemQuantity } from "../reducers/cartReducers";
+import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart } from "../reducers/cartReducers";
 
 export default function useCartRedux() {
   const dispatch = useDispatch();
@@ -8,7 +8,8 @@ export default function useCartRedux() {
         cart: useSelector(state => state.cart),
         fetchCartItems: data => dispatch(fetchCartItems(data)),
         addToCart: item => dispatch(addToCart(item)),
-        changeCartItemQuantity: item => dispatch(changeCartItemQuantity(item))
+        changeCartItemQuantity: item => dispatch(changeCartItemQuantity(item)),
+        removeFromCart: item => dispatch(removeFromCart(item)),
     };
   } else {
     throw Error('Error accessing cart reducer.');

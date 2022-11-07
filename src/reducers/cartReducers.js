@@ -24,8 +24,17 @@ export const addToCart = createAsyncThunk( 'cart/addToCart', async ( item, { rej
 export const changeCartItemQuantity = createAsyncThunk( 'cart/changeCartItemQuantity', async ( item, { rejectWithValue, getState } ) => {
   const { userData } = getState().user;
   if(userData) {
-    //axios-post add to cart here
+    //axios-post changeCartItemQuantity here
   } else {
     return { noUser: true, item } 
   }
+})
+
+export const removeFromCart = createAsyncThunk( 'cart/removeFromCart', async ( id, { rejectWithValue, getState } ) => {
+    const { userData } = getState().user;
+    if(userData) {
+      //axios-post removeFromCart here
+    } else {
+      return { noUser: true, id } 
+    }
 })
