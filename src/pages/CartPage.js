@@ -9,6 +9,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const CartPage = () => {
   const { cart:{ cartItems, isLoading, error }, changeCartItemQuantity, removeFromCart } = useCartRedux();
 
+  const handleCheckout = () => {
+    console.log(cartItems);
+  }
   return (
     <Row>
       <Col md={8}>
@@ -46,6 +49,11 @@ const CartPage = () => {
               <ListGroupItem>
                 <h2>Subtotal: ({cartItems.reduce(( acc, item) => parseInt(acc) + parseInt(item.quantity), 0)}) Items</h2>
                 ${cartItems.reduce(( acc, item) => parseFloat(acc) + parseInt(item.quantity) * parseFloat(item.price), 0).toFixed(2)}
+              </ListGroupItem>
+              <ListGroupItem>
+                <Button type="button" className="btn-block" disabled={cartItems.length === 0} onClick={handleCheckout}>
+                  Proceed To Checkout
+                </Button>
               </ListGroupItem>
             </ListGroup>
           </Card>
