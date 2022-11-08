@@ -23,6 +23,7 @@ const ProductPage = () => {
         if(products.length !== 0 && !products.find(item => item._id === params.id)) {
             axios.get(`http://localhost:3001/api/products/${params.id}`)
                 .then(res => setProduct(res.data))
+                .catch(err => console.log(err))
         }
         if(products.length !== 0 && products.find(item => item._id === params.id)) {
             setProduct(products.find(item => item._id === params.id))

@@ -1,28 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem, FormControl } from 'react-bootstrap';
 import useCartRedux from '../hooks/useCartRedux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from "axios";
+import useProductsRedux from '../hooks/useProductsRedux';
 
+const fetchProductInformations = async ( cartItems, products ) => {
+  let _cartItems = [];
+  for (const item of cartItems) {
+    const product = products.find(product => product._id === item._id)
+    if(product) {
+      _cartItems.push(product)
+    } else {
+      const res = await axios.get(`http://localhost:3001/api/products/${item._id}`);
+      if(res && res.data) _cartItems.push(res.data)
+    }
+  }
+  return _cartItems;
+}
 const CartPage = () => {
   const { cart:{ cartItems, isLoading, error }, changeCartItemQuantity, removeFromCart } = useCartRedux();
+  const { productsList: { products }} = useProductsRedux();
+  const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
 
+  useEffect(() => {
+    if(updatedCartItems.length === 0) {
+      if( products.length !== 0 && cartItems.length !== 0 ) {
+        fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
+      }
+    }
+  }, [products, cartItems])
+  
   const handleCheckout = () => {
     console.log(cartItems);
   }
+  
   return (
     <Row>
       <Col md={8}>
         <h1>Your Shopping Cart</h1>
-        {cartItems.length === 0 ? 
+        {updatedCartItems.length === 0 ? 
           <Message>You have no items in your cart yet. <Link to="/">Back to Home Page</Link></Message> : 
           <ListGroup variant="flush">
             {error && <Message variant="danger">Error: {error}</Message>}
             {isLoading && <Loader/>}
 
-            {!isLoading && cartItems.map(item => (
+            {!isLoading && updatedCartItems.map(item => (
               <ListGroupItem key={item._id}>
                 <Row>
                   <Col md={2}><Image src={item.image} alt={item.name} fluid rounded></Image></Col>
@@ -43,15 +69,15 @@ const CartPage = () => {
         }
       </Col>
       <Col md={4}>
-        {cartItems.length !== 0 &&
+        {updatedCartItems.length !== 0 &&
           <Card>
             <ListGroup variant='flush'>
               <ListGroupItem>
-                <h2>Subtotal: ({cartItems.reduce(( acc, item) => parseInt(acc) + parseInt(item.quantity), 0)}) Items</h2>
-                ${cartItems.reduce(( acc, item) => parseFloat(acc) + parseInt(item.quantity) * parseFloat(item.price), 0).toFixed(2)}
+                <h2>Subtotal: ({updatedCartItems.reduce(( acc, item) => parseInt(acc) + parseInt(item.quantity), 0)}) Items</h2>
+                ${updatedCartItems.reduce(( acc, item) => parseFloat(acc) + parseInt(item.quantity) * parseFloat(item.price), 0).toFixed(2)}
               </ListGroupItem>
               <ListGroupItem>
-                <Button type="button" className="btn-block" disabled={cartItems.length === 0} onClick={handleCheckout}>
+                <Button type="button" className="btn-block" disabled={updatedCartItems.length === 0} onClick={handleCheckout}>
                   Proceed To Checkout
                 </Button>
               </ListGroupItem>

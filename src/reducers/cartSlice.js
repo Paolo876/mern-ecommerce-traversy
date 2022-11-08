@@ -28,25 +28,29 @@ const cartSlice = createSlice({
             state.isLoading = false;
             state.error = payload.message;
         },
-        //addToCart
+        //addToCart (only save the id of the item)
         [addToCart.pending.type]: ( state ) => {
             state.isLoading = true;
         },
         [addToCart.fulfilled.type]: ( state, { payload }) => {
+            const { countInStock } = payload.item;
+            const item = { _id: payload.item._id, quantity: payload.item.quantity };
+
             if(payload.noUser) {
                 state.isLoading = false;
                 const cartItems = [ ...state.cartItems ];
                 const existingItem = cartItems.find(item => item._id === payload.item._id)
+
                 //if item exists, add quantity.
                 if(existingItem) {
-                    const totalQuantity = parseInt(existingItem.quantity) + parseInt(payload.item.quantity);
-                    if(totalQuantity > existingItem.countInStock) {
-                        existingItem.quantity = existingItem.countInStock;
+                    const totalQuantity = parseInt(existingItem.quantity) + parseInt(item.quantity);
+                    if(totalQuantity > countInStock) {
+                        existingItem.quantity = countInStock;   //if quantity is greater, set it equal to countInStock value.
                     } else {
                         existingItem.quantity = totalQuantity;
                     }
                 } else {
-                    cartItems.push(payload.item);
+                    cartItems.push(item);
                 }
                 state.cartItems = cartItems;
                 localStorage.setItem("cartItems", JSON.stringify(cartItems))
