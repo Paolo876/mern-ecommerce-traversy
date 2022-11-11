@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { userActions } from "../reducers/userSlice";
-import { login } from '../reducers/userReducers';
+import { login, logout } from '../reducers/userReducers';
 export default function useUserRedux() {
   const dispatch = useDispatch();
   if(useSelector(state => state.user)) {

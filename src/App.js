@@ -9,6 +9,7 @@ import useProductsRedux from "./hooks/useProductsRedux";
 import CartPage from "./pages/CartPage";
 import useUserRedux from "./hooks/useUserRedux";
 import useCartRedux from "./hooks/useCartRedux";
+import LoginPage from "./pages/LoginPage";
 
 const App = () => {
   const { fetchProducts } = useProductsRedux();
@@ -35,6 +36,7 @@ const App = () => {
             <Route element={<HomePage />} path="/"/>
             <Route element={<ProductPage />} path="/product/:id"/>  
             <Route element={<CartPage />} path="/cart"/>  
+            <Route element={<LoginPage />} path="/login"/>  
           </Routes>
         </Container>
       </main>
