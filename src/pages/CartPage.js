@@ -20,7 +20,8 @@ const fetchProductInformations = async ( cartItems, products ) => {
     }
   }
   return _cartItems;
-}
+};
+
 const CartPage = () => {
   const { cart:{ cartItems, isLoading, error }, changeCartItemQuantity, removeFromCart } = useCartRedux();
   const { productsList: { products }} = useProductsRedux();

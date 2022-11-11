@@ -18,17 +18,6 @@ const productsSlice = createSlice({
         error: null
     },
     reducers: {
-        // productListRequest({ isLoading }) {
-        //     isLoading = true;
-        // },
-        // productListSuccess({ isLoading, products }, { payload }) {
-        //     isLoading = false;
-        //     products = payload
-        // },
-        // productListFail({ isLoading, error }, { payload }){
-        //     isLoading = false;
-        //     error = payload;
-        // }
     },
     extraReducers: {
         //fetchProducts
