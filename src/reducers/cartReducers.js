@@ -6,8 +6,7 @@ export const fetchCartItems = createAsyncThunk('cart/fetchCartItems', async ( id
     try {
         if(!userData) return { noUser: true };
         const res = await axios.get(`http://localhost:3001/api/cart/${id}`, { withCredentials: true });
-        console.log(res)
-        return res.data
+        return res.data.cartItems
     } catch (err){
         return rejectWithValue(err.response.data)
     }

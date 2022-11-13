@@ -10,13 +10,14 @@ import CartPage from "./pages/CartPage";
 import useUserRedux from "./hooks/useUserRedux";
 import useCartRedux from "./hooks/useCartRedux";
 import LoginPage from "./pages/LoginPage";
-
+import Loader from "./components/Loader";
 const App = () => {
   const { fetchProducts } = useProductsRedux();
-  const { user: { userData } } = useUserRedux();
+  const { user: { userData, isLoading }, authorizeToken } = useUserRedux();
   const { fetchCartItems } = useCartRedux();
   useEffect(() => {
     fetchProducts()
+    authorizeToken()
   }, [])
 
   //if user, check for cart items
@@ -27,19 +28,21 @@ const App = () => {
       fetchCartItems();
     }
   }, [userData])
+
   return (
     <BrowserRouter>
       <Header />
-      <main className="py-3">
-        <Container>
-          <Routes>
-            <Route element={<HomePage />} path="/"/>
-            <Route element={<ProductPage />} path="/product/:id"/>  
-            <Route element={<CartPage />} path="/cart"/>  
-            <Route element={<LoginPage />} path="/login"/>  
-          </Routes>
-        </Container>
-      </main>
+        <main className="py-3">
+          <Container>
+          {isLoading ? <Loader/> :
+            <Routes>
+                <Route element={<HomePage />} path="/"/>
+                <Route element={<ProductPage />} path="/product/:id"/>  
+                <Route element={<CartPage />} path="/cart"/>  
+                <Route element={<LoginPage />} path="/login"/>  
+            </Routes>}
+          </Container>
+        </main>
       <Footer />
     </BrowserRouter>
   );

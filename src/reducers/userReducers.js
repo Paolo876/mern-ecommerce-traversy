@@ -8,7 +8,6 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
         {
             headers: {
                 'Content-Type': 'application/json',  
-                // "Access-Control-Allow-Origin": "http://localhost:3000"
             },
             withCredentials: true,
         });
@@ -18,10 +17,26 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
     }
 })
 
-export const logout = createAsyncThunk( 'user/logout', async ( userData, { rejectWithValue }) => {
+export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.get('http://localhost:3001/api/users/logout');
-        return res.data.slice(0,4)
+        const res = await axios.get('http://localhost:3001/api/users/authorize', 
+        {
+            headers: {
+                'Content-Type': 'application/json',  
+            },
+            withCredentials: true,
+        });
+        return res.data
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
+
+//logout --clear cookies
+export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithValue }) => {
+    try {
+        const res = await axios.get('http://localhost:3001/api/users/logout', { withCredentials: true});
+        return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
     }

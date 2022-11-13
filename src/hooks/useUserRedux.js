@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { userActions } from "../reducers/userSlice";
-import { login, logout } from '../reducers/userReducers';
+import { login, logout, authorizeToken } from '../reducers/userReducers';
 export default function useUserRedux() {
   const dispatch = useDispatch();
   if(useSelector(state => state.user)) {
@@ -8,6 +8,7 @@ export default function useUserRedux() {
         user: useSelector(state => state.user),
         login: async (data) => dispatch(login(data)),
         logout: () => dispatch(logout()),
+        authorizeToken: () => dispatch(authorizeToken()),
     };
   } else {
     throw Error('Error accessing cart reducer.');

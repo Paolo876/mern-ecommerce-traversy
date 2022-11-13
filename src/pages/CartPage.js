@@ -29,13 +29,18 @@ const CartPage = () => {
   const { user: {userData} } = useUserRedux();
   const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
   const navigate = useNavigate();
+  
   useEffect(() => {
-    if(updatedCartItems.length === 0) {
-      if( products.length !== 0 && cartItems.length !== 0 ) {
-        fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
-      }
-    }
+    fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
   }, [products, cartItems])
+
+  // useEffect(() => {
+  //   if(updatedCartItems.length === 0) {
+  //     if( products.length !== 0 && cartItems.length !== 0 ) {
+  //       fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
+  //     }
+  //   }
+  // }, [products, cartItems])
 
   const handleChangeQuantity = ( payload ) => {
     changeCartItemQuantity(payload);  //redux dispatch

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout } from "./userReducers";
+import { login, logout, authorizeToken } from "./userReducers";
 const userSlice = createSlice({
     name: "user",
     initialState: {
         userData: null,
         isLoading: false,
-        error: null
+        error: null,
+        isAuthReady: false
     },
     reducers: {
 
@@ -22,6 +23,34 @@ const userSlice = createSlice({
         [login.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
+        },
+        //logout
+        [logout.pending.type]: ( state ) => {
+            state.isLoading = true;
+        },
+        [logout.fulfilled.type]: ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
+            state.userData = null;
+            localStorage.removeItem("cartItems") //clear cartItems in localStorage
+
+        },
+        [logout.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        },
+        //authorizeToken
+        [authorizeToken.pending.type]: ( state ) => {
+            state.isLoading = true;
+        },
+        [authorizeToken.fulfilled.type]: ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
+            state.userData = payload;
+        },
+        [authorizeToken.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            // state.error = payload.message;
         },
     }
 });
