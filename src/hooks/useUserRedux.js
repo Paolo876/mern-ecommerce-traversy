@@ -6,7 +6,7 @@ export default function useUserRedux() {
   if(useSelector(state => state.user)) {
     return {
         user: useSelector(state => state.user),
-        login: data => dispatch(login(data)),
+        login: async (data) => dispatch(login(data)),
         logout: () => dispatch(logout()),
     };
   } else {

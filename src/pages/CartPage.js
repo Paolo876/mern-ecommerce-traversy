@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem, FormControl } from 'react-bootstrap';
 import useCartRedux from '../hooks/useCartRedux';
 import Message from '../components/Message';
@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
 import useProductsRedux from '../hooks/useProductsRedux';
+import useUserRedux from '../hooks/useUserRedux';
 
 const fetchProductInformations = async ( cartItems, products ) => {
   let _cartItems = [];
@@ -25,8 +26,9 @@ const fetchProductInformations = async ( cartItems, products ) => {
 const CartPage = () => {
   const { cart:{ cartItems, isLoading, error }, changeCartItemQuantity, removeFromCart } = useCartRedux();
   const { productsList: { products }} = useProductsRedux();
+  const { user: {userData} } = useUserRedux();
   const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if(updatedCartItems.length === 0) {
       if( products.length !== 0 && cartItems.length !== 0 ) {
@@ -49,6 +51,8 @@ const CartPage = () => {
     setUpdatedCartItems(prevState => prevState.filter(item => item._id !== id))
   }
   const handleCheckout = () => {
+    // if not logged in, redirect to login
+    if(!userData) navigate("/login", { state: { from: "/cart", error: "You must be logged in to checkout." } })
     console.log(cartItems);   //use cartItems, --only grab id and quantity
   }
   return (

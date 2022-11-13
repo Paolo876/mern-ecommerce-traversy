@@ -22,7 +22,7 @@ const App = () => {
   //if user, check for cart items
   useEffect(() => {
     if(userData){
-      fetchCartItems("user id here");
+      fetchCartItems(userData._id);
     } else {
       fetchCartItems();
     }

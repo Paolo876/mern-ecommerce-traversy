@@ -5,8 +5,9 @@ export const fetchCartItems = createAsyncThunk('cart/fetchCartItems', async ( id
     const { userData } = getState().user;
     try {
         if(!userData) return { noUser: true };
-        const res = await axios.get(`http://localhost:3001/api/cart/${id}`);
-        return res.data.cartItems
+        const res = await axios.get(`http://localhost:3001/api/cart/${id}`, { withCredentials: true });
+        console.log(res)
+        return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
     }

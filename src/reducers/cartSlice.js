@@ -18,10 +18,12 @@ const cartSlice = createSlice({
         [fetchCartItems.fulfilled.type]: ( state, { payload }) => {
             if(payload.noUser) {
                 state.isLoading = false;
-                state.cartItems = JSON.parse(localStorage.getItem("cartItems")) || []
+                state.cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+                state.error = null;
             } else {
                 state.isLoading = false;
-                state.cartItems = payload;    
+                state.cartItems = payload;
+                state.error = null;
             };
         },
         [fetchCartItems.rejected]: ( state , { payload }) => {
@@ -38,6 +40,7 @@ const cartSlice = createSlice({
 
             if(payload.noUser) {
                 state.isLoading = false;
+                state.error = null;
                 const cartItems = [ ...state.cartItems ];
                 const existingItem = cartItems.find(item => item._id === payload.item._id)
 
@@ -68,15 +71,15 @@ const cartSlice = createSlice({
             state.isLoading = true;
         },
         [changeCartItemQuantity.fulfilled.type]: ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
             if(payload.noUser) {
-                state.isLoading = false;
                 const cartItems = [ ...state.cartItems ];
                 const existingItem = cartItems.find(item => item._id === payload.item._id);
                 existingItem.quantity = payload.item.quantity;
                 state.cartItems = cartItems;
                 localStorage.setItem("cartItems", JSON.stringify(cartItems))
             } else {
-                state.isLoading = false;
                 state.cartItems = payload;    
             };
         },
@@ -89,13 +92,13 @@ const cartSlice = createSlice({
             state.isLoading = true;
         },
         [removeFromCart.fulfilled.type]: ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
             if(payload.noUser) {
-                state.isLoading = false;
                 const cartItems = state.cartItems.filter(item => item._id !== payload.id);
                 state.cartItems = cartItems;
                 localStorage.setItem("cartItems", JSON.stringify(cartItems))
             } else {
-                state.isLoading = false;
                 state.cartItems = payload;    
             };
         },
