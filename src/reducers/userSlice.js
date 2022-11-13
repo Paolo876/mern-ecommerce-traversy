@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, authorizeToken } from "./userReducers";
+import { login, logout, authorizeToken, register } from "./userReducers";
 const userSlice = createSlice({
     name: "user",
     initialState: {
@@ -14,6 +14,7 @@ const userSlice = createSlice({
         //login
         [login.pending.type]: ( state ) => {
             state.isLoading = true;
+            state.error = null;
         },
         [login.fulfilled.type]: ( state, { payload }) => {
             state.isLoading = false;
@@ -27,6 +28,7 @@ const userSlice = createSlice({
         //logout
         [logout.pending.type]: ( state ) => {
             state.isLoading = true;
+            state.error = null;
         },
         [logout.fulfilled.type]: ( state, { payload }) => {
             state.isLoading = false;
@@ -42,6 +44,7 @@ const userSlice = createSlice({
         //authorizeToken
         [authorizeToken.pending.type]: ( state ) => {
             state.isLoading = true;
+            state.error = null;
         },
         [authorizeToken.fulfilled.type]: ( state, { payload }) => {
             state.isLoading = false;
@@ -51,6 +54,20 @@ const userSlice = createSlice({
         [authorizeToken.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             // state.error = payload.message;
+        },
+        //register
+        [register.pending.type]: ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        },
+        [register.fulfilled.type]: ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
+            state.userData = payload;
+        },
+        [register.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
         },
     }
 });

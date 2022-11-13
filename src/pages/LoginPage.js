@@ -19,9 +19,9 @@ const LoginPage = () => {
     }
   }, [error, locationState, navigate, userData])
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    await login({email, password})
+    login({email, password})
   }
 
   return (
@@ -30,18 +30,18 @@ const LoginPage = () => {
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
         <Form onSubmit={handleSubmit}>
-            <FormGroup>
+            <FormGroup  className="my-3">
                 <FormLabel>Email Address</FormLabel>
                 <FormControl type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email"/>
             </FormGroup>
-            <FormGroup>
+            <FormGroup  className="my-3">
                 <FormLabel>Password</FormLabel>
                 <FormControl type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password"/>
             </FormGroup>
             {isLoading && <Loader/>}
-            {!isLoading && <Button type="submit" variant="primary">Sign In</Button>}
+            {!isLoading && <Button type="submit" variant="primary"  className="my-4">Sign In</Button>}
         </Form>
-        <Row className='py-3'>
+        <Row className='py-5'>
             <Col>
                 Not a member yet? <Link to={"/register"} state={{from: locationState && locationState.from}}>Click here to sign up.</Link>
             </Col>

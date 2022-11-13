@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom"
 import { Container } from "react-bootstrap";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import HomePage from "./pages/HomePage";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom"
-import ProductPage from "./pages/ProductPage";
-import useProductsRedux from "./hooks/useProductsRedux";
-import CartPage from "./pages/CartPage";
+import Loader from "./components/Loader";
 import useUserRedux from "./hooks/useUserRedux";
 import useCartRedux from "./hooks/useCartRedux";
+import useProductsRedux from "./hooks/useProductsRedux";
+// pages
+import HomePage from "./pages/HomePage";
+import ProductPage from "./pages/ProductPage";
+import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
-import Loader from "./components/Loader";
+import RegisterPage from "./pages/RegisterPage";
+
 const App = () => {
   const { fetchProducts } = useProductsRedux();
   const { user: { userData, isLoading }, authorizeToken } = useUserRedux();
@@ -40,6 +43,7 @@ const App = () => {
                 <Route element={<ProductPage />} path="/product/:id"/>  
                 <Route element={<CartPage />} path="/cart"/>  
                 <Route element={<LoginPage />} path="/login"/>  
+                <Route element={<RegisterPage />} path="/register"/>  
             </Routes>}
           </Container>
         </main>
