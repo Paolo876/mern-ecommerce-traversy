@@ -27,8 +27,10 @@ const RegisterPage = () => {
     e.preventDefault();
     if(password !== confirmPassword){
       setFormError("Passwords do not match.")
+    } else {
+      register({name, email, password})
+      setFormError(null)
     }
-    register({name, email, password})
   }
 
   return (

@@ -22,7 +22,7 @@ const cartSlice = createSlice({
                 state.error = null;
             } else {
                 state.isLoading = false;
-                state.cartItems = payload;
+                state.cartItems = [...payload, ...state.cartItems];
                 state.error = null;
             };
         },

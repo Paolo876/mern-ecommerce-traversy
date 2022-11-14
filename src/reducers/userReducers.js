@@ -50,6 +50,22 @@ export const register = createAsyncThunk( 'user/register', async ( payload, { re
     }
 })
 
+// updateProfile
+export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( payload, { rejectWithValue }) => {
+    try {
+        const res = await axios.put('http://localhost:3001/api/users/update', payload , 
+        {
+            headers: {
+                'Content-Type': 'application/json',  
+            },
+            withCredentials: true,
+        });
+        return res.data
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
+
 //logout --clear cookies
 export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithValue }) => {
     try {

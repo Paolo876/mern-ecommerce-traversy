@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { userActions } from "../reducers/userSlice";
-import { login, logout, authorizeToken, register } from '../reducers/userReducers';
+import { login, logout, authorizeToken, register, updateProfile } from '../reducers/userReducers';
 export default function useUserRedux() {
   const dispatch = useDispatch();
   if(useSelector(state => state.user)) {
@@ -8,6 +8,7 @@ export default function useUserRedux() {
         user: useSelector(state => state.user),
         login: data => dispatch(login(data)),
         register: data => dispatch(register(data)),
+        updateProfile: data => dispatch(updateProfile(data)),
         logout: () => dispatch(logout()),
         authorizeToken: () => dispatch(authorizeToken()),
     };

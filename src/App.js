@@ -14,6 +14,7 @@ import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
+import ShippingPage from "./pages/ShippingPage";
 
 const App = () => {
   const { fetchProducts } = useProductsRedux();
@@ -46,6 +47,7 @@ const App = () => {
                 <Route element={<LoginPage />} path="/login"/>  
                 <Route element={<RegisterPage />} path="/register"/>  
                 <Route element={<ProfilePage />} path="/profile/:id"/>  
+                <Route element={userData ? <ShippingPage /> : <Navigate to="/login"/>} path="/shipping"/>  
             </Routes>}
           </Container>
         </main>

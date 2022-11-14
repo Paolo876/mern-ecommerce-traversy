@@ -48,14 +48,14 @@ const ProfilePage = () => {
     <Row>
       {error && <Message variant="danger">{error}</Message>}
       {isLoading && <Loader/>}
-      {profileData && <Col md={4}>
+      {profileData && <Col md={3}>
         <h2>USER PROFILE</h2>
         <p>{profileData.name}</p>
         <p>Member since {new Date(profileData.createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: '2-digit'})}</p>
       </Col>}
       {isUserProfile && 
       <>
-        <Col md={4}>
+        <Col md={5}>
           <h2>MY ORDERS</h2>
           <p>to be added...</p>
         </Col>
