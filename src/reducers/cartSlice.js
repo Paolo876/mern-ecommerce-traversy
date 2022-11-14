@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart } from "./cartReducers";
 const cartInitialState = {
     cartItems: [],
+    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || null,
     isLoading: false,
     error: null
 }
@@ -9,6 +10,10 @@ const cartSlice = createSlice({
     name: "cart",
     initialState: cartInitialState,
     reducers: {
+        saveShippingAddress(state, { payload }) {
+            state.shippingAddress = payload;
+            localStorage.setItem("shippingAddress", JSON.stringify(payload))
+        },
     },
     extraReducers: {
         //fetchCartItems

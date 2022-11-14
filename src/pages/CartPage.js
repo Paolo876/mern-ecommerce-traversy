@@ -57,8 +57,11 @@ const CartPage = () => {
   }
   const handleCheckout = () => {
     // if not logged in, redirect to /login
-    if(!userData) navigate("/login", { state: { from: "/cart", error: "You must be logged in to checkout." } })
-    console.log(cartItems);   //use cartItems, --only grab id and quantity
+    if(!userData) {
+      navigate("/login", { state: { from: "/cart", error: "You must be logged in to checkout." } })
+    } else {
+      navigate("/shipping")
+    }
   }
   return (
     <Row>

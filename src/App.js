@@ -47,7 +47,7 @@ const App = () => {
                 <Route element={<LoginPage />} path="/login"/>  
                 <Route element={<RegisterPage />} path="/register"/>  
                 <Route element={<ProfilePage />} path="/profile/:id"/>  
-                <Route element={userData ? <ShippingPage /> : <Navigate to="/login"/>} path="/shipping"/>  
+                <Route element={<ShippingPage />} path="/shipping"/>  
             </Routes>}
           </Container>
         </main>
