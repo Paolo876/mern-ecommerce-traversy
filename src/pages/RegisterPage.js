@@ -15,7 +15,6 @@ const RegisterPage = () => {
   const [ formError, setFormError ] = useState(null);
   const { state: locationState } = useLocation();
   const navigate = useNavigate();
-  console.log(locationState);
 
   //redirect user if logged in.
   useEffect(() => {

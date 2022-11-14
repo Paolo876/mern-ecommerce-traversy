@@ -20,7 +20,7 @@ const Header = () => {
               <LinkContainer to="/cart"><Nav.Link><ShoppingCartIcon/> Cart</Nav.Link></LinkContainer>
               {!userData && <LinkContainer to="/login"><Nav.Link><PersonOutlineIcon/> Sign In</Nav.Link></LinkContainer>}
               {userData && <NavDropdown title={userData.name} id="username">
-                <LinkContainer to="/profile"><NavDropdown.Item>Profile</NavDropdown.Item></LinkContainer>
+                <LinkContainer to={`/profile/${userData._id}`}><NavDropdown.Item>Profile</NavDropdown.Item></LinkContainer>
                 <NavDropdown.Item onClick={() => logout()}>Logout</NavDropdown.Item>
               </NavDropdown>}
             </Nav>
