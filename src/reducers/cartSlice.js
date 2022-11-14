@@ -3,6 +3,7 @@ import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart } fro
 const cartInitialState = {
     cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
     shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || null,
+    paymentMethod: JSON.parse(localStorage.getItem('paymentMethod')) || "PayPal",
     isLoading: false,
     error: null
 }
@@ -13,6 +14,10 @@ const cartSlice = createSlice({
         saveShippingAddress(state, { payload }) {
             state.shippingAddress = payload;
             localStorage.setItem("shippingAddress", JSON.stringify(payload))
+        },
+        savePaymentMethod(state, { payload }) {
+            state.paymentMethod = payload;
+            localStorage.setItem("paymentMethod", JSON.stringify(payload))
         },
     },
     extraReducers: {

@@ -40,7 +40,7 @@ const ShippingPage = () => {
   return (
     <FormContainer>
       <CheckoutSteps step1 step2/>
-      <h1>Shipping</h1>
+      <h1>SHIPPING</h1>
       <Form onSubmit={handleSubmit}>
         <FormGroup controlId='name' className="my-4">
           <FormLabel>Address</FormLabel>
