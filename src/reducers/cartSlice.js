@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart } from "./cartReducers";
 const cartInitialState = {
-    cartItems: [],
+    cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
     shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || null,
     isLoading: false,
     error: null
@@ -23,7 +23,7 @@ const cartSlice = createSlice({
         [fetchCartItems.fulfilled.type]: ( state, { payload }) => {
             if(payload.noUser) {
                 state.isLoading = false;
-                state.cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+                // state.cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
                 state.error = null;
             } else {
                 state.isLoading = false;

@@ -58,10 +58,12 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.error = null;
             state.userData = payload;
+            state.isAuthReady = true;
         },
         [authorizeToken.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             state.success = false;
+            state.isAuthReady = true;
             // state.error = payload.message;
         },
         //register

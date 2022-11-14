@@ -15,25 +15,29 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import ShippingPage from "./pages/ShippingPage";
+import PaymentPage from "./pages/PaymentPage";
 
 const App = () => {
   const { fetchProducts } = useProductsRedux();
-  const { user: { userData, isLoading }, authorizeToken } = useUserRedux();
+  const { user: { userData, isLoading, isAuthReady }, authorizeToken } = useUserRedux();
   const { fetchCartItems } = useCartRedux();
+  
   useEffect(() => {
-    fetchProducts()
-    authorizeToken()
+      authorizeToken()
   }, [])
 
   //if user, check for cart items
   useEffect(() => {
-    if(userData){
-      fetchCartItems(userData._id);
-    } else {
-      fetchCartItems();
+    if(isAuthReady){
+      fetchProducts()
+      if(userData){
+        fetchCartItems(userData._id);
+      } else {
+        fetchCartItems();
+      }
     }
-  }, [userData])
-
+  }, [userData, isAuthReady])
+  if(!isAuthReady) return <Loader/>
   return (
     <BrowserRouter>
       <Header />
@@ -48,6 +52,7 @@ const App = () => {
                 <Route element={<RegisterPage />} path="/register"/>  
                 <Route element={<ProfilePage />} path="/profile/:id"/>  
                 <Route element={<ShippingPage />} path="/shipping"/>  
+                <Route element={<PaymentPage />} path="/payment"/>  
             </Routes>}
           </Container>
         </main>
