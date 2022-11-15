@@ -46,7 +46,7 @@ const PlaceOrderPage = () => {
                         </p>
                     </ListGroupItem>
                     <ListGroupItem>
-                        <h2>Order Summary</h2>
+                        <h2>Order Items</h2>
                         <ListGroup variant="flush">
                             {updatedCartItems.map((item, index) => (
                                 <ListGroupItem key={item._id}>
@@ -66,6 +66,42 @@ const PlaceOrderPage = () => {
                         </ListGroup>
                     </ListGroupItem>
                 </ListGroup>
+            </Col>
+            <Col md={4}>
+                <Card>
+                    <ListGroup variant="flush">
+                        <ListGroupItem>
+                            <h2>Order Summary</h2>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Row>
+                                <Col>Items</Col>
+                                <Col>$ 1000.00</Col>
+                            </Row>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Row>
+                                <Col>Shipping</Col>
+                                <Col>$ 1000.00</Col>
+                            </Row>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Row>
+                                <Col>Tax</Col>
+                                <Col>$ 1000.00</Col>
+                            </Row>
+                        </ListGroupItem>
+                        <ListGroupItem className="py-3">
+                            <Row>
+                                <Col><strong>Order Total</strong></Col>
+                                <Col><strong>$ 1000.00</strong></Col>
+                            </Row>
+                        </ListGroupItem>
+                        <ListGroupItem className="py-3">
+                            <Button type="button" className="btn-block" disabled={cartItems.length === 0}>Place Order</Button>
+                        </ListGroupItem>
+                    </ListGroup>
+                </Card>
             </Col>
         </Row>
     </>
