@@ -7,6 +7,7 @@ import useCartRedux from '../hooks/useCartRedux'
 import useUserRedux from '../hooks/useUserRedux'
 import useProductsRedux from '../hooks/useProductsRedux'
 import fetchProductInformations from '../utils/fetchProductInformations'
+import currencyFormatter from '../utils/currencyFormatter'
 const PlaceOrderPage = () => {
     const { cart: { cartItems, shippingAddress, paymentMethod } } = useCartRedux();
     const { user: { userData } } = useUserRedux();
@@ -21,10 +22,19 @@ const PlaceOrderPage = () => {
         }
     }, [userData])
 
+    // fetch product informations saved on cart
     useEffect(() => {
         fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
     }, [products, cartItems])
 
+    //-----to be fetched on backend 
+    //calculate total items cost
+    const itemsTotalAmount = (updatedCartItems.reduce(( acc, item) => parseFloat(acc) + parseInt(item.quantity) * parseFloat(item.price), 0).toFixed(2)) || 0
+    //calculate shipping cost (mock)
+    const shippingAmount = 0
+    //calculate tax cost (mock)
+    const taxAmount = itemsTotalAmount * .065
+    const totalAmount = parseFloat(itemsTotalAmount) + parseFloat(shippingAmount) + parseFloat(taxAmount);
     return (
     <>
         <CheckoutSteps step1 step2 step3 step4/>
@@ -33,22 +43,16 @@ const PlaceOrderPage = () => {
                 <ListGroup variant="flush">
                     <ListGroupItem>
                         <h2>Shipping Address</h2>
-                        <p>
-                            {/* <strong>Address: </strong> */}
-                            {shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}
-                        </p>
+                        <p>{shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}</p>
                     </ListGroupItem>
                     <ListGroupItem>
                         <h2>Payment Method</h2>
-                        <p>
-                            {/* <strong>Method: </strong> */}
-                            {paymentMethod}
-                        </p>
+                        <p>{paymentMethod}</p>
                     </ListGroupItem>
                     <ListGroupItem>
                         <h2>Order Items</h2>
                         <ListGroup variant="flush">
-                            {updatedCartItems.map((item, index) => (
+                            {updatedCartItems.map( item => (
                                 <ListGroupItem key={item._id}>
                                 <Row>
                                     <Col md={1}>
@@ -58,7 +62,7 @@ const PlaceOrderPage = () => {
                                         <Link to={`/product/${item._id}`} state={{from: "/place-order"}}>{item.name}</Link>
                                     </Col>
                                     <Col md={4} style={{ textAlign: 'right' }}>
-                                       {item.quantity} x ${item.price.toFixed(2)} = <strong>${parseInt(item.quantity) * parseFloat(item.price.toFixed(2))}</strong>
+                                       {item.quantity} x {currencyFormatter(item.price)} = <strong>{currencyFormatter(parseInt(item.quantity) * parseFloat(item.price.toFixed(2)))}</strong>
                                     </Col>
                                 </Row>
                                 </ListGroupItem>
@@ -76,29 +80,29 @@ const PlaceOrderPage = () => {
                         <ListGroupItem>
                             <Row>
                                 <Col>Items</Col>
-                                <Col>$ 1000.00</Col>
+                                <Col className="text-end pe-3">{currencyFormatter(itemsTotalAmount)}</Col>
                             </Row>
                         </ListGroupItem>
                         <ListGroupItem>
                             <Row>
                                 <Col>Shipping</Col>
-                                <Col>$ 1000.00</Col>
+                                <Col className="text-end pe-3">{currencyFormatter(shippingAmount)}</Col>
                             </Row>
                         </ListGroupItem>
                         <ListGroupItem>
                             <Row>
-                                <Col>Tax</Col>
-                                <Col>$ 1000.00</Col>
+                                <Col>Tax (6.5%)</Col>
+                                <Col className="text-end pe-3">{currencyFormatter(taxAmount)}</Col>
                             </Row>
                         </ListGroupItem>
                         <ListGroupItem className="py-3">
                             <Row>
                                 <Col><strong>Order Total</strong></Col>
-                                <Col><strong>$ 1000.00</strong></Col>
+                                <Col className="text-end pe-3"><strong>{currencyFormatter(totalAmount)}</strong></Col>
                             </Row>
                         </ListGroupItem>
-                        <ListGroupItem className="py-3">
-                            <Button type="button" className="btn-block" disabled={cartItems.length === 0}>Place Order</Button>
+                        <ListGroupItem className="d-grid gap-2 py-3">
+                            <Button type="button" className="py-2 my-2" disabled={updatedCartItems.length === 0} size="lg">Place Order</Button>
                         </ListGroupItem>
                     </ListGroup>
                 </Card>
