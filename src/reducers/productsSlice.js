@@ -4,7 +4,7 @@ import axios from "axios";
 export const fetchProducts = createAsyncThunk( 'productList/fetchProducts', async ( productsData, { rejectWithValue }) => {
     try {
         const res = await axios.get('http://localhost:3001/api/products');
-        return res.data.slice(0,4)
+        return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
     }

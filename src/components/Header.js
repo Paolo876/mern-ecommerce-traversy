@@ -8,6 +8,7 @@ import useCartRedux from "../hooks/useCartRedux";
 const Header = () => {
   const { user: { userData }, logout } = useUserRedux();
   const { cart: {cartItems } } = useCartRedux();
+  const cartQuantity = cartItems.reduce(( acc, item) => parseInt(acc) + parseInt(item.quantity), 0)
   return (
     <header>
       <Navbar bg="dark" variant= 'dark' expand="lg" collapseOnSelect>
@@ -18,7 +19,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <LinkContainer to="/cart"><Nav.Link><ShoppingCartIcon/> Cart [ {cartItems.reduce(( acc, item) => parseInt(acc) + parseInt(item.quantity), 0)} ]</Nav.Link></LinkContainer>
+              <LinkContainer to="/cart"><Nav.Link><ShoppingCartIcon/> Cart {cartQuantity !== 0 && `[ ${cartQuantity} ]`}</Nav.Link></LinkContainer>
               {!userData && <LinkContainer to="/login"><Nav.Link><PersonOutlineIcon/> Sign In</Nav.Link></LinkContainer>}
               {userData && <NavDropdown title={userData.name} id="username">
                 <LinkContainer to={`/profile/${userData._id}`}><NavDropdown.Item>Profile</NavDropdown.Item></LinkContainer>

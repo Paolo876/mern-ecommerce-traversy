@@ -8,20 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
 import useProductsRedux from '../hooks/useProductsRedux';
 import useUserRedux from '../hooks/useUserRedux';
-
-const fetchProductInformations = async ( cartItems, products ) => {
-  let _cartItems = [];
-  for (const item of cartItems) {
-    const product = products.find(product => product._id === item._id)
-    if(product) {
-      _cartItems.push({...product, quantity: item.quantity})
-    } else {
-      const res = await axios.get(`http://localhost:3001/api/products/${item._id}`);
-      if(res && res.data) _cartItems.push({...res.data, quantity: item.quantity})
-    }
-  }
-  return _cartItems;
-};
+import fetchProductInformations from '../utils/fetchProductInformations';
 
 const CartPage = () => {
   const { cart:{ cartItems, isLoading, error }, changeCartItemQuantity, removeFromCart } = useCartRedux();
@@ -33,14 +20,6 @@ const CartPage = () => {
   useEffect(() => {
     fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
   }, [products, cartItems])
-
-  // useEffect(() => {
-  //   if(updatedCartItems.length === 0) {
-  //     if( products.length !== 0 && cartItems.length !== 0 ) {
-  //       fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
-  //     }
-  //   }
-  // }, [products, cartItems])
 
   const handleChangeQuantity = ( payload ) => {
     changeCartItemQuantity(payload);  //redux dispatch
@@ -55,6 +34,7 @@ const CartPage = () => {
     removeFromCart(id) //redux dispatch
     setUpdatedCartItems(prevState => prevState.filter(item => item._id !== id))
   }
+  
   const handleCheckout = () => {
     // if not logged in, redirect to /login
     if(!userData) {
@@ -77,7 +57,7 @@ const CartPage = () => {
               <ListGroupItem key={item._id}>
                 <Row>
                   <Col md={2}><Image src={item.image} alt={item.name} fluid rounded></Image></Col>
-                  <Col md={3}><Link to={`/product/${item._id}`}>{item.name}</Link></Col>
+                  <Col md={3}><Link to={`/product/${item._id}`} state={{from: "/cart"}}>{item.name}</Link></Col>
                   <Col md={2}>${item.price}</Col>
                   <Col md={2}>                                            
                     <FormControl as="select" value={item.quantity} onChange={e => handleChangeQuantity({...item, quantity: e.target.value})}>

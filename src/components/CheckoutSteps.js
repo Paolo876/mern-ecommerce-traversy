@@ -28,7 +28,7 @@ const CheckoutSteps = ({ step1=false, step2=false, step3=false, step4=false}) =>
         </NavItem>
         <NavItem>
             {step4 ?
-                <LinkContainer to='/'><NavLink>Place Order</NavLink></LinkContainer>
+                <LinkContainer to='/place-order'><NavLink>Place Order</NavLink></LinkContainer>
                 :
                 <NavLink disabled>Place Order</NavLink>
             }

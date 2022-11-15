@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, ListGroupItem, FormControl, Modal, ModalHeader, CloseButton, ModalTitle, ModalBody, ModalFooter } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import Message from '../components/Message'
@@ -13,12 +13,12 @@ import useCartRedux from '../hooks/useCartRedux'
 const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate();
+    const { state: locationState } = useLocation();
     const { productsList: { error, isLoading, products } } = useProductsRedux();
     const { addToCart } = useCartRedux();
     const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
-
     useEffect(() => {
         if(products.length !== 0 && !products.find(item => item._id === params.id)) {
             axios.get(`http://localhost:3001/api/products/${params.id}`)
@@ -40,7 +40,7 @@ const ProductPage = () => {
     }
   return (
     <>
-        <Link className='btn btn-light my-3' to="/">Go Back</Link>
+        <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"}>Go Back</Link>
         {error && <Message variant="danger">Error: {error}</Message>}
         {isLoading && <Loader/>}
         {!isLoading && product &&

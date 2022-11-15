@@ -8,7 +8,7 @@ import CheckoutSteps from '../components/CheckoutSteps'
 
 const PaymentPage = () => {
     const { user: { userData } } = useUserRedux();
-    const { saveShippingAddress, cart: { shippingAddress } } = useCartRedux();
+    const { savePaymentMethod, cart: { shippingAddress } } = useCartRedux();
     const navigate = useNavigate();
 
     const [ paymentMethod, setPaymentMethod ] = useState("PayPal")
@@ -17,17 +17,15 @@ const PaymentPage = () => {
     useEffect(() => {
       if(!userData) {
         navigate("/login")
-      } else {
-        navigate("/payment")
       }
     }, [userData])
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      saveShippingAddress(paymentMethod)
+      savePaymentMethod(paymentMethod)
       navigate("/place-order")
-
     }
+    
     return (
       <FormContainer>
         <CheckoutSteps step1 step2 step3/>

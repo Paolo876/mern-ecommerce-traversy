@@ -21,8 +21,6 @@ const ShippingPage = () => {
   useEffect(() => {
     if(!userData) {
       navigate("/login")
-    } else {
-      navigate("/shipping")
     }
   }, [userData])
 

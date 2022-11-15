@@ -16,6 +16,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
+import PlaceOrderPage from "./pages/PlaceOrderPage";
 
 const App = () => {
   const { fetchProducts } = useProductsRedux();
@@ -38,6 +39,7 @@ const App = () => {
     }
   }, [userData, isAuthReady])
   if(!isAuthReady) return <Loader/>
+
   return (
     <BrowserRouter>
       <Header />
@@ -53,6 +55,7 @@ const App = () => {
                 <Route element={<ProfilePage />} path="/profile/:id"/>  
                 <Route element={<ShippingPage />} path="/shipping"/>  
                 <Route element={<PaymentPage />} path="/payment"/>  
+                <Route element={<PlaceOrderPage />} path="/place-order"/>  
             </Routes>}
           </Container>
         </main>
