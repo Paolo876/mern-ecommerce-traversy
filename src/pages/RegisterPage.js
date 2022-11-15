@@ -57,7 +57,7 @@ const RegisterPage = () => {
                 <FormControl type="password" placeholder="Confirm password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required/>
             </FormGroup>
             {isLoading && <Loader/>}
-            {!isLoading && <Button type="submit" variant="primary"  className="my-4">Sign In</Button>}
+            {!isLoading && <Button type="submit" variant="primary"  className="my-4">Sign Up</Button>}
         </Form>
         <Row className='py-5'>
             <Col>
