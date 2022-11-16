@@ -15,7 +15,7 @@ const PlaceOrderPage = () => {
     const { cart: { cartItems, shippingAddress, paymentMethod } } = useCartRedux();
     const { user: { userData } } = useUserRedux();
     const { productsList: { products }} = useProductsRedux();
-    const { createOrder, order: { createdOrder, isLoading, error } } = useOrderRedux();
+    const { createOrder, clearCreatedOrder, order: { createdOrder, isLoading, error } } = useOrderRedux();
     const navigate = useNavigate();
     const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
 
@@ -31,12 +31,12 @@ const PlaceOrderPage = () => {
         fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
     }, [products, cartItems])
 
+
     useEffect(() => {
         if(createdOrder){
-            console.log(createdOrder._id);
+            navigate(`/order/${createdOrder._id}`, { state: { newOrder: true } })
         }
     }, [createdOrder]) 
-
 
     /**
      *  future changes:

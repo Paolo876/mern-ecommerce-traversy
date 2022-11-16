@@ -5,7 +5,9 @@ const orderSlice = createSlice({
     name: "order",
     initialState: orderInitialState,
     reducers: {
-
+        clearCreatedOrder(state, { payload }){
+            state.createdOrder = null;
+        }
     },
     extraReducers: {
         //createOrder

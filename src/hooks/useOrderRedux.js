@@ -7,6 +7,7 @@ export default function useOrderRedux() {
   if(useSelector(state => state.order)) {
     return {
         order: useSelector(state => state.order),
+        clearCreatedOrder: () => dispatch(orderActions.clearCreatedOrder()),
         createOrder: data => dispatch(createOrder(data)),
     };
   } else {
