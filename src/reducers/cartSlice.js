@@ -1,12 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart } from "./cartReducers";
-const cartInitialState = {
-    cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
-    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || null,
-    paymentMethod: JSON.parse(localStorage.getItem('paymentMethod')) || "PayPal",
-    isLoading: false,
-    error: null
-}
+import { cartInitialState } from "./initialStates";
 const cartSlice = createSlice({
     name: "cart",
     initialState: cartInitialState,
@@ -28,15 +22,11 @@ const cartSlice = createSlice({
         [fetchCartItems.fulfilled.type]: ( state, { payload }) => {
             if(payload.noUser) {
                 state.isLoading = false;
-                // state.cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
                 state.error = null;
             } else {
-                console.log("ASD");
                 state.isLoading = false;
-                // state.cartItems = [...payload, ...state.cartItems];
                 state.cartItems = payload;
                 state.error = null;
-                // localStorage.removeItem("cartItems")
             };
         },
         [fetchCartItems.rejected]: ( state , { payload }) => {

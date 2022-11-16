@@ -1,17 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login, logout, authorizeToken, register, updateProfile } from "./userReducers";
+import { userInitialState } from "./initialStates";
 const userSlice = createSlice({
     name: "user",
-    initialState: {
-        userData: null,
-        isLoading: false,
-        error: null,
-        success: false, 
-        isAuthReady: false
-    },
+    initialState: userInitialState,
     reducers: {
 
-    }, extraReducers: {
+    }, 
+    extraReducers: {
         //login
         [login.pending.type]: ( state ) => {
             state.isLoading = true;
