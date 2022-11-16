@@ -2,11 +2,22 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchCartItems = createAsyncThunk('cart/fetchCartItems', async ( id, { rejectWithValue, getState }) => {
-    const { userData } = getState().user;
+    const { user:{ userData }, cart: { cartItems } } = getState();
     try {
-        if(!userData) return { noUser: true };
-        const res = await axios.get(`http://localhost:3001/api/cart/${id}`, { withCredentials: true });
-        return res.data.cartItems
+        if(!userData) {
+          return { noUser: true };
+        } else {
+          const res = await axios.get(`http://localhost:3001/api/cart`, { withCredentials: true });
+          const cartFromStorage = JSON.parse(localStorage.getItem("cartItems"))
+          //push existing cartItems(from LS) to user's cart
+          if(cartFromStorage) {
+            const updatedCart = await axios.post("http://localhost:3001/api/cart/add", { cartItems }, { withCredentials: true })  
+            localStorage.removeItem("cartItems")   //remove items from storage
+            return [ ...updatedCart.data.cartItems ]
+          } else {
+            return res.data.cartItems
+          }
+        }
     } catch (err){
         return rejectWithValue(err.response.data)
     }

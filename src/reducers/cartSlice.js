@@ -31,9 +31,12 @@ const cartSlice = createSlice({
                 // state.cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
                 state.error = null;
             } else {
+                console.log("ASD");
                 state.isLoading = false;
-                state.cartItems = [...payload, ...state.cartItems];
+                // state.cartItems = [...payload, ...state.cartItems];
+                state.cartItems = payload;
                 state.error = null;
+                // localStorage.removeItem("cartItems")
             };
         },
         [fetchCartItems.rejected]: ( state , { payload }) => {
