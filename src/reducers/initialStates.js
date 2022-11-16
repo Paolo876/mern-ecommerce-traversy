@@ -21,7 +21,9 @@ export const userInitialState = {
 }
 
 export const orderInitialState = {
+    orders: [],
     isLoading: false,
     error: null,
     success: false, 
+    createdOrder: null,
 }

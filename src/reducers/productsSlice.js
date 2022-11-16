@@ -20,9 +20,11 @@ const productsSlice = createSlice({
         //fetchProducts
         [fetchProducts.pending.type]: ( state ) => {
             state.isLoading = true;
+            state.error = null;
         },
         [fetchProducts.fulfilled.type]: ( state, { payload }) => {
             state.isLoading = false;
+            state.error = null;
             state.products = payload
         },
         [fetchProducts.rejected]: ( state , { payload }) => {

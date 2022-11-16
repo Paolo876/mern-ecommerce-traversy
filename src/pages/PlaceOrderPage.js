@@ -6,12 +6,16 @@ import CheckoutSteps from '../components/CheckoutSteps'
 import useCartRedux from '../hooks/useCartRedux'
 import useUserRedux from '../hooks/useUserRedux'
 import useProductsRedux from '../hooks/useProductsRedux'
+import useOrderRedux from '../hooks/useOrderRedux'
 import fetchProductInformations from '../utils/fetchProductInformations'
 import currencyFormatter from '../utils/currencyFormatter'
+import Loader from '../components/Loader'
+
 const PlaceOrderPage = () => {
     const { cart: { cartItems, shippingAddress, paymentMethod } } = useCartRedux();
     const { user: { userData } } = useUserRedux();
     const { productsList: { products }} = useProductsRedux();
+    const { createOrder, order: { createdOrder, isLoading, error } } = useOrderRedux();
     const navigate = useNavigate();
     const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
 
@@ -27,7 +31,17 @@ const PlaceOrderPage = () => {
         fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
     }, [products, cartItems])
 
-    //-----to be fetched on backend 
+    useEffect(() => {
+        if(createdOrder){
+            console.log(createdOrder._id);
+        }
+    }, [createdOrder]) 
+
+
+    /**
+     *  future changes:
+     *      - these variables will be fetched & computed on backend.
+     */
     //calculate total items cost
     const itemsTotalAmount = (updatedCartItems.reduce(( acc, item) => parseFloat(acc) + parseInt(item.quantity) * parseFloat(item.price), 0).toFixed(2)) || 0
     //calculate shipping cost (mock)
@@ -35,9 +49,25 @@ const PlaceOrderPage = () => {
     //calculate tax cost (mock)
     const taxAmount = itemsTotalAmount * .065
     const totalAmount = parseFloat(itemsTotalAmount) + parseFloat(shippingAmount) + parseFloat(taxAmount);
+
+    /**
+     *  future changes:
+     *      - only cartItems [{id, quantity}], shippingAddress, and paymentMethod will be submitted
+     */
+    const handleSubmit = () => {
+      createOrder({
+        orderItems: cartItems, 
+        shippingAddress, 
+        paymentMethod,
+        itemsTotalAmount,
+        shippingAmount,
+        taxAmount,
+        totalAmount
+      })
+    }
     return (
     <>
-        <CheckoutSteps step1 step2 step3 step4/>
+        {isLoading ? <Message variant="warning">Processing order, please wait...</Message> : <CheckoutSteps step1 step2 step3 step4 />}
         <Row>
             <Col md={8}>
                 <ListGroup variant="flush">
@@ -72,6 +102,7 @@ const PlaceOrderPage = () => {
                 </ListGroup>
             </Col>
             <Col md={4}>
+            {isLoading ? <Loader/> :
                 <Card>
                     <ListGroup variant="flush">
                         <ListGroupItem>
@@ -102,10 +133,12 @@ const PlaceOrderPage = () => {
                             </Row>
                         </ListGroupItem>
                         <ListGroupItem className="d-grid gap-2 py-3">
-                            <Button type="button" className="py-2 my-2" disabled={updatedCartItems.length === 0} size="lg">Place Order</Button>
+                            {error && <Message variant="danger">{error}</Message>}
+                            <Button type="button" className="py-2 my-2" disabled={updatedCartItems.length === 0} size="lg" onClick={handleSubmit}>Place Order</Button>
                         </ListGroupItem>
                     </ListGroup>
                 </Card>
+            }
             </Col>
         </Row>
     </>
