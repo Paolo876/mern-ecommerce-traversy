@@ -54,6 +54,7 @@ const PlaceOrderPage = () => {
      *      - only cartItems [{id, quantity}], shippingAddress, and paymentMethod will be submitted
      */
     const handleSubmit = () => {
+
       createOrder({
         orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
         shippingAddress, 
