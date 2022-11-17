@@ -9,6 +9,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import axios from 'axios'
 import useCartRedux from '../hooks/useCartRedux'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const ProductPage = () => {
     const params = useParams();
@@ -19,6 +20,9 @@ const ProductPage = () => {
     const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
+
+    useDocumentTitle(product ? `ProShop | ${product.name}` : "ProShop")
+
     useEffect(() => {
         if(products.length !== 0 && !products.find(item => item._id === params.id)) {
             axios.get(`http://localhost:3001/api/products/${params.id}`)

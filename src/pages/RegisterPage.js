@@ -5,8 +5,10 @@ import Message from "../components/Message"
 import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
+import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const RegisterPage = () => {
+  useDocumentTitle("ProShop | Sign Up")
   const { register, user: { isLoading, error, userData } } = useUserRedux();
   const [ name, setName ] = useState('');
   const [ email, setEmail ] = useState('');

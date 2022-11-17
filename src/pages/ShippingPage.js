@@ -5,8 +5,10 @@ import FormContainer from '../components/FormContainer'
 import useUserRedux from '../hooks/useUserRedux'
 import useCartRedux from '../hooks/useCartRedux'
 import CheckoutSteps from '../components/CheckoutSteps'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const ShippingPage = () => {
+  useDocumentTitle("ProShop | Shipping")
   const { user: { userData } } = useUserRedux();
   const { saveShippingAddress, cart: { shippingAddress } } = useCartRedux();
   const navigate = useNavigate();

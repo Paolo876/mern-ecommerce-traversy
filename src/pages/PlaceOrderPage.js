@@ -10,8 +10,10 @@ import useOrderRedux from '../hooks/useOrderRedux'
 import fetchProductInformations from '../utils/fetchProductInformations'
 import currencyFormatter from '../utils/currencyFormatter'
 import Loader from '../components/Loader'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const PlaceOrderPage = () => {
+    useDocumentTitle("ProShop | Place Order")
     const { cart: { cartItems, shippingAddress, paymentMethod } } = useCartRedux();
     const { user: { userData } } = useUserRedux();
     const { productsList: { products }} = useProductsRedux();

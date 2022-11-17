@@ -9,8 +9,10 @@ import axios from "axios";
 import useProductsRedux from '../hooks/useProductsRedux';
 import useUserRedux from '../hooks/useUserRedux';
 import fetchProductInformations from '../utils/fetchProductInformations';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const CartPage = () => {
+  useDocumentTitle("ProShop | Cart")
   const { cart:{ cartItems, isLoading, error }, changeCartItemQuantity, removeFromCart } = useCartRedux();
   const { productsList: { products }} = useProductsRedux();
   const { user: {userData} } = useUserRedux();

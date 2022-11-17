@@ -6,8 +6,10 @@ import axios from 'axios';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import UpdateProfileForm from '../components/UpdateProfileForm';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const ProfilePage = () => {
+  useDocumentTitle("ProShop | Profile")
   const { user: { userData } } = useUserRedux();
   const navigate = useNavigate();
   const { id } = useParams();

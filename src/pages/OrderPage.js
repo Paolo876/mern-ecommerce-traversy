@@ -8,6 +8,7 @@ import axios from 'axios';
 import useUserRedux from '../hooks/useUserRedux';
 import fetchProductInformations from '../utils/fetchProductInformations';
 import useProductsRedux from '../hooks/useProductsRedux';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 const OrderPage = () => {
   const { state: locationState } = useLocation();
   const { user: { userData } } = useUserRedux();
@@ -17,6 +18,7 @@ const OrderPage = () => {
   const [ order, setOrder ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
+  useDocumentTitle( order ? `ProShop | Order ID: ${order._id}`: "ProShop" )
 
   // if not logged in, redirect to /login
   useEffect(() => {
@@ -45,15 +47,19 @@ const OrderPage = () => {
       setIsLoading(false)
     }
   }
-  console.log(order)
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   if(order) return (
     <>
+      {locationState && locationState.newOrder && <Message variant="success">Your order has been placed!</Message>}
       <h1>Order ID: {order._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
+            <ListGroupItem>
+              <h2>Order Status</h2>
+              <p>{order.orderStatus}</p>
+            </ListGroupItem>
             <ListGroupItem>
               <h2>Shipping Address</h2>
               <p>{order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}</p>

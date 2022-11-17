@@ -3,7 +3,9 @@ import Product from "../components/Product";
 import useProductsRedux from "../hooks/useProductsRedux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 const HomePage = () => {
+  useDocumentTitle("ProShop | Home")
   const { productsList: { error, isLoading, products } } = useProductsRedux();
   return (
     <>
