@@ -25,7 +25,6 @@ const PlaceOrderPage = () => {
           navigate("/login")
         }
     }, [userData])
-
     // fetch product informations saved on cart
     useEffect(() => {
         fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
@@ -56,7 +55,7 @@ const PlaceOrderPage = () => {
      */
     const handleSubmit = () => {
       createOrder({
-        orderItems: cartItems, 
+        orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
         shippingAddress, 
         paymentMethod,
         itemsTotalAmount,
