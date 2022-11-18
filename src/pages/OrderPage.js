@@ -31,7 +31,7 @@ const OrderPage = () => {
   useEffect(() => {
     fetchOrder()
   }, [])
-  
+  console.log(order);
   const fetchOrder = async () => {
     try {
       setIsLoading(true)
@@ -67,6 +67,7 @@ const OrderPage = () => {
             <ListGroupItem>
               <h2>Payment Method</h2>
               <p>{order.paymentMethod}</p>
+              {order.isPaid ? <Message variant="success" >Paid on {order.paidAt}</Message> : <Message variant="danger" >Not Paid</Message>}
             </ListGroupItem>
             <ListGroupItem>
                 <h2>Order Items</h2>
