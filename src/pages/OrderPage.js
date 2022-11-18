@@ -58,16 +58,17 @@ const OrderPage = () => {
           <ListGroup variant="flush">
             <ListGroupItem>
               <h2>Order Status</h2>
-              <p>{order.orderStatus}</p>
+              {order.isDelivered ? <Message variant="success">Delivered</Message> : <p>{order.orderStatus}</p>}
             </ListGroupItem>
             <ListGroupItem>
-              <h2>Shipping Address</h2>
-              <p>{order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}</p>
+              <h2>Shipping Information</h2>
+              <p><strong>Name:</strong> {order.shippingAddress.name}</p>
+              <p><strong>Address:</strong> {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}</p>
             </ListGroupItem>
             <ListGroupItem>
               <h2>Payment Method</h2>
-              <p>{order.paymentMethod}</p>
-              {order.isPaid ? <Message variant="success" >Paid on {order.paidAt}</Message> : <Message variant="danger" >Not Paid</Message>}
+              <p><strong>Method:</strong> {order.paymentMethod}</p>
+              {order.isPaid ? <Message variant="success" >Paid on {order.paidAt}</Message> : <Message variant="danger" opacity={75}>Not Paid</Message>}
             </ListGroupItem>
             <ListGroupItem>
                 <h2>Order Items</h2>
