@@ -16,7 +16,7 @@ const ProductPage = () => {
     const navigate = useNavigate();
     const { state: locationState } = useLocation();
     const { productsList: { error, isLoading, products } } = useProductsRedux();
-    const { addToCart } = useCartRedux();
+    const { addToCart, cart: {error: cartError, isLoading: isCartLoading} } = useCartRedux();
     const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
@@ -33,6 +33,7 @@ const ProductPage = () => {
             setProduct(products.find(item => item._id === params.id))
         }
     }, [products])
+
     const addToCartHandler = () => {
         setShowModal(true)
         addToCart({...product, quantity})
@@ -87,7 +88,8 @@ const ProductPage = () => {
                                 </ListGroupItem>
                             )}
                         <ListGroupItem>
-                            <Button className='btn-block' type="button" disabled={product.countInStock === 0} onClick={addToCartHandler}><AddShoppingCartIcon/> ADD TO CART</Button>
+                            {isCartLoading && <Loader/>}
+                            {!isCartLoading &&<Button className='btn-block' type="button" disabled={product.countInStock === 0} onClick={addToCartHandler}><AddShoppingCartIcon/> ADD TO CART</Button>}
                         </ListGroupItem>
                     </ListGroup>
                 </Col>

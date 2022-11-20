@@ -18,7 +18,6 @@ const CartPage = () => {
   const { user: {userData} } = useUserRedux();
   const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
   const navigate = useNavigate();
-  
   useEffect(() => {
     fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
   }, [products, cartItems])
