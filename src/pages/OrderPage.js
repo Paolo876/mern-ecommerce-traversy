@@ -74,7 +74,11 @@ const OrderPage = () => {
             <ListGroupItem>
               <h2>Payment Method</h2>
               <p><strong>Method:</strong> {order.paymentMethod}</p>
-              {order.isPaid ? <Message variant="success" >Paid on {order.paidAt}</Message> : <Message variant="danger" opacity={75}>Not Paid</Message>}
+              {order.isPaid ? 
+                <Message variant="success">
+                  Paid on {new Date(order.paymentResult.update_time).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: '2-digit'})}
+                </Message> : 
+                <Message variant="danger" opacity={75}>Not Paid</Message>}
             </ListGroupItem>
             <ListGroupItem>
                 <h2>Order Items</h2>
