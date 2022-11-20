@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card, ListGroupItem } from 'react-bootstrap'
+import { PayPalScriptProvider, PayPalButtons} from "@paypal/react-paypal-js"
 import Message from "../components/Message"
 import CheckoutSteps from '../components/CheckoutSteps'
 import useCartRedux from '../hooks/useCartRedux'
@@ -11,15 +12,22 @@ import fetchProductInformations from '../utils/fetchProductInformations'
 import currencyFormatter from '../utils/currencyFormatter'
 import Loader from '../components/Loader'
 import useDocumentTitle from '../hooks/useDocumentTitle'
+import axios from 'axios';
 
 const PlaceOrderPage = () => {
     useDocumentTitle("ProShop | Place Order")
     const { cart: { cartItems, shippingAddress, paymentMethod } } = useCartRedux();
     const { user: { userData } } = useUserRedux();
     const { productsList: { products }} = useProductsRedux();
-    const { createOrder, clearCreatedOrder, order: { createdOrder, isLoading, error } } = useOrderRedux();
+    const { createOrder, order: { createdOrder, isLoading, error } } = useOrderRedux();
     const navigate = useNavigate();
+
     const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
+    const [ payPalClientId, setPayPalClientId ] = useState(null);
+
+    useEffect(() => {
+        axios.get(`http://localhost:3001/api/config/paypal`).then(res => setPayPalClientId(res.data))
+    }, [])
 
     // if not logged in, redirect to /login
     useEffect(() => {
@@ -27,11 +35,11 @@ const PlaceOrderPage = () => {
           navigate("/login")
         }
     }, [userData])
+
     // fetch product informations saved on cart
     useEffect(() => {
         fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
     }, [products, cartItems])
-
 
     useEffect(() => {
         if(createdOrder){
@@ -136,7 +144,20 @@ const PlaceOrderPage = () => {
                         </ListGroupItem>
                         <ListGroupItem className="d-grid gap-2 py-3">
                             {error && <Message variant="danger">{error}</Message>}
-                            <Button type="button" className="py-2 my-2" disabled={updatedCartItems.length === 0} size="lg" onClick={handleSubmit}>Place Order</Button>
+                            {/* <Button type="button" className="py-2 my-2" disabled={updatedCartItems.length === 0} size="lg" onClick={handleSubmit}>Place Order</Button> */}
+                            {payPalClientId && <PayPalScriptProvider options={{"client-id": payPalClientId}}>
+                                <PayPalButtons
+                                    createOrder={(data, actions) => {
+                                        return actions.order.create({
+                                            purchase_units: [{
+                                                amount: {
+                                                    value: totalAmount.toFixed(2)
+                                                }
+                                            }]
+                                            })
+                                    }}
+                                />
+                            </PayPalScriptProvider>}
                         </ListGroupItem>
                     </ListGroup>
                 </Card>
