@@ -76,15 +76,12 @@ const cartSlice = createSlice({
         [changeCartItemQuantity.fulfilled.type]: ( state, { payload }) => {
             state.isLoading = false;
             state.error = null;
-            if(payload.noUser) {
-                const cartItems = [ ...state.cartItems ];
-                const existingItem = cartItems.find(item => item._id === payload.item._id);
-                existingItem.quantity = payload.item.quantity;
-                state.cartItems = cartItems;
-                localStorage.setItem("cartItems", JSON.stringify(cartItems))
-            } else {
-                state.cartItems = payload;    
-            };
+            const cartItems = [ ...state.cartItems ];
+            const existingItem = cartItems.find(item => item._id === payload.item._id);
+            existingItem.quantity = payload.item.quantity;
+            state.cartItems = cartItems;
+            
+            if(payload.noUser) localStorage.setItem("cartItems", JSON.stringify(cartItems))
         },
         [changeCartItemQuantity.rejected]: ( state , { payload }) => {
             state.isLoading = false;

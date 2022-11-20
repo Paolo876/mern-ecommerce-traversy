@@ -42,6 +42,8 @@ export const changeCartItemQuantity = createAsyncThunk( 'cart/changeCartItemQuan
   const { userData } = getState().user;
   if(userData) {
     //axios-post changeCartItemQuantity here
+    const res = await axios.put(`http://localhost:3001/api/cart/change-quantity/`, { item }, { withCredentials: true })
+    return { noUser: false, item: res.data } 
   } else {
     return { noUser: true, item } 
   }
