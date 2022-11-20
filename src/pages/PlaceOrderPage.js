@@ -13,6 +13,7 @@ import currencyFormatter from '../utils/currencyFormatter'
 import Loader from '../components/Loader'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import axios from 'axios';
+import PayPalCheckout from '../components/PayPalCheckout'
 
 const PlaceOrderPage = () => {
     useDocumentTitle("ProShop | Place Order")
@@ -145,19 +146,7 @@ const PlaceOrderPage = () => {
                         <ListGroupItem className="d-grid gap-2 py-3">
                             {error && <Message variant="danger">{error}</Message>}
                             {/* <Button type="button" className="py-2 my-2" disabled={updatedCartItems.length === 0} size="lg" onClick={handleSubmit}>Place Order</Button> */}
-                            {payPalClientId && <PayPalScriptProvider options={{"client-id": payPalClientId}}>
-                                <PayPalButtons
-                                    createOrder={(data, actions) => {
-                                        return actions.order.create({
-                                            purchase_units: [{
-                                                amount: {
-                                                    value: totalAmount.toFixed(2)
-                                                }
-                                            }]
-                                            })
-                                    }}
-                                />
-                            </PayPalScriptProvider>}
+                            <PayPalCheckout orderTotal={totalAmount}/>
                         </ListGroupItem>
                     </ListGroup>
                 </Card>
