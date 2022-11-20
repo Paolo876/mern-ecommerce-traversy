@@ -25,10 +25,16 @@ export const fetchCartItems = createAsyncThunk('cart/fetchCartItems', async ( id
 
 export const addToCart = createAsyncThunk( 'cart/addToCart', async ( item, { rejectWithValue, getState } ) => {
   const { userData } = getState().user;
-  if(userData) {
-    //axios-post add to cart here
-  } else {
-    return { noUser: true, item } 
+  try {
+    if(userData) {
+      //axios-post add to cart here
+      const res = await axios.post("http://localhost:3001/api/cart/add", { cartItems: [item] }, { withCredentials: true })
+      return { cart: res.data, noUser: false }
+    } else {
+      return { noUser: true, item } 
+    }
+  } catch (err){
+    return rejectWithValue(err.response.data)
   }
 })
 

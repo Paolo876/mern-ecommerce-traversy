@@ -26,13 +26,6 @@ const PayPalCheckout = ({ orderTotal, setPaymentResult, disabled=false }) => {
         })
   }, []) 
 
-//   useEffect(() => {
-//     if(paymentResult){
-//         axios.get(`http://localhost:3001/api/config/paypal`)
-
-//     }
-//   }, [paymentResult])
-
   const createOrder = async (data, actions) => {
     return actions.order.create({
         purchase_units: [{
@@ -59,6 +52,7 @@ const PayPalCheckout = ({ orderTotal, setPaymentResult, disabled=false }) => {
                 disabled={disabled}
                 createOrder={createOrder}
                 onApprove={onApprove}
+                onError={err => setError(err.message)}
             />
         </PayPalScriptProvider>}
     </>

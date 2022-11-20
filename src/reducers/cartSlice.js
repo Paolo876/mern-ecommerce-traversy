@@ -38,15 +38,14 @@ const cartSlice = createSlice({
             state.isLoading = true;
         },
         [addToCart.fulfilled.type]: ( state, { payload }) => {
-            const { countInStock } = payload.item;
-            const item = { _id: payload.item._id, quantity: payload.item.quantity };
 
             if(payload.noUser) {
+                const { countInStock } = payload.item;
+                const item = { _id: payload.item._id, quantity: payload.item.quantity };   
                 state.isLoading = false;
                 state.error = null;
                 const cartItems = [ ...state.cartItems ];
                 const existingItem = cartItems.find(item => item._id === payload.item._id)
-
                 //if item exists, add quantity.
                 if(existingItem) {
                     const totalQuantity = parseInt(existingItem.quantity) + parseInt(item.quantity);
@@ -61,8 +60,9 @@ const cartSlice = createSlice({
                 state.cartItems = cartItems;
                 localStorage.setItem("cartItems", JSON.stringify(cartItems))
             } else {
+                console.log(payload);
                 state.isLoading = false;
-                state.cartItems = payload;    
+                state.cartItems = payload.cart.cartItems;    
             };
         },
         [addToCart.rejected]: ( state , { payload }) => {
