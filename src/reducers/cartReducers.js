@@ -27,7 +27,6 @@ export const addToCart = createAsyncThunk( 'cart/addToCart', async ( item, { rej
   const { userData } = getState().user;
   try {
     if(userData) {
-      //axios-post add to cart here
       const res = await axios.post("http://localhost:3001/api/cart/add", { cartItems: [item] }, { withCredentials: true })
       return { cart: res.data, noUser: false }
     } else {
@@ -40,20 +39,29 @@ export const addToCart = createAsyncThunk( 'cart/addToCart', async ( item, { rej
 
 export const changeCartItemQuantity = createAsyncThunk( 'cart/changeCartItemQuantity', async ( item, { rejectWithValue, getState } ) => {
   const { userData } = getState().user;
-  if(userData) {
-    //axios-post changeCartItemQuantity here
-    const res = await axios.put(`http://localhost:3001/api/cart/change-quantity/`, { item }, { withCredentials: true })
-    return { noUser: false, item: res.data } 
-  } else {
-    return { noUser: true, item } 
+  try {
+    if(userData) {
+      const res = await axios.put(`http://localhost:3001/api/cart/change-quantity`, { item }, { withCredentials: true })
+      return { noUser: false, item: res.data } 
+    } else {
+      return { noUser: true, item } 
+    }
+  } catch (err){
+    return rejectWithValue(err.response.data)
   }
+
 })
 
 export const removeFromCart = createAsyncThunk( 'cart/removeFromCart', async ( id, { rejectWithValue, getState } ) => {
     const { userData } = getState().user;
-    if(userData) {
-      //axios-post removeFromCart here
-    } else {
-      return { noUser: true, id } 
+    try {
+      if(userData) {
+        const res = await axios.put(`http://localhost:3001/api/cart/remove-item`, { id }, { withCredentials: true })
+        return { noUser: false, id: res.data }
+      } else {
+        return { noUser: true, id } 
+      }
+    } catch (err){
+      return rejectWithValue(err.response.data)
     }
 })
