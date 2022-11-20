@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card, ListGroupItem } from 'react-bootstrap'
-import { PayPalScriptProvider, PayPalButtons} from "@paypal/react-paypal-js"
 import Message from "../components/Message"
 import CheckoutSteps from '../components/CheckoutSteps'
 import useCartRedux from '../hooks/useCartRedux'
@@ -24,11 +23,8 @@ const PlaceOrderPage = () => {
     const navigate = useNavigate();
 
     const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
-    const [ payPalClientId, setPayPalClientId ] = useState(null);
+    const [ paymentResult, setPaymentResult ] = useState(null)
 
-    useEffect(() => {
-        axios.get(`http://localhost:3001/api/config/paypal`).then(res => setPayPalClientId(res.data))
-    }, [])
 
     // if not logged in, redirect to /login
     useEffect(() => {
@@ -48,6 +44,22 @@ const PlaceOrderPage = () => {
         }
     }, [createdOrder]) 
 
+    useEffect(() => {
+        if(paymentResult){
+            createOrder({
+                orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
+                shippingAddress, 
+                paymentMethod,
+                itemsTotalAmount,
+                shippingAmount,
+                taxAmount,
+                totalAmount,
+                paymentResult,
+                // isPaid: true
+                isPaid: paymentResult ? true : false
+              })
+        }
+    }, [paymentResult])
     /**
      *  future changes:
      *      - these variables will be fetched & computed on backend.
@@ -64,18 +76,20 @@ const PlaceOrderPage = () => {
      *  future changes:
      *      - only cartItems [{id, quantity}], shippingAddress, and paymentMethod will be submitted
      */
-    const handleSubmit = () => {
-
-      createOrder({
-        orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
-        shippingAddress, 
-        paymentMethod,
-        itemsTotalAmount,
-        shippingAmount,
-        taxAmount,
-        totalAmount
-      })
-    }
+    // const handleSubmit = () => {
+    //   createOrder({
+    //     orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
+    //     shippingAddress, 
+    //     paymentMethod,
+    //     itemsTotalAmount,
+    //     shippingAmount,
+    //     taxAmount,
+    //     totalAmount,
+    //     paymentResult,
+    //     isPaid: true
+    //     // isPaid: paymentResult ? true : false
+    //   })
+    // }
     return (
     <>
         {isLoading ? <Message variant="warning">Processing order, please wait...</Message> : <CheckoutSteps step1 step2 step3 step4 />}
@@ -146,7 +160,7 @@ const PlaceOrderPage = () => {
                         <ListGroupItem className="d-grid gap-2 py-3">
                             {error && <Message variant="danger">{error}</Message>}
                             {/* <Button type="button" className="py-2 my-2" disabled={updatedCartItems.length === 0} size="lg" onClick={handleSubmit}>Place Order</Button> */}
-                            <PayPalCheckout orderTotal={totalAmount}/>
+                            <PayPalCheckout orderTotal={totalAmount} disabled={updatedCartItems.length === 0} setPaymentResult={setPaymentResult}/>
                         </ListGroupItem>
                     </ListGroup>
                 </Card>

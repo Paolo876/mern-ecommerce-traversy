@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { PayPalScriptProvider, PayPalButtons, usePayPalScriptReducer} from "@paypal/react-paypal-js"
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import axios from 'axios'
 import Loader from './Loader';
 import Message from './Message';
 
-const PayPalCheckout = ({ orderTotal }) => {
+const PayPalCheckout = ({ orderTotal, setPaymentResult, disabled=false }) => {
   const [ payPalClientId, setPayPalClientId ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState()
+
+  /**
+   * FUTURE CHANGES:
+   *  fetch orderTotal from backend.
+   */
   useEffect(() => {
     setIsLoading(true)
     axios.get(`http://localhost:3001/api/config/paypal`)
@@ -20,8 +25,13 @@ const PayPalCheckout = ({ orderTotal }) => {
             setIsLoading(false)
         })
   }, []) 
-  if(isLoading) return <Loader/>
-  if(error) return <Message variant="danger">{error}</Message>
+
+//   useEffect(() => {
+//     if(paymentResult){
+//         axios.get(`http://localhost:3001/api/config/paypal`)
+
+//     }
+//   }, [paymentResult])
 
   const createOrder = async (data, actions) => {
     return actions.order.create({
@@ -33,15 +43,20 @@ const PayPalCheckout = ({ orderTotal }) => {
         })
   }
   const onApprove = async (data, actions) => {
-    return actions.order.capture().then( function (details) {
-        console.log("order paid by", details.payer.name.giver_name);
+    actions.order.capture().then( function (details) {
+        setPaymentResult({ id: details.id, status: details.status, email_address: details.payer.email_address, update_time: details.update_time })
     })
   }
+
+
+  if(isLoading) return <Loader/>
+  if(error) return <Message variant="danger">{error}</Message>
   return (
     <>
     {!isLoading && payPalClientId && 
         <PayPalScriptProvider options={{"client-id": payPalClientId}}>
             <PayPalButtons
+                disabled={disabled}
                 createOrder={createOrder}
                 onApprove={onApprove}
             />

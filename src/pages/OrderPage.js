@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useParams, useNavigate, Link } from 'react-router-dom'
 import { Row, Col, ListGroup, ListGroupItem, Image, Card } from 'react-bootstrap';
-import { PayPalScriptProvider, PayPalButtons} from "@paypal/react-paypal-js"
+// import { PayPalScriptProvider, PayPalButtons} from "@paypal/react-paypal-js"
 import currencyFormatter from '../utils/currencyFormatter';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
@@ -31,7 +31,7 @@ const OrderPage = () => {
   //fetch order data
   useEffect(() => {
     fetchOrder()
-    addPayPalScript();
+    // addPayPalScript();
   }, [])
   const fetchOrder = async () => {
     try {
@@ -48,10 +48,11 @@ const OrderPage = () => {
       setIsLoading(false)
     }
   }
-  const addPayPalScript = async () => {
-    const { data: clientId } = await axios.get(`http://localhost:3001/api/config/paypal`)
-    console.log(clientId);
-  }
+  // const addPayPalScript = async () => {
+  //   const { data: clientId } = await axios.get(`http://localhost:3001/api/config/paypal`)
+  //   console.log(clientId);
+  // }
+  console.log(order);
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   if(order) return (
