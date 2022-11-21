@@ -7,6 +7,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import UpdateProfileForm from '../components/UpdateProfileForm';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import OrdersList from '../components/OrdersList';
 
 const ProfilePage = () => {
   useDocumentTitle("ProShop | Profile")
@@ -46,6 +47,8 @@ const ProfilePage = () => {
       setError(null)
     }
   }, [id])
+
+
   return (
     <Row>
       {error && <Message variant="danger">{error}</Message>}
@@ -59,7 +62,7 @@ const ProfilePage = () => {
       <>
         <Col md={5}>
           <h2>MY ORDERS</h2>
-          <p>to be added...</p>
+          <OrdersList/>
         </Col>
         <UpdateProfileForm/>
       </>
