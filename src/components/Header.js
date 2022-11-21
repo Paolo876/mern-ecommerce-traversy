@@ -21,8 +21,10 @@ const Header = () => {
             <Nav className="ms-auto">
               <LinkContainer to="/cart"><Nav.Link><ShoppingCartIcon/> Cart {cartQuantity !== 0 && `[ ${cartQuantity} ]`}</Nav.Link></LinkContainer>
               {!userData && <LinkContainer to="/login"><Nav.Link><PersonOutlineIcon/> Sign In</Nav.Link></LinkContainer>}
+              {userData && userData.isAdmin && <NavDropdown title="ADMIN ACTIONS" id="admin">
+                <LinkContainer to={`/user-list`}><NavDropdown.Item>User List</NavDropdown.Item></LinkContainer>
+              </NavDropdown>}
               {userData && <NavDropdown title={userData.name} id="username">
-                {userData.isAdmin && <LinkContainer to={`/user-list`}><NavDropdown.Item><strong>User List</strong></NavDropdown.Item></LinkContainer>}
                 <LinkContainer to={`/profile/${userData._id}`}><NavDropdown.Item>Profile</NavDropdown.Item></LinkContainer>
                 <NavDropdown.Item onClick={() => logout()}>Logout</NavDropdown.Item>
               </NavDropdown>}
