@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap';   //this is used instead of Link(react-router-dom) when the children is a react bootstrap element
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -9,6 +10,11 @@ const Header = () => {
   const { user: { userData }, logout } = useUserRedux();
   const { cart: {cartItems } } = useCartRedux();
   const cartQuantity = cartItems.reduce(( acc, item) => parseInt(acc) + parseInt(item.quantity), 0)
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logout()
+    navigate("/")
+  }
   return (
     <header>
       <Navbar bg="dark" variant= 'dark' expand="lg" collapseOnSelect>
@@ -26,7 +32,7 @@ const Header = () => {
               </NavDropdown>}
               {userData && <NavDropdown title={userData.name} id="username">
                 <LinkContainer to={`/profile/${userData._id}`}><NavDropdown.Item>Profile</NavDropdown.Item></LinkContainer>
-                <NavDropdown.Item onClick={() => logout()}>Logout</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>}
             </Nav>
           </Navbar.Collapse>
