@@ -68,7 +68,7 @@ const UserListPage = () => {
                     <th>NAME</th>
                     <th>EMAIL</th>
                     <th>isADMIN</th>
-                    <th></th>
+                    <th>ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,9 +78,9 @@ const UserListPage = () => {
                         <th>{item.name}</th>
                         <th><a href={`mailto: ${item.email}`} target="_blank" rel="noreferrer" >{item.email}</a></th>
                         <th>{item.isAdmin ? <CheckCircleOutlineIcon/> : <CloseIcon/> }</th>
-                        <th>
+                        <th className='p-2'>
                             <LinkContainer to={`/user/${item._id}/edit`}>
-                                <Button variant='light' className='btn-sm'><EditIcon style={{margin: "0"}}/></Button>
+                                <Button variant='primary' className='btn-sm me-2'><EditIcon style={{margin: "0"}}/></Button>
                             </LinkContainer>
                             <Button variant='danger' className='btn-sm' onClick={() => setModalDetails({show: true, user: item})}><DeleteIcon style={{margin: "0"}}/></Button>
                         </th>
