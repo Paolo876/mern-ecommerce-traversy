@@ -1,8 +1,8 @@
 import React from 'react'
 import { Alert } from 'react-bootstrap'
-const Message = ({ variant, children, opacity=100 }) => {
+const Message = ({ variant, children, opacity=100, onClose=false, dismissible=false}) => {
   return (
-    <Alert variant={variant} className={`opacity-${opacity}`}>
+    <Alert variant={variant} className={`opacity-${opacity}`} onClose={onClose} dismissible={dismissible}>
         {children}
     </Alert>
   )

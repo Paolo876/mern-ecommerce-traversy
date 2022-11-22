@@ -18,6 +18,7 @@ const UserListPage = () => {
   const [ error, setError ] = useState(null);
   const [ users, setUsers ] = useState([]);
   const [ modalDetails, setModalDetails ] = useState({show: false, user: null});
+  const [ success, setSuccess ] = useState(null);
 
   // if not logged in, redirect to /login
   useEffect(() => {
@@ -41,13 +42,24 @@ const UserListPage = () => {
 
   //delete user
   const handleUserDelete = () => {
-    
+    setIsLoading(true)
+    axios.delete(`http://localhost:3001/api/admin/delete-user/${modalDetails.user._id}`, { withCredentials: true})
+      .then(res => {
+        setSuccess(res.data.message)
+        setUsers(prevState => prevState.filter(item => item._id !== res.data.id))
+        setModalDetails({show: false, user: null})
+        setIsLoading(false)
+      })
+      .catch(err => {
+        setError(err.message)
+      })
   }
 
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
   return (
     <>
+        {success && <Message variant="success" onClose={() => setSuccess(null)} dismissible>{success}</Message>}
         <h1>Users</h1>
         <Table striped bordered hover responsive className='table-sm'>
             <thead>
