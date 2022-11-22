@@ -9,13 +9,16 @@ import axios from 'axios'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import CloseIcon from '@mui/icons-material/Close';
+import UserListModal from '../components/UserListModal'
 const UserListPage = () => {
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
-  const [ users, setUsers ] = useState([])
+  const [ users, setUsers ] = useState([]);
+  const [ modalDetails, setModalDetails ] = useState({show: false, user: null});
+
   // if not logged in, redirect to /login
   useEffect(() => {
     if(!userData) navigate("/login")
@@ -35,6 +38,11 @@ const UserListPage = () => {
         setIsLoading(false)
       })
   }, [])
+
+  //delete user
+  const handleUserDelete = () => {
+    
+  }
 
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
@@ -57,17 +65,22 @@ const UserListPage = () => {
                         <th>{item._id}</th>
                         <th>{item.name}</th>
                         <th><a href={`mailto: ${item.email}`} target="_blank" rel="noreferrer" >{item.email}</a></th>
-                        <th>{item.isAdmin ? <CheckCircleOutlineIcon/> : "-" }</th>
+                        <th>{item.isAdmin ? <CheckCircleOutlineIcon/> : <CloseIcon/> }</th>
                         <th>
                             <LinkContainer to={`/user/${item._id}/edit`}>
                                 <Button variant='light' className='btn-sm'><EditIcon style={{margin: "0"}}/></Button>
                             </LinkContainer>
-                            <Button variant='danger' className='btn-sm'><DeleteIcon style={{margin: "0"}}/></Button>
+                            <Button variant='danger' className='btn-sm' onClick={() => setModalDetails({show: true, user: item})}><DeleteIcon style={{margin: "0"}}/></Button>
                         </th>
                     </tr>
                 ))}
             </tbody>
         </Table>
+        {modalDetails.show && <UserListModal 
+          modalDetails={modalDetails} 
+          setModalDetails={setModalDetails} 
+          handleUserDelete={handleUserDelete}
+        />}
     </>
   )
 }
