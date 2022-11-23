@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { cartActions } from "./cartSlice";
 
-export const createOrder = createAsyncThunk('order/createOrder', async ( data, { rejectWithValue }) => {
+export const createOrder = createAsyncThunk('order/createOrder', async ( data, { rejectWithValue, dispatch }) => {
     try {
         const res = await axios.post(`http://localhost:3001/api/orders`, data , {            
             headers: {
@@ -9,6 +10,7 @@ export const createOrder = createAsyncThunk('order/createOrder', async ( data, {
             },
             withCredentials: true
         });
+        dispatch(cartActions.clearCart())   //clear cart items
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)

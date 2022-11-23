@@ -13,6 +13,9 @@ const cartSlice = createSlice({
             state.paymentMethod = payload;
             localStorage.setItem("paymentMethod", JSON.stringify(payload))
         },
+        clearCart(state){
+            state.cartItems = []
+        }
     },
     extraReducers: {
         //fetchCartItems

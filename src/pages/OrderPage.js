@@ -52,7 +52,6 @@ const OrderPage = () => {
   //   const { data: clientId } = await axios.get(`http://localhost:3001/api/config/paypal`)
   //   console.log(clientId);
   // }
-  console.log(order);
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   if(order) return (
