@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import UserListModal from '../components/UserListModal'
+import { Link } from 'react-router-dom'
 const UserListPage = () => {
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
@@ -20,7 +21,7 @@ const UserListPage = () => {
   const [ modalDetails, setModalDetails ] = useState({show: false, user: null});
   const [ success, setSuccess ] = useState(null);
 
-  // if not logged in, redirect to /login
+  // if not logged in or not an admin, redirect
   useEffect(() => {
     if(!userData) navigate("/login")
     if(userData && !userData.isAdmin) navigate("/")
@@ -74,7 +75,7 @@ const UserListPage = () => {
             <tbody>
                 {users.map(item => (
                     <tr key={item._id}>
-                        <th>{item._id}</th>
+                        <th><Link to={`/user-details/${item._id}`}>{item._id}</Link></th>
                         <th>{item.name}</th>
                         <th><a href={`mailto: ${item.email}`} target="_blank" rel="noreferrer" >{item.email}</a></th>
                         <th>{item.isAdmin ? <CheckCircleOutlineIcon/> : <CloseIcon/> }</th>
