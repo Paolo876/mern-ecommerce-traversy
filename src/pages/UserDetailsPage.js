@@ -4,6 +4,7 @@ import { Button, Row, Col, Table } from 'react-bootstrap'
 import axios from 'axios';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import AdminUpdateProfileForm from '../components/AdminUpdateProfileForm';
 import useUserRedux from '../hooks/useUserRedux'
 import currencyFormatter from '../utils/currencyFormatter';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -38,7 +39,6 @@ const UserDetailsPage = () => {
   
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
-
   return (
     <Row>
       {userDetails && <>
@@ -51,6 +51,7 @@ const UserDetailsPage = () => {
         </Col>
         <Col md={8}>
           <h2>ORDERS</h2>
+          {userDetails.orders.length === 0 && <p>No orders.</p>}
           <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
@@ -72,6 +73,7 @@ const UserDetailsPage = () => {
             </tbody>
           </Table>
         </Col>
+        <AdminUpdateProfileForm user={userDetails.user}/>
       </>}
     </Row>
 

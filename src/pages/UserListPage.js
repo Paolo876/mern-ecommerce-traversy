@@ -80,7 +80,7 @@ const UserListPage = () => {
                         <th><a href={`mailto: ${item.email}`} target="_blank" rel="noreferrer" >{item.email}</a></th>
                         <th>{item.isAdmin ? <CheckCircleOutlineIcon/> : <CloseIcon/> }</th>
                         <th className='p-2'>
-                            <LinkContainer to={`/user/${item._id}/edit`}>
+                            <LinkContainer to={`/user-details/${item._id}`}>
                                 <Button variant='primary' className='btn-sm me-2'><EditIcon style={{margin: "0"}}/></Button>
                             </LinkContainer>
                             <Button variant='danger' className='btn-sm' onClick={() => setModalDetails({show: true, user: item})}><DeleteIcon style={{margin: "0"}}/></Button>
