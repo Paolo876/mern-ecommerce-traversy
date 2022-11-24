@@ -29,6 +29,8 @@ const Header = () => {
               {!userData && <LinkContainer to="/login"><Nav.Link><PersonOutlineIcon/> Sign In</Nav.Link></LinkContainer>}
               {userData && userData.isAdmin && <NavDropdown title="ADMIN ACTIONS" id="admin">
                 <LinkContainer to={`/user-list`}><NavDropdown.Item>User List</NavDropdown.Item></LinkContainer>
+                <LinkContainer to={`/product-list`}><NavDropdown.Item>Product List</NavDropdown.Item></LinkContainer>
+                <LinkContainer to={`/order-list`}><NavDropdown.Item>Order List</NavDropdown.Item></LinkContainer>
               </NavDropdown>}
               {userData && <NavDropdown title={userData.name} id="username">
                 <LinkContainer to={`/profile/${userData._id}`}><NavDropdown.Item>Profile</NavDropdown.Item></LinkContainer>

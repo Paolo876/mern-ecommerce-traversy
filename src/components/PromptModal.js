@@ -1,18 +1,18 @@
 import React from 'react'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from 'react-bootstrap'
 
-const UserListModal = ({ modalDetails, setModalDetails, handleUserDelete }) => {
+const PromptModal = ({ modalDetails, setModalDetails, handleUserDelete, title, bodyInfo }) => {
   const { show, user } = modalDetails;
 
   return (
     <Modal show={show} onHide={() => setModalDetails({show: false, user: null})}>
         <ModalHeader>
-            <ModalTitle>Are you sure you want to delete this user?</ModalTitle>
+            <ModalTitle>{title}</ModalTitle>
         </ModalHeader>
         <ModalBody>
-            <p><strong>ID: </strong>{user._id}</p>
-            <p><strong>Name: </strong>{user.name}</p>
-            <p><strong>Email: </strong>{user.email}</p>
+            {bodyInfo.map(item => (
+              <p key={item.label}><strong>{item.label}: </strong>{item.description}</p>
+            ))}
         </ModalBody>
         <ModalFooter>
             <Button variant="danger" onClick={handleUserDelete}>CONFIRM</Button>
@@ -22,4 +22,4 @@ const UserListModal = ({ modalDetails, setModalDetails, handleUserDelete }) => {
   )
 }
 
-export default UserListModal
+export default PromptModal
