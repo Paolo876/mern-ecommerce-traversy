@@ -18,11 +18,8 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 const ProductListPage = () => {
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
-  const { productsList: { products } } = useProductsRedux();
-  const [ isLoading, setIsLoading ] = useState(false);
-  const [ error, setError ] = useState(null);
+  const { productsList: { products, isLoading, error, success }, deleteProduct, clearSuccess } = useProductsRedux();
   const [ modalDetails, setModalDetails ] = useState({show: false, data: null});
-  const [ success, setSuccess ] = useState(null);
 
   // if not logged in or not an admin, redirect
   useEffect(() => {
@@ -31,26 +28,29 @@ const ProductListPage = () => {
   }, [userData])
 
   //delete product
-  const handleUserDelete = () => {
-    setIsLoading(true)
-    axios.delete(`http://localhost:3001/api/admin/delete-user/${modalDetails.user._id}`, { withCredentials: true})
-      .then(res => {
-        setSuccess(res.data.message)
-        setModalDetails({show: false, data: null})
-        setIsLoading(false)
-      })
-      .catch(err => {
-        setError(err.message)
-      })
+  const handleProductDelete = () => {
+    deleteProduct(modalDetails.data._id)
   }
 
   const handleCreateProduct = () => {
     
   }
+
+  useEffect(() => {
+    if(success){
+      setModalDetails({show: false, data: null})
+      const timeout = setTimeout(() => clearSuccess(), 10000)
+      return () => {
+        clearTimeout(timeout)
+        clearSuccess();
+      }
+    }
+  }, [success])
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
   return (
     <>
+        {success && <Message variant="success" onClose={() => clearSuccess()} dismissible>{success}</Message>}
         <Row className="align-items-center">
           <Col md={9}><h1>Products</h1></Col>
           <Col md={3} className="d-grid gap-2">
@@ -59,7 +59,6 @@ const ProductListPage = () => {
             </Button>
           </Col>
         </Row>
-        {success && <Message variant="success" onClose={() => setSuccess(null)} dismissible>{success}</Message>}
         <Table striped bordered hover responsive className='table-sm'>
             <thead>
                 <tr>
@@ -101,7 +100,7 @@ const ProductListPage = () => {
           ]}
           modalDetails={modalDetails} 
           setModalDetails={setModalDetails} 
-          handleConfirm={handleUserDelete}
+          handleConfirm={handleProductDelete}
         />}
     </>
   )

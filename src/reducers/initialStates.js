@@ -9,7 +9,8 @@ export const cartInitialState = {
 export const productsInitialState = {
     products: [],
     isLoading: false,
-    error: null
+    error: null,
+    success: null
 }
 
 export const userInitialState = {
