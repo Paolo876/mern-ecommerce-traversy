@@ -44,7 +44,7 @@ const AdminUpdateProfileForm = ({ user }) => {
                 {isAdmin && <p><em><small style={{opacity: ".75"}}>(note: If checked, this user will have all admin privileges.)</small></em></p>}
             </FormGroup>
             <div className="d-grid my-5">
-                {!isLoading && <Button type="submit" variant="primary" size='lg'>UPDATE PROFILE</Button>}
+                {!isLoading && <Button type="submit" variant="primary" size='lg' disabled={user.name === name && user.isAdmin === isAdmin}>UPDATE PROFILE</Button>}
             </div>
         </Form>
     </Col>
