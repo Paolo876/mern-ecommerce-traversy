@@ -51,7 +51,7 @@ const UserDetailsPage = () => {
         </Col>
         <Col md={8}>
           <h2>ORDERS</h2>
-          {userDetails.orders.length === 0 && <p>No orders.</p>}
+          {userDetails.orders.length === 0 ? <Message variant="warning">This user has no orders yet.</Message> :
           <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
@@ -71,7 +71,7 @@ const UserDetailsPage = () => {
                 <td>{item.orderStatus}</td>
               </tr>)}
             </tbody>
-          </Table>
+          </Table>}
         </Col>
         <AdminUpdateProfileForm user={userDetails.user}/>
       </>}
