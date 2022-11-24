@@ -18,7 +18,7 @@ const UserListPage = () => {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ users, setUsers ] = useState([]);
-  const [ modalDetails, setModalDetails ] = useState({show: false, user: null});
+  const [ modalDetails, setModalDetails ] = useState({show: false, data: null});
   const [ success, setSuccess ] = useState(null);
 
   // if not logged in or not an admin, redirect
@@ -44,11 +44,11 @@ const UserListPage = () => {
   //delete user
   const handleUserDelete = () => {
     setIsLoading(true)
-    axios.delete(`http://localhost:3001/api/admin/delete-user/${modalDetails.user._id}`, { withCredentials: true})
+    axios.delete(`http://localhost:3001/api/admin/delete-user/${modalDetails.data._id}`, { withCredentials: true})
       .then(res => {
         setSuccess(res.data.message)
         setUsers(prevState => prevState.filter(item => item._id !== res.data.id))
-        setModalDetails({show: false, user: null})
+        setModalDetails({show: false, data: null})
         setIsLoading(false)
       })
       .catch(err => {
@@ -83,7 +83,7 @@ const UserListPage = () => {
                             <LinkContainer to={`/user-details/${item._id}`}>
                                 <Button variant='primary' className='btn-sm me-2'><EditIcon style={{margin: "0"}}/></Button>
                             </LinkContainer>
-                            <Button variant='danger' className='btn-sm' onClick={() => setModalDetails({show: true, user: item})}><DeleteIcon style={{margin: "0"}}/></Button>
+                            <Button variant='danger' className='btn-sm' onClick={() => setModalDetails({show: true, data: item})}><DeleteIcon style={{margin: "0"}}/></Button>
                         </th>
                     </tr>
                 ))}
@@ -92,13 +92,13 @@ const UserListPage = () => {
         {modalDetails.show && <PromptModal 
           title={"Are you sure you want to delete this user?"}
           bodyInfo={[
-            {label: "ID", description: modalDetails.user._id},
-            {label: "Name", description: modalDetails.user.name},
-            {label: "Email", description: modalDetails.user.email}
+            {label: "ID", description: modalDetails.data._id},
+            {label: "Name", description: modalDetails.data.name},
+            {label: "Email", description: modalDetails.data.email}
           ]}
           modalDetails={modalDetails} 
           setModalDetails={setModalDetails} 
-          handleUserDelete={handleUserDelete}
+          handleConfirm={handleUserDelete}
         />}
     </>
   )

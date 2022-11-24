@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from 'react-bootstrap'
 
-const PromptModal = ({ modalDetails, setModalDetails, handleUserDelete, title, bodyInfo }) => {
-  const { show, user } = modalDetails;
+const PromptModal = ({ modalDetails, setModalDetails, handleConfirm, title, bodyInfo }) => {
+  const { show } = modalDetails;
 
   return (
-    <Modal show={show} onHide={() => setModalDetails({show: false, user: null})}>
+    <Modal show={show} onHide={() => setModalDetails({show: false, data: null})}>
         <ModalHeader>
             <ModalTitle>{title}</ModalTitle>
         </ModalHeader>
@@ -15,8 +15,8 @@ const PromptModal = ({ modalDetails, setModalDetails, handleUserDelete, title, b
             ))}
         </ModalBody>
         <ModalFooter>
-            <Button variant="danger" onClick={handleUserDelete}>CONFIRM</Button>
-            <Button variant="secondary" onClick={() => setModalDetails({show: false, user: null})}>CANCEL</Button>
+            <Button variant="danger" onClick={handleConfirm}>CONFIRM</Button>
+            <Button variant="secondary" onClick={() => setModalDetails({show: false, data: null})}>CANCEL</Button>
         </ModalFooter>
     </Modal>
   )

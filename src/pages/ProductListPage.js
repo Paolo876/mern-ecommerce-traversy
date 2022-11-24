@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Row } from 'react-bootstrap'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import useUserRedux from '../hooks/useUserRedux'
@@ -37,7 +37,7 @@ const ProductListPage = () => {
       .then(res => {
         setSuccess(res.data.message)
         setUsers(prevState => prevState.filter(item => item._id !== res.data.id))
-        setModalDetails({show: false, user: null})
+        setModalDetails({show: false, data: null})
         setIsLoading(false)
       })
       .catch(err => {
