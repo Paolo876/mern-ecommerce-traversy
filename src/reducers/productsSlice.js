@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { productsInitialState } from "./initialStates";
-import { fetchProducts, deleteProduct, createProduct } from "./productReducers";
+import { fetchProducts, deleteProduct, createProduct, updateProduct } from "./productReducers";
 
 const productsSlice = createSlice({
     name: "productList",
@@ -41,18 +41,37 @@ const productsSlice = createSlice({
             state.isLoading = false;
             state.error = payload.message;
         },
-        //deleteProduct (ADMIN)
-        [deleteProduct.pending.type]: ( state ) => {
+        //createProduct (ADMIN)
+        [createProduct.pending.type]: ( state ) => {
             state.isLoading = true;
             state.error = null;
         },
-        [deleteProduct.fulfilled.type]: ( state, { payload }) => {
+        [createProduct.fulfilled.type]: ( state, { payload }) => {
             state.isLoading = false;
             state.error = null;
             state.products = [ ...state.products, payload ];
-            state.success = "";
         },
-        [deleteProduct.rejected]: ( state , { payload }) => {
+        [createProduct.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        },
+        //updateProduct (ADMIN)
+        [updateProduct.pending.type]: ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        },
+        [updateProduct.fulfilled.type]: ( state, { payload }) => {
+            const { message, product } = payload;
+            state.isLoading = false;
+            state.error = null;
+            state.success = message;
+            const updatedProducts = state.products.map(item => {
+                if(item._id === product._id) return product;
+                return item;
+            })
+            state.products = updatedProducts
+        },
+        [updateProduct.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         },

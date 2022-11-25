@@ -29,3 +29,13 @@ export const createProduct = createAsyncThunk( 'productList/createProduct', asyn
         return rejectWithValue(err.response.data)
     }
 })
+
+//admin only
+export const updateProduct = createAsyncThunk( 'productList/updateProduct', async ( data, { rejectWithValue }) => {
+    try {
+        const res = await axios.put(`http://localhost:3001/api/admin/products/${data._id}`, data, { withCredentials: true });
+        return res.data
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
