@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts, deleteProduct } from "../reducers/productsSlice";
+import { fetchProducts, deleteProduct, createProduct } from "../reducers/productReducers";
 import { productsActions } from '../reducers/productsSlice';
 export default function useProductsRedux() {
   const dispatch = useDispatch();
@@ -7,7 +7,8 @@ export default function useProductsRedux() {
     return {
         productsList: useSelector(state => state.productList),
         fetchProducts: () => dispatch(fetchProducts()),
-        deleteProduct: (id) => dispatch(deleteProduct(id)),
+        createProduct: data => dispatch(createProduct(data)),
+        deleteProduct: id => dispatch(deleteProduct(id)),
         clearSuccess: () => dispatch(productsActions.clearSuccess()),
     };
   } else {

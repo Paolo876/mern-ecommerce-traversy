@@ -1,19 +1,15 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
+import useUserRedux from '../hooks/useUserRedux'
+import useProductsRedux from "../hooks/useProductsRedux"
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import useUserRedux from '../hooks/useUserRedux'
-import axios from 'axios'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import PromptModal from '../components/PromptModal'
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CloseIcon from '@mui/icons-material/Close';
-import PromptModal from '../components/PromptModal'
-import { Link } from 'react-router-dom'
-import useProductsRedux from "../hooks/useProductsRedux"
-import PostAddIcon from '@mui/icons-material/PostAdd';
 
 const ProductListPage = () => {
   const navigate = useNavigate();
@@ -30,10 +26,6 @@ const ProductListPage = () => {
   //delete product
   const handleProductDelete = () => {
     deleteProduct(modalDetails.data._id)
-  }
-
-  const handleCreateProduct = () => {
-    
   }
 
   useEffect(() => {
@@ -54,9 +46,11 @@ const ProductListPage = () => {
         <Row className="align-items-center">
           <Col md={9}><h1>Products</h1></Col>
           <Col md={3} className="d-grid gap-2">
-            <Button className='me-0' onClick={handleCreateProduct} size="lg" variant="primary" style={{fontSize: ".9em"}}>
-              <PostAddIcon/> <strong>Add new Product</strong>
-            </Button>
+            <LinkContainer to="/create-product">
+              <Button className='me-0' size="lg" variant="primary" style={{fontSize: ".9em"}}>
+                <PostAddIcon/> <strong>Create new Product</strong>
+              </Button>
+            </LinkContainer>
           </Col>
         </Row>
         <Table striped bordered hover responsive className='table-sm'>

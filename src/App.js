@@ -22,6 +22,7 @@ import UserListPage from "./pages/UserListPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
 import ProductListPage from "./pages/ProductListPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import CreateProductPage from "./pages/CreateProductPage";
 
 const App = () => {
   const { fetchProducts } = useProductsRedux();
@@ -67,6 +68,7 @@ const App = () => {
                 <Route element={<UserDetailsPage />} path="/user-details/:id"/>  
                 <Route element={<ProductListPage />} path="/product-list"/>  
                 <Route element={<ProductDetailsPage />} path="/product-details/:id"/>  
+                <Route element={<CreateProductPage />} path="/create-product"/>  
             </Routes>}
           </Container>
         </main>
