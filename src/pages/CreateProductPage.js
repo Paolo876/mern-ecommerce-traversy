@@ -6,6 +6,7 @@ import useProductsRedux from "../hooks/useProductsRedux"
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import FormContainer from "../components/FormContainer"
+import UploadImageForm from '../components/UploadImageForm'
 
 const CreateProductPage = () => {
   const navigate = useNavigate();
@@ -13,7 +14,8 @@ const CreateProductPage = () => {
   const { productsList: { isLoading, error, success }, createProduct } = useProductsRedux();
   const [ name, setName ] = useState("");
   const [ price, setPrice ] = useState(0.00);
-  const [ image, setImage ] = useState("");
+  const [ image, setImage ] = useState(null);
+  const [ imageData, setImageData ] = useState(null);
   const [ brand, setBrand ] = useState("");
   const [ category, setCategory ] = useState("");
   const [ countInStock, setCountInStock ] = useState(0);
@@ -30,7 +32,7 @@ const CreateProductPage = () => {
     createProduct({ name, price, image, brand, category, countInStock, description })
     navigate("/product-list")
   }
-
+  console.log(imageData);
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
   return (
@@ -69,10 +71,11 @@ const CreateProductPage = () => {
                             </FormGroup>
                         </Col>
                         <Col md={5}>
-                            <FormGroup controlId='image' className="my-4">
+                            {/* <FormGroup controlId='image' className="my-4">
                                 <FormLabel><strong>Primary Image</strong></FormLabel>
                                 <FormControl type="file" placeholder="NOT AVAILABLE YET" value={image} onChange={e => setImage(e)} autoComplete="image"/>
-                            </FormGroup>
+                            </FormGroup> */}
+                            <UploadImageForm image={image} setImage={setImage} imageData={imageData} setImageData={setImageData}/>
                         </Col>
                     </Row>
 
