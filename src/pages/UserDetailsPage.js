@@ -8,8 +8,10 @@ import AdminUpdateProfileForm from '../components/AdminUpdateProfileForm';
 import useUserRedux from '../hooks/useUserRedux'
 import currencyFormatter from '../utils/currencyFormatter';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const UserDetailsPage = () => {
+  useDocumentTitle("Admin | User")
   const navigate = useNavigate();
   const { id } = useParams();
   const { user: { userData } } = useUserRedux();

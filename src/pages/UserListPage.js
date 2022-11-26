@@ -12,7 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import PromptModal from '../components/PromptModal'
 import { Link } from 'react-router-dom'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 const UserListPage = () => {
+  useDocumentTitle("Admin | Users")
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
   const [ isLoading, setIsLoading ] = useState(false);

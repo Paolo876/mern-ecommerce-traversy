@@ -3,12 +3,13 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Form, Button, FormGroup, FormLabel, FormControl, Row, Col, Container } from 'react-bootstrap'
 import useUserRedux from '../hooks/useUserRedux'
 import useProductsRedux from "../hooks/useProductsRedux"
+import useDocumentTitle from "../hooks/useDocumentTitle"
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import FormContainer from "../components/FormContainer"
 import UploadImageForm from '../components/UploadImageForm'
 
 const CreateProductPage = () => {
+  useDocumentTitle("Admin | Create Product")
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
   const { productsList: { isLoading, error, success }, createProduct } = useProductsRedux();

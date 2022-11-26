@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import useUserRedux from '../hooks/useUserRedux'
 import useProductsRedux from "../hooks/useProductsRedux"
+import useDocumentTitle from "../hooks/useDocumentTitle"
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import PromptModal from '../components/PromptModal'
@@ -12,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProductListPage = () => {
+  useDocumentTitle("Admin | Products")
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
   const { productsList: { products, isLoading, error, success }, deleteProduct, clearSuccess } = useProductsRedux();
