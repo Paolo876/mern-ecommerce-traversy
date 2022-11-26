@@ -111,7 +111,7 @@ const PlaceOrderPage = () => {
                                 <ListGroupItem key={item._id}>
                                 <Row>
                                     <Col md={1}>
-                                        <Image src={item.image} fluid rounded/>
+                                        <Image src={item.image.thumbnail} alt={item.image.name} fluid rounded/>
                                     </Col>
                                     <Col>
                                         <Link to={`/product/${item._id}`} state={{from: "/place-order"}}>{item.name}</Link>

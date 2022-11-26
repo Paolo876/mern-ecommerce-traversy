@@ -50,7 +50,7 @@ const ProductPage = () => {
         {isLoading && <Loader/>}
         {!isLoading && product &&
             <Row>
-                <Col md={6}><Image src={product.image} alt={product.name} fluid/></Col>
+                <Col md={6}><Image src={product.image.url} alt={product.image.name} fluid/></Col>
                 <Col md={3}>
                     <ListGroup variant="flush">
                         <ListGroupItem><h2>{product.name}</h2></ListGroupItem>
@@ -100,7 +100,7 @@ const ProductPage = () => {
             <ModalTitle>Successfully Added To Cart! <CheckCircleOutlineIcon style={{color: "green", marginLeft: ".25em"}}/> </ModalTitle></ModalHeader>
             <ModalBody>
             <Row>
-                <Col md={3}><Image src={product.image} alt={product.name} fluid style={{maxHeight: "100px"}} rounded/></Col>
+                <Col md={3}><Image src={product.image.thumbnail} alt={product.image.name} fluid style={{maxHeight: "100px"}} rounded/></Col>
                 <Col md={5}><h6>{product.name}</h6></Col>
                 <Col md={2}><span>Price: <p>${product.price}</p></span></Col>
                 <Col md={2}><span>Quantity: <p>{quantity}</p></span></Col>

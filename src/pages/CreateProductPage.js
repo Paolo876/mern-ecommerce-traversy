@@ -30,9 +30,10 @@ const CreateProductPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     createProduct({ name, price, image, brand, category, countInStock, description })
-    navigate("/product-list")
+    if(!error)navigate("/product-list")
   }
-  console.log(imageData);
+
+
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
   return (

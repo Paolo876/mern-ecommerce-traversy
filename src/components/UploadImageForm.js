@@ -17,6 +17,7 @@ const UploadImageForm = ({ image, setImage, imageData, setImageData }) => {
     setImage(null)
     inputRef.current.value = "";
   }
+  console.log(imageData);
   return (
     <FormGroup controlId='image' className="my-4">  
       <FormLabel><strong>Primary Image</strong></FormLabel>    
