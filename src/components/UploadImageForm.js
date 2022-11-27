@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 import { FormGroup, FormControl, FormLabel, Image, Button } from 'react-bootstrap'
 import Message from './Message';
 
-const UploadImageForm = ({ image, setImage, imageData, setImageData }) => {
+const UploadImageForm = ({ image, setImage}) => {
+  const [ imageData, setImageData] = useState(null);
   const [ imageError, setImageError] = useState(null);
-
+ 
   const inputRef = useRef();
   const onChangeImage = (e) => {
     if (e.target.files[0]) {
@@ -31,7 +32,7 @@ const UploadImageForm = ({ image, setImage, imageData, setImageData }) => {
     <FormGroup controlId='image' className="my-4">  
       <FormLabel><strong>Primary Image</strong></FormLabel>    
         {imageError && <Message variant="danger"><small>{imageError}</small></Message>}
-        {image && imageData && <div>
+        {image && <div>
           <Button className='float-end mb-1' variant="warning" size="sm" onClick={handleRemoveImage}>Remove Image</Button>
           <Image src={image} alt="preview-image" fluid/>
         </div>}

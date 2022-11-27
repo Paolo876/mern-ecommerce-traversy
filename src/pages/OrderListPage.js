@@ -12,14 +12,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-
-const UserListPage = () => {
-  useDocumentTitle("Admin | Users")
+import currencyFormatter from "../utils/currencyFormatter"
+const OrderListPage = () => {
+  useDocumentTitle("Admin | Orders")
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
-  const [ users, setUsers ] = useState([]);
+  const [ orders, setOrders ] = useState([]);
   const [ modalDetails, setModalDetails ] = useState({show: false, data: null});
   const [ success, setSuccess ] = useState(null);
 
@@ -29,12 +29,12 @@ const UserListPage = () => {
     if(userData && !userData.isAdmin) navigate("/")
   }, [userData])
 
-  //fetch users
+  //fetch orders
   useEffect(()=> {
     setIsLoading(true)
-    axios.get("http://localhost:3001/api/admin/get-users", { withCredentials: true})
+    axios.get("http://localhost:3001/api/admin/orders", { withCredentials: true})
       .then(res => {
-        setUsers(res.data)
+        setOrders(res.data)
         setIsLoading(false)
       })
       .catch(err => {
@@ -42,22 +42,7 @@ const UserListPage = () => {
         setIsLoading(false)
       })
   }, [])
-
-  //delete user
-  const handleUserDelete = () => {
-    setIsLoading(true)
-    axios.delete(`http://localhost:3001/api/admin/delete-user/${modalDetails.data._id}`, { withCredentials: true})
-      .then(res => {
-        setSuccess(res.data.message)
-        setUsers(prevState => prevState.filter(item => item._id !== res.data.id))
-        setModalDetails({show: false, data: null})
-        setIsLoading(false)
-      })
-      .catch(err => {
-        setError(err.message)
-      })
-  }
-
+  console.log(orders);
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
   return (
@@ -68,25 +53,26 @@ const UserListPage = () => {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>NAME</th>
-                    <th>EMAIL</th>
-                    <th>isADMIN</th>
+                    <th>USER</th>
+                    <th>DATE</th>
+                    <th>TOTAL</th>
+                    <th>PAID</th>
+                    <th>STATUS</th>
+                    <th>DELIVERED</th>
                     <th>ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
-                {users.map(item => (
+                {orders.map(item => (
                     <tr key={item._id}>
                         <th><Link to={`/user-details/${item._id}`}>{item._id}</Link></th>
-                        <th>{item.name}</th>
-                        <th><a href={`mailto: ${item.email}`} target="_blank" rel="noreferrer" >{item.email}</a></th>
-                        <th>{item.isAdmin ? <CheckCircleOutlineIcon/> : <CloseIcon/> }</th>
-                        <th className='p-2'>
-                            <LinkContainer to={`/user-details/${item._id}`}>
-                                <Button variant='primary' className='btn-sm me-2'><EditIcon style={{margin: "0"}}/></Button>
-                            </LinkContainer>
-                            <Button variant='danger' className='btn-sm' onClick={() => setModalDetails({show: true, data: item})}><DeleteIcon style={{margin: "0"}}/></Button>
-                        </th>
+                        <th><span><strong>Name: </strong>{item.user.name}</span> | <span><strong>ID: </strong><Link to={`/user-details/${item.user._id}`}>{item.user._id}</Link></span></th>
+                        <th>{new Date(item.createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: '2-digit'})}</th>
+                        <th>{currencyFormatter(item.totalAmount)}</th>
+                        <th>{item.isPaid ? <CheckCircleOutlineIcon style={{color: "green"}}/> : <CloseIcon style={{color: "red"}}/>}</th>
+                        <th>{item.orderStatus}</th>
+                        <th>{item.isDelivered ? <CheckCircleOutlineIcon style={{color: "green"}}/> : <CloseIcon style={{color: "red"}}/>}</th>
+                        <th><Link to={`/user-details/${item._id}`}><Button><EditIcon style={{margin: "0"}}/></Button></Link></th>
                     </tr>
                 ))}
             </tbody>
@@ -100,10 +86,10 @@ const UserListPage = () => {
           ]}
           modalDetails={modalDetails} 
           setModalDetails={setModalDetails} 
-          handleConfirm={handleUserDelete}
+          // handleConfirm={handleUserDelete}
         />}
     </>
   )
 }
 
-export default UserListPage
+export default OrderListPage
