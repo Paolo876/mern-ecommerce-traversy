@@ -3,7 +3,7 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 
-const Rating = ({ text, value, color }) => {
+const Rating = ({ text=null, value, color }) => {
   return (
     <div className="rating">
         <span style={{color}}>
@@ -13,7 +13,7 @@ const Rating = ({ text, value, color }) => {
                 return <StarBorderIcon key={index} />;
             })}
         </span>
-        <span>{text && text}</span>
+        {text && <span>{text}</span>}
     </div>
   );
 };

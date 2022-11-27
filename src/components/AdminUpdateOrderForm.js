@@ -19,7 +19,7 @@ const AdminUpdateOrderForm = ({ order, setOrder }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsLoading(true)
-    axios.put(`http://localhost:3001/api/admin/orders/${order._id}/update`, {orderStatus, trackingNumber, cancelReason, isDelivered}, {withCredentials: true})
+    .put(`http://localhost:3001/api/admin/orders/${order._id}/update`, {orderStatus, trackingNumber, cancelReason, isDelivered}, {withCredentials: true})
         .then(res => {
             setOrder(prevState => ({ ...prevState, ...res.data, orderItems: prevState.orderItems }))
             setIsLoading(false)

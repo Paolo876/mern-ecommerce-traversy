@@ -44,7 +44,6 @@ const ProductPage = () => {
       setShowModal(false);
       setQuantity(1)
     }
-    console.log(product);
 
   if(isLoading) return <Loader/>
   if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
@@ -98,7 +97,7 @@ const ProductPage = () => {
                     </ListGroup>
                 </Col>
             </Row>
-            <CreateRatingForm product={product} setProduct={setProduct} />
+            <CreateRatingForm product={product}/>
         </>
         }
         {product && <Modal show={showModal} onHide={handleHideModal}>
