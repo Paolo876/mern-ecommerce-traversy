@@ -42,13 +42,12 @@ const OrderListPage = () => {
         setIsLoading(false)
       })
   }, [])
-  console.log(orders);
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
   return (
     <>
         {success && <Message variant="success" onClose={() => setSuccess(null)} dismissible>{success}</Message>}
-        <h1>Users</h1>
+        <h1>Orders</h1>
         <Table striped bordered hover responsive className='table-sm'>
             <thead>
                 <tr>
@@ -65,14 +64,14 @@ const OrderListPage = () => {
             <tbody>
                 {orders.map(item => (
                     <tr key={item._id}>
-                        <th><Link to={`/user-details/${item._id}`}>{item._id}</Link></th>
-                        <th><span><strong>Name: </strong>{item.user.name}</span> | <span><strong>ID: </strong><Link to={`/user-details/${item.user._id}`}>{item.user._id}</Link></span></th>
+                        <th><Link to={`/order/${item._id}`}>{item._id}</Link></th>
+                        <th><span><strong>Name: </strong>{item.user.email}</span> | <span><strong>ID: </strong><Link to={`/user-details/${item.user._id}`}>{item.user._id}</Link></span></th>
                         <th>{new Date(item.createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: '2-digit'})}</th>
                         <th>{currencyFormatter(item.totalAmount)}</th>
                         <th>{item.isPaid ? <CheckCircleOutlineIcon style={{color: "green"}}/> : <CloseIcon style={{color: "red"}}/>}</th>
                         <th>{item.orderStatus}</th>
                         <th>{item.isDelivered ? <CheckCircleOutlineIcon style={{color: "green"}}/> : <CloseIcon style={{color: "red"}}/>}</th>
-                        <th><Link to={`/user-details/${item._id}`}><Button><EditIcon style={{margin: "0"}}/></Button></Link></th>
+                        <th><Link to={`/order/${item._id}`}><Button><EditIcon style={{margin: "0"}}/></Button></Link></th>
                     </tr>
                 ))}
             </tbody>

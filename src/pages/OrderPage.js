@@ -10,6 +10,7 @@ import useUserRedux from '../hooks/useUserRedux';
 import fetchProductInformations from '../utils/fetchProductInformations';
 import useProductsRedux from '../hooks/useProductsRedux';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import AdminUpdateOrderForm from '../components/AdminUpdateOrderForm';
 const OrderPage = () => {
   const { state: locationState } = useLocation();
   const { user: { userData } } = useUserRedux();
@@ -48,10 +49,7 @@ const OrderPage = () => {
       setIsLoading(false)
     }
   }
-  // const addPayPalScript = async () => {
-  //   const { data: clientId } = await axios.get(`http://localhost:3001/api/config/paypal`)
-  //   console.log(clientId);
-  // }
+
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   if(order) return (
@@ -133,6 +131,7 @@ const OrderPage = () => {
                   </ListGroupItem>
               </ListGroup>
           </Card>
+          <AdminUpdateOrderForm order={order} />
         </Col>
       </Row>
     </>
