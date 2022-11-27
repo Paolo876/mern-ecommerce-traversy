@@ -4,9 +4,11 @@ import Loader from './Loader'
 import Message from './Message'
 import Rating from "../components/Rating"
 import useUserRedux from "../hooks/useUserRedux"
+import useProductsRedux from '../hooks/useProductsRedux'
 import axios from "axios"
 const CreateRatingForm = ({ product }) => {
   const { user: { userData } } = useUserRedux();
+  const { updateProductReview } = useProductsRedux();
   const [ reviews, setReviews ] = useState(product.reviews);
   const [ rating, setRating ] = useState(0)
   const [ comment, setComment ] = useState("")
@@ -15,7 +17,6 @@ const CreateRatingForm = ({ product }) => {
   const [ error, setError ] = useState(null);
   const [ success, setSuccess ] = useState(null);
   const [ isReviewExists, setIsReviewExists ] = useState(userData && reviews.some(item => (item.user._id === userData._id || item.user === userData._id)))
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if(rating !== 0){
@@ -24,7 +25,9 @@ const CreateRatingForm = ({ product }) => {
             .then(res => {
                 setSuccess(res.data.message)
                 setIsLoading(false)
-                setReviews(res.data.reviews.map(item => item.user === userData._id ? ({...item, user:{name: userData.name, email: userData.email}}) : item))
+                const updatedReviews = res.data.reviews.map(item => item.user === userData._id ? ({...item, user:{name: userData.name, email: userData.email, _id: userData._id}}) : item)
+                setReviews(updatedReviews)
+                updateProductReview({id: product._id, reviews: updatedReviews})
                 setIsReviewExists(true)
             })
             .catch(err => {

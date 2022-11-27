@@ -11,6 +11,7 @@ export default function useProductsRedux() {
         updateProduct: data => dispatch(updateProduct(data)),
         deleteProduct: id => dispatch(deleteProduct(id)),
         clearSuccess: () => dispatch(productsActions.clearSuccess()),
+        updateProductReview: data => dispatch(productsActions.updateProductReview(data)),
     };
   } else {
     throw Error('Error accessing productList reducer.');

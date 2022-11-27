@@ -8,6 +8,12 @@ const productsSlice = createSlice({
     reducers: {
         clearSuccess(state){
             state.success = null;
+        },
+        updateProductReview(state, { payload }){
+            const updatedProducts = [ ...state.products ]
+            const updatedItem = updatedProducts.find(item => item._id === payload.id)
+            updatedItem.reviews = payload.reviews
+            state.products = updatedProducts
         }
     },
     extraReducers: {
