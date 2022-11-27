@@ -11,7 +11,6 @@ const AdminUpdateOrderForm = ({ order, setOrder }) => {
   const [ isLoading, setIsLoading ] = useState(false)
   const [ error, setError ] = useState(null)
   const [ success, setSuccess ] = useState(null)
-  console.log(order);
   const handleChangeOrderStatus = (value) => {
     setTrackingNumber("")
     setCancelReason("")
@@ -41,7 +40,7 @@ const AdminUpdateOrderForm = ({ order, setOrder }) => {
                 <Form onSubmit={handleSubmit}>
                     <FormGroup controlId='name' className="my-3">
                         <FormLabel className='me-5 mt-3'><strong>Change Order Status: </strong></FormLabel>
-                        <FormSelect value={orderStatus} onChange={e => handleChangeOrderStatus(e.target.value)}>
+                        <FormSelect value={orderStatus} onChange={e => handleChangeOrderStatus(e.target.value)} disabled={isDelivered}>
                             <option value="processing">processing</option>
                             <option value="shipped">shipped</option>
                             <option value="cancelled">cancelled</option>
@@ -50,13 +49,13 @@ const AdminUpdateOrderForm = ({ order, setOrder }) => {
                     {orderStatus === "shipped" &&
                         <FormGroup controlId='name' className="my-3">
                             <FormLabel className='me-5 mt-3'><strong>Tracking number </strong><small>(optional)</small></FormLabel>
-                            <FormControl type="text" value={trackingNumber} onChange={e => setTrackingNumber(e.target.value)}/>
+                            <FormControl type="text" value={trackingNumber} onChange={e => setTrackingNumber(e.target.value)} disabled={isDelivered}/>
                         </FormGroup>
                     }
                     {orderStatus === "cancelled" &&
                         <FormGroup controlId='name' className="my-3">
                             <FormLabel className='me-5 mt-3'><strong>Reason for cancellation </strong><small>(required)</small></FormLabel>
-                            <FormControl as="textarea" rows={3} value={cancelReason} onChange={e => setCancelReason(e.target.value)} required/>
+                            <FormControl as="textarea" rows={3} value={cancelReason} onChange={e => setCancelReason(e.target.value)} required disabled={isDelivered}/>
                         </FormGroup>
                     }
                     <FormGroup controlId='name' className="my-3">
