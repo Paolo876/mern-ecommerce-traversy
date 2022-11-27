@@ -49,7 +49,6 @@ const OrderPage = () => {
       setIsLoading(false)
     }
   }
-
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   if(order) return (
@@ -61,7 +60,9 @@ const OrderPage = () => {
           <ListGroup variant="flush">
             <ListGroupItem>
               <h2>Order Status</h2>
-              {order.isDelivered ? <Message variant="success">Delivered</Message> : <p>{order.orderStatus}</p>}
+              {order.isDelivered ? 
+                <Message variant="success">Delivered on {new Date(order.deliveredAt).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: '2-digit'})}</Message> : 
+                <p>{order.orderStatus}</p>}
             </ListGroupItem>
             <ListGroupItem>
               <h2>Shipping Information</h2>
@@ -131,7 +132,7 @@ const OrderPage = () => {
                   </ListGroupItem>
               </ListGroup>
           </Card>
-          <AdminUpdateOrderForm order={order} />
+          {userData.isAdmin && <AdminUpdateOrderForm order={order} setOrder={setOrder}/>}
         </Col>
       </Row>
     </>

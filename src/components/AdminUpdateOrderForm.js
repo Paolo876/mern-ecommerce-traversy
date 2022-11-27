@@ -2,19 +2,33 @@ import { useState } from 'react'
 import { ListGroup, Button, Form, FormGroup, FormLabel, FormControl, FormCheck, Card, ListGroupItem, FormSelect } from 'react-bootstrap'
 import Message from './Message'
 import Loader from './Loader'
-
-const AdminUpdateOrderForm = ({ order }) => {
+import axios from 'axios'
+const AdminUpdateOrderForm = ({ order, setOrder }) => {
   const [ orderStatus, setOrderStatus ] = useState(order.orderStatus)
-  const [ trackingNumber, setTrackingNumber ] = useState("")
-  const [ cancelReason, setCancelReason ] = useState("")
+  const [ trackingNumber, setTrackingNumber ] = useState(order.trackingNumber)
+  const [ cancelReason, setCancelReason ] = useState(order.cancelReason)
   const [ isDelivered, setIsDelivered ] = useState(order.isDelivered)
   const [ isLoading, setIsLoading ] = useState(false)
   const [ error, setError ] = useState(null)
   const [ success, setSuccess ] = useState(null)
-
+  console.log(order);
+  const handleChangeOrderStatus = (value) => {
+    setTrackingNumber("")
+    setCancelReason("")
+    setOrderStatus(value)
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(orderStatus, trackingNumber, cancelReason, isDelivered)
+    setIsLoading(true)
+    axios.put(`http://localhost:3001/api/admin/orders/${order._id}/update`, {orderStatus, trackingNumber, cancelReason, isDelivered}, {withCredentials: true})
+        .then(res => {
+            setOrder(prevState => ({ ...prevState, ...res.data, orderItems: prevState.orderItems }))
+            setIsLoading(false)
+        })
+        .catch(err => {
+            setError(err.message)
+            setIsLoading(false)
+        })
   }
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
@@ -27,7 +41,7 @@ const AdminUpdateOrderForm = ({ order }) => {
                 <Form onSubmit={handleSubmit}>
                     <FormGroup controlId='name' className="my-3">
                         <FormLabel className='me-5 mt-3'><strong>Change Order Status: </strong></FormLabel>
-                        <FormSelect value={orderStatus} onChange={e => setOrderStatus(e.target.value)}>
+                        <FormSelect value={orderStatus} onChange={e => handleChangeOrderStatus(e.target.value)}>
                             <option value="processing">processing</option>
                             <option value="shipped">shipped</option>
                             <option value="cancelled">cancelled</option>
@@ -42,7 +56,7 @@ const AdminUpdateOrderForm = ({ order }) => {
                     {orderStatus === "cancelled" &&
                         <FormGroup controlId='name' className="my-3">
                             <FormLabel className='me-5 mt-3'><strong>Reason for cancellation </strong><small>(required)</small></FormLabel>
-                            <FormControl as="textarea" rows={3} value={cancelReason} onChange={e => setCancelReason(e.target.value)}/>
+                            <FormControl as="textarea" rows={3} value={cancelReason} onChange={e => setCancelReason(e.target.value)} required/>
                         </FormGroup>
                     }
                     <FormGroup controlId='name' className="my-3">
@@ -50,7 +64,15 @@ const AdminUpdateOrderForm = ({ order }) => {
                         <FormCheck inline type="checkbox" value={isDelivered} onChange={() => setIsDelivered(prevState => !prevState)} id={`inline-checkbox-1`} checked={isDelivered}/>
                     </FormGroup>
                     <div className="d-grid">
-                        {!isLoading && <Button type="submit" variant="primary" size='lg' disabled={order.orderStatus === orderStatus && order.isDelivered === isDelivered}>UPDATE ORDER</Button>}
+                        {!isLoading && 
+                            <Button 
+                                type="submit" 
+                                variant="primary" 
+                                size='lg' 
+                                disabled={order.orderStatus === orderStatus && order.isDelivered === isDelivered && order.trackingNumber === trackingNumber && order.cancelReason === order.cancelReason}
+                            >
+                                UPDATE ORDER
+                            </Button>}
                     </div>
                 </Form>
             </ListGroupItem>

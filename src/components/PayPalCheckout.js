@@ -32,7 +32,7 @@ const PayPalCheckout = ({ orderTotal, setPaymentResult, disabled=false }) => {
             amount: {
                 value: orderTotal.toFixed(2)
             }
-        }]
+        }],
         })
   }
   const onApprove = async (data, actions) => {

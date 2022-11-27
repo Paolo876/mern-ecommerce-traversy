@@ -45,7 +45,7 @@ const PlaceOrderPage = () => {
     }, [createdOrder]) 
 
     useEffect(() => {
-        if(paymentResult){
+        if(paymentResult && paymentResult.status === "COMPLETED"){
             createOrder({
                 orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
                 shippingAddress, 
@@ -55,7 +55,6 @@ const PlaceOrderPage = () => {
                 taxAmount,
                 totalAmount,
                 paymentResult,
-                // isPaid: true
                 isPaid: paymentResult ? true : false
               })
         }
