@@ -10,6 +10,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import axios from 'axios'
 import useCartRedux from '../hooks/useCartRedux'
 import useDocumentTitle from '../hooks/useDocumentTitle'
+import CreateRatingForm from '../components/CreateRatingForm'
 
 const ProductPage = () => {
     const params = useParams();
@@ -43,12 +44,15 @@ const ProductPage = () => {
       setShowModal(false);
       setQuantity(1)
     }
+    console.log(product);
+
+  if(isLoading) return <Loader/>
+  if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
   return (
     <>
         <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"}>Go Back</Link>
-        {error && <Message variant="danger">Error: {error}</Message>}
-        {isLoading && <Loader/>}
-        {!isLoading && product &&
+        {product &&
+        <>
             <Row>
                 <Col md={6}><Image src={product.image.url} alt={product.image.name} fluid/></Col>
                 <Col md={3}>
@@ -94,23 +98,24 @@ const ProductPage = () => {
                     </ListGroup>
                 </Col>
             </Row>
+            <CreateRatingForm product={product} setProduct={setProduct} />
+        </>
         }
         {product && <Modal show={showModal} onHide={handleHideModal}>
             <ModalHeader closeButton>
-            <ModalTitle>Successfully Added To Cart! <CheckCircleOutlineIcon style={{color: "green", marginLeft: ".25em"}}/> </ModalTitle></ModalHeader>
+                <ModalTitle>Successfully Added To Cart! <CheckCircleOutlineIcon style={{color: "green", marginLeft: ".25em"}}/> </ModalTitle>
+            </ModalHeader>
             <ModalBody>
-            <Row>
-                <Col md={3}><Image src={product.image.thumbnail} alt={product.image.name} fluid style={{maxHeight: "100px"}} rounded/></Col>
-                <Col md={5}><h6>{product.name}</h6></Col>
-                <Col md={2}><span>Price: <p>${product.price}</p></span></Col>
-                <Col md={2}><span>Quantity: <p>{quantity}</p></span></Col>
-            </Row>
-                
-
+                <Row>
+                    <Col md={3}><Image src={product.image.thumbnail} alt={product.image.name} fluid style={{maxHeight: "100px"}} rounded/></Col>
+                    <Col md={5}><h6>{product.name}</h6></Col>
+                    <Col md={2}><span>Price: <p>${product.price}</p></span></Col>
+                    <Col md={2}><span>Quantity: <p>{quantity}</p></span></Col>
+                </Row>
             </ModalBody>
             <ModalFooter>
-            <Button variant="secondary" onClick={handleHideModal}>Close</Button>
-            <Button variant="primary" onClick={() => navigate("/cart")}>Go To Cart</Button>
+                <Button variant="secondary" onClick={handleHideModal}>Close</Button>
+                <Button variant="primary" onClick={() => navigate("/cart")}>Go To Cart</Button>
             </ModalFooter>
         </Modal>}
     </>
