@@ -10,16 +10,19 @@ import Message from "../components/Message";
 const HomePage = () => {
   const { keyword } = useParams();
   useDocumentTitle("ProShop | Home")
-  const { productsList: { error, isLoading, products } } = useProductsRedux();
+  const { productsList: { error, isLoading, products }, fetchProducts } = useProductsRedux();
 
   useEffect(() => {
-    if(keyword){
-      
+    if(!products.length !== 0){
+      fetchProducts(keyword)
     }
   }, [keyword])
   return (
     <>
-      <h1>Latest Products</h1>
+      {!keyword && <h1>Latest Products</h1>}
+      {keyword && products.length !== 0 && <h1>{`Search Results for ${keyword}:`}</h1>}
+      {keyword && products.length === 0 && <h1>{`Nothing found for ${keyword}:`}</h1>}
+
       <Row>
         {error && <Message variant="danger">Error: {error}</Message>}
         {isLoading && <Loader/>}

@@ -6,7 +6,7 @@ export default function useProductsRedux() {
   if(useSelector(state => state.productList)) {
     return {
         productsList: useSelector(state => state.productList),
-        fetchProducts: () => dispatch(fetchProducts()),
+        fetchProducts: (keyword) => dispatch(fetchProducts(keyword)),
         createProduct: data => dispatch(createProduct(data)),
         updateProduct: data => dispatch(updateProduct(data)),
         deleteProduct: id => dispatch(deleteProduct(id)),
