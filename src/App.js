@@ -54,6 +54,7 @@ const App = () => {
           <Container>
           {isLoading ? <Loader/> :
             <Routes>
+                <Route element={<HomePage />} path="/search/:keyword"/>
                 <Route element={<HomePage />} path="/"/>
                 <Route element={<ProductPage />} path="/product/:id"/>  
                 <Route element={<CartPage />} path="/cart"/>  

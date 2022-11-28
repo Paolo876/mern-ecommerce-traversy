@@ -1,12 +1,22 @@
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import Product from "../components/Product";
 import useProductsRedux from "../hooks/useProductsRedux";
+import useDocumentTitle from "../hooks/useDocumentTitle";
+import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import useDocumentTitle from "../hooks/useDocumentTitle";
+
 const HomePage = () => {
+  const { keyword } = useParams();
   useDocumentTitle("ProShop | Home")
   const { productsList: { error, isLoading, products } } = useProductsRedux();
+
+  useEffect(() => {
+    if(keyword){
+      
+    }
+  }, [keyword])
   return (
     <>
       <h1>Latest Products</h1>
