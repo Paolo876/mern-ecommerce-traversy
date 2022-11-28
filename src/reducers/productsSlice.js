@@ -25,11 +25,13 @@ const productsSlice = createSlice({
         [fetchProducts.fulfilled.type]: ( state, { payload }) => {
             state.isLoading = false;
             state.error = null;
-            state.products = payload
+            state.products = payload.products
+            state.pages = payload.pages
+            state.page = payload.page
         },
         [fetchProducts.rejected]: ( state , { payload }) => {
             state.isLoading = false;
-            state.error = payload.message;
+            state.error = payload && payload.message;
         },
         //deleteProduct (ADMIN)
         [deleteProduct.pending.type]: ( state ) => {

@@ -8,15 +8,14 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 const HomePage = () => {
-  const { keyword } = useParams();
   useDocumentTitle("ProShop | Home")
+  const { keyword, pageNumber=1 } = useParams();
   const { productsList: { error, isLoading, products }, fetchProducts } = useProductsRedux();
-
   useEffect(() => {
     if(!products.length !== 0){
-      fetchProducts(keyword)
+      fetchProducts({keyword, pageNumber})
     }
-  }, [keyword])
+  }, [keyword, pageNumber])
   return (
     <>
       {!keyword && <h1>Latest Products</h1>}

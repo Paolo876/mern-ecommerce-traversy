@@ -10,7 +10,9 @@ export const productsInitialState = {
     products: [],
     isLoading: false,
     error: null,
-    success: null
+    success: null,
+    pages: null,
+    page: 1,
 }
 
 export const userInitialState = {
