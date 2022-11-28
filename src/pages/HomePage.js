@@ -6,11 +6,12 @@ import useDocumentTitle from "../hooks/useDocumentTitle";
 import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import Paginate from "../components/Paginate";
 
 const HomePage = () => {
   useDocumentTitle("ProShop | Home")
   const { keyword, pageNumber=1 } = useParams();
-  const { productsList: { error, isLoading, products }, fetchProducts } = useProductsRedux();
+  const { productsList: { error, isLoading, products, pages, page }, fetchProducts } = useProductsRedux();
   useEffect(() => {
     if(!products.length !== 0){
       fetchProducts({keyword, pageNumber})
@@ -31,6 +32,7 @@ const HomePage = () => {
           </Col>
         ))}
       </Row>
+      <Paginate pages={pages} page={page} keyword={keyword && keyword}/>
     </>
   );
 };

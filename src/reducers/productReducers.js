@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchProducts = createAsyncThunk( 'productList/fetchProducts', async ( { keyword="", pageNumber = ""}, { rejectWithValue }) => {
+export const fetchProducts = createAsyncThunk( 'productList/fetchProducts', async ( { keyword="", pageNumber = 1}, { rejectWithValue }) => {
     try {
         const res = await axios.get(`http://localhost:3001/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
         return res.data

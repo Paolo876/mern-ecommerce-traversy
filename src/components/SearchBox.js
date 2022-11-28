@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Form, Button, FormControl } from 'react-bootstrap'
 import { useNavigate, Route } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
-const SearchBox = () => {
+const SearchBox = ({isAdmin = false}) => {
   const navigate = useNavigate();
   const [ keyword, setKeyword ] = useState('');
 

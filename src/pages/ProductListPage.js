@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useParams } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import useUserRedux from '../hooks/useUserRedux'
@@ -11,19 +11,25 @@ import PromptModal from '../components/PromptModal'
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Paginate from '../components/Paginate'
+import SearchBox from '../components/SearchBox'
 
 const ProductListPage = () => {
   useDocumentTitle("Admin | Products")
+  const { keyword, pageNumber=1 } = useParams();
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
-  const { productsList: { products, isLoading, error, success }, deleteProduct, clearSuccess } = useProductsRedux();
+  const { productsList: { products, isLoading, error, success, pages, page }, deleteProduct, clearSuccess, fetchProducts } = useProductsRedux();
   const [ modalDetails, setModalDetails ] = useState({show: false, data: null});
 
   // if not logged in or not an admin, redirect
   useEffect(() => {
     if(!userData) navigate("/login")
     if(userData && !userData.isAdmin) navigate("/")
-  }, [userData])
+    if(userData && userData.isAdmin) fetchProducts({keyword, pageNumber})
+  }, [userData, keyword, pageNumber])
+
+
 
   //delete product
   const handleProductDelete = () => {
@@ -40,14 +46,17 @@ const ProductListPage = () => {
       }
     }
   }, [success])
+
+
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
   return (
     <>
         {success && <Message variant="success" onClose={() => clearSuccess()} dismissible>{success}</Message>}
-        <Row className="align-items-center">
-          <Col md={9}><h1>Products</h1></Col>
-          <Col md={3} className="d-grid gap-2">
+        <Row className="align-items-center mb-3">
+          <Col md={12}><h1>Products</h1></Col>
+          <Col md={9} className="d-grid pe-5"><SearchBox/></Col>
+          <Col md={3} className="d-grid ps-5">
             <LinkContainer to="/create-product">
               <Button className='me-0' size="lg" variant="primary" style={{fontSize: ".9em"}}>
                 <PostAddIcon/> <strong>Create new Product</strong>
@@ -86,6 +95,7 @@ const ProductListPage = () => {
                 ))}
             </tbody>
         </Table>
+        <Paginate pages={pages} page={page} isAdmin={true}/>
         {modalDetails.show && <PromptModal 
           title={"Are you sure you want to delete this product?"}
           bodyInfo={[
