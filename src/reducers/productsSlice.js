@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { productsInitialState } from "./initialStates";
-import { fetchProducts, deleteProduct, createProduct, updateProduct } from "./productReducers";
+import { fetchProducts, deleteProduct, createProduct, updateProduct, sortProducts, fetchShowcase } from "./productReducers";
 
 const productsSlice = createSlice({
     name: "productList",
@@ -30,6 +30,32 @@ const productsSlice = createSlice({
             state.page = payload.page
         },
         [fetchProducts.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload && payload.message;
+        },
+        //sortProducts
+        [sortProducts.pending.type]: ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        },
+        [sortProducts.fulfilled.type]: ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
+            state.products = payload.products
+            state.pages = payload.pages
+            state.page = payload.page
+        },
+        //fetchShowcase
+        [fetchShowcase.pending.type]: ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        },
+        [fetchShowcase.fulfilled.type]: ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
+            state.showcaseProducts = payload.products
+        },
+        [fetchShowcase.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload && payload.message;
         },

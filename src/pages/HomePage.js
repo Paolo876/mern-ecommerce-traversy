@@ -7,10 +7,12 @@ import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 
 const HomePage = () => {
   useDocumentTitle("ProShop | Home")
   const { keyword, pageNumber=1 } = useParams();
+  const params = useParams();
   const { productsList: { error, isLoading, products, pages, page }, fetchProducts } = useProductsRedux();
   useEffect(() => {
     if(!products.length !== 0){
@@ -19,10 +21,13 @@ const HomePage = () => {
   }, [keyword, pageNumber])
   return (
     <>
-      {!keyword && <h1>Latest Products</h1>}
+      {!keyword && <>
+        <ProductCarousel/>
+        <h1>Latest Products</h1>
+      </>}
       {keyword && products.length !== 0 && <h1>{`Search Results for ${keyword}:`}</h1>}
       {keyword && products.length === 0 && <h1>{`Nothing found for ${keyword}:`}</h1>}
-
+      
       <Row>
         {error && <Message variant="danger">Error: {error}</Message>}
         {isLoading && <Loader/>}

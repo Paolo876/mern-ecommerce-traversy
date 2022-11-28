@@ -10,6 +10,23 @@ export const fetchProducts = createAsyncThunk( 'productList/fetchProducts', asyn
     }
 })
 
+export const sortProducts = createAsyncThunk( 'productList/sortProducts', async ( { sortValue }, { rejectWithValue }) => {
+    try {
+        const res = await axios.get(`http://localhost:3001/api/products/q?sort=${sortValue}`);
+        return res.data
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
+export const fetchShowcase = createAsyncThunk( 'productList/fetchShowcase', async ( data, { rejectWithValue }) => {
+    try {
+        const res = await axios.get(`http://localhost:3001/api/products/showcase`);
+        return res.data
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
+
 //admin only
 export const deleteProduct = createAsyncThunk( 'productList/deleteProduct', async ( id, { rejectWithValue }) => {
     try {

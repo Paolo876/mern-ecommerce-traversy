@@ -1,12 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts, deleteProduct, createProduct,updateProduct } from "../reducers/productReducers";
+import { fetchProducts, deleteProduct, createProduct, updateProduct, sortProducts, fetchShowcase } from "../reducers/productReducers";
 import { productsActions } from '../reducers/productsSlice';
 export default function useProductsRedux() {
   const dispatch = useDispatch();
   if(useSelector(state => state.productList)) {
     return {
         productsList: useSelector(state => state.productList),
-        fetchProducts: (keyword) => dispatch(fetchProducts(keyword)),
+        fetchProducts: data => dispatch(fetchProducts(data)),
+        fetchShowcase: data => dispatch(fetchShowcase(data)),
+        sortProducts: data => dispatch(sortProducts(data)),
         createProduct: data => dispatch(createProduct(data)),
         updateProduct: data => dispatch(updateProduct(data)),
         deleteProduct: id => dispatch(deleteProduct(id)),

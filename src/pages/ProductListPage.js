@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link, useParams } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+import { Table, Button, Row, Col, Image } from 'react-bootstrap'
 import useUserRedux from '../hooks/useUserRedux'
 import useProductsRedux from "../hooks/useProductsRedux"
 import useDocumentTitle from "../hooks/useDocumentTitle"
@@ -17,6 +17,8 @@ import SearchBox from '../components/SearchBox'
 const ProductListPage = () => {
   useDocumentTitle("Admin | Products")
   const { keyword, pageNumber=1 } = useParams();
+  // const params = useParams();
+  // console.log(params)
   const navigate = useNavigate();
   const { user: { userData } } = useUserRedux();
   const { productsList: { products, isLoading, error, success, pages, page }, deleteProduct, clearSuccess, fetchProducts } = useProductsRedux();
@@ -55,7 +57,7 @@ const ProductListPage = () => {
         {success && <Message variant="success" onClose={() => clearSuccess()} dismissible>{success}</Message>}
         <Row className="align-items-center mb-3">
           <Col md={12}><h1>Products</h1></Col>
-          <Col md={9} className="d-grid pe-5"><SearchBox/></Col>
+          <Col md={9} className="d-grid pe-5"><SearchBox isAdmin={true}/></Col>
           <Col md={3} className="d-grid ps-5">
             <LinkContainer to="/create-product">
               <Button className='me-0' size="lg" variant="primary" style={{fontSize: ".9em"}}>
@@ -69,6 +71,7 @@ const ProductListPage = () => {
                 <tr>
                     <th>ID</th>
                     <th>NAME</th>
+                    <th>IMAGE</th>
                     <th>PRICE</th>
                     <th>CATEGORY</th>
                     <th>BRAND</th>
@@ -81,6 +84,7 @@ const ProductListPage = () => {
                     <tr key={item._id} style={{backgroundColor: `${item.countInStock === 0 ? "rgba(255, 146, 0, 0.51)" : ""}`}}>
                         <th><Link to={`/product-details/${item._id}`}>{item._id}</Link></th>
                         <th>{item.name}</th>
+                        <th><Image src={item.image.thumbnail} fluid style={{ maxHeight: '50px' }}/></th>
                         <th>{item.price}</th>
                         <th>{item.category}</th>
                         <th>{item.brand}</th>

@@ -8,6 +8,7 @@ export const cartInitialState = {
 
 export const productsInitialState = {
     products: [],
+    showcaseProducts: [],
     isLoading: false,
     error: null,
     success: null,

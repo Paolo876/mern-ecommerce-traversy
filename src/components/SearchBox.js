@@ -9,7 +9,11 @@ const SearchBox = ({isAdmin = false}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(keyword.trim()) {
-      navigate(`/search/${keyword}`)
+      if(isAdmin){
+        navigate(`/search/${keyword}`)
+      } else {
+        navigate(`/search/${keyword}`)
+      }
     } else {
       navigate(`/`)
     }

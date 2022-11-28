@@ -26,9 +26,9 @@ import CreateProductPage from "./pages/CreateProductPage";
 import OrderListPage from "./pages/OrderListPage";
 
 const App = () => {
-  const { fetchProducts } = useProductsRedux();
+  const { fetchProducts, fetchShowcase } = useProductsRedux();
   const { user: { userData, isLoading, isAuthReady }, authorizeToken } = useUserRedux();
-  const { fetchCartItems } = useCartRedux();
+  const { fetchCartItems,  } = useCartRedux();
   
   useEffect(() => {
       authorizeToken()
@@ -38,6 +38,7 @@ const App = () => {
   useEffect(() => {
     if(isAuthReady){
       fetchProducts()
+      fetchShowcase()
       if(userData){
         fetchCartItems(userData._id);
       } else {
@@ -58,6 +59,7 @@ const App = () => {
                 <Route element={<HomePage />} path="/search/:keyword/page/:pageNumber"/>
                 <Route element={<HomePage />} path="/page/:pageNumber"/>
                 <Route element={<HomePage />} path="/"/>
+                {/* <Route element={<HomePage />} path="/*"/> */}
                 <Route element={<ProductPage />} path="/product/:id"/>  
                 <Route element={<CartPage />} path="/cart"/>  
                 <Route element={<LoginPage />} path="/login"/>  
