@@ -10,6 +10,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import axios from 'axios'
 import useCartRedux from '../hooks/useCartRedux'
 import useDocumentTitle from '../hooks/useDocumentTitle'
+import DocumentHead from '../components/DocumentHead'
 import CreateRatingForm from '../components/CreateRatingForm'
 
 const ProductPage = () => {
@@ -22,7 +23,7 @@ const ProductPage = () => {
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
 
-    useDocumentTitle(product ? `ProShop | ${product.name}` : "ProShop")
+    // useDocumentTitle(product ? `ProShop | ${product.name}` : "ProShop")
     
     useEffect(() => {
         if(!products.find(item => item._id === params.id)) {
@@ -49,9 +50,14 @@ const ProductPage = () => {
   if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
   return (
     <>
+
         <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"}>Go Back</Link>
         {product &&
         <>
+            <DocumentHead
+                title={`ProShop | ${product.name}`}
+                description={product.description}
+            />
             <Row>
                 <Col md={6}><Image src={product.image.url} alt={product.image.name} fluid/></Col>
                 <Col md={3}>

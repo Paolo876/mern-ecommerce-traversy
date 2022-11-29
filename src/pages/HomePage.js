@@ -2,17 +2,15 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import useProductsRedux from "../hooks/useProductsRedux";
-import useDocumentTitle from "../hooks/useDocumentTitle";
 import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import DocumentHead from "../components/DocumentHead";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
 
 const HomePage = () => {
-  useDocumentTitle("ProShop | Home")
   const { keyword, pageNumber=1 } = useParams();
-  const params = useParams();
   const { productsList: { error, isLoading, products, pages, page }, fetchProducts } = useProductsRedux();
   useEffect(() => {
     if(!products.length !== 0){
@@ -21,6 +19,11 @@ const HomePage = () => {
   }, [keyword, pageNumber])
   return (
     <>
+      <DocumentHead
+        title="ProShop | Home"
+        description="We sell electronics and devices for the best price"
+        keyword="video game, phone, electronics, iphone, computer, gadgets"
+      />
       {!keyword && <>
         <ProductCarousel/>
         <h1>Latest Products</h1>
