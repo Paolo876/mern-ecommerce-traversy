@@ -21,7 +21,7 @@ const CreateRatingForm = ({ product }) => {
     e.preventDefault();
     if(rating !== 0){
         setIsLoading(true)
-        axios.post(`http://localhost:3001/api/products/${product._id}/reviews`, { rating, comment, name }, { withCredentials: true})
+        axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${product._id}/reviews`, { rating, comment, name }, { withCredentials: true})
             .then(res => {
                 setSuccess(res.data.message)
                 setIsLoading(false)

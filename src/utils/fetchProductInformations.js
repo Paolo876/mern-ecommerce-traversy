@@ -6,7 +6,7 @@ const fetchProductInformations = async ( cartItems, products ) => {
       if(product) {
         _cartItems.push({...product, quantity: item.quantity})
       } else {
-        const res = await axios.get(`http://localhost:3001/api/products/${item._id}`);
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${item._id}`);
         if(res && res.data) _cartItems.push({...res.data, quantity: item.quantity})
       }
     }

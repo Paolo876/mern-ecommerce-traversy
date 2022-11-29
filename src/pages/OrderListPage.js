@@ -32,7 +32,7 @@ const OrderListPage = () => {
   //fetch orders
   useEffect(()=> {
     setIsLoading(true)
-    axios.get("http://localhost:3001/api/admin/orders", { withCredentials: true})
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/orders`, { withCredentials: true})
       .then(res => {
         setOrders(res.data)
         setIsLoading(false)

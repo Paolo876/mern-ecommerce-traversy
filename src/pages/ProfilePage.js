@@ -29,7 +29,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if(!profileData) {
       setIsLoading(true)
-      axios.get(`http://localhost:3001/api/users/profile/${id}`, { withCredentials: true})
+      axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/profile/${id}`, { withCredentials: true})
       .then( res => {
         const data = res.data;
         data._id === id ? setIsUserProfile(true) : setIsUserProfile(false);

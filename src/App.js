@@ -48,7 +48,6 @@ const App = () => {
     }
   }, [userData, isAuthReady])
   if(!isAuthReady) return <Loader/>
-
   return (
     <BrowserRouter>
       <DocumentHead

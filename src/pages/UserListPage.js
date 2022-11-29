@@ -32,7 +32,7 @@ const UserListPage = () => {
   //fetch users
   useEffect(()=> {
     setIsLoading(true)
-    axios.get("http://localhost:3001/api/admin/get-users", { withCredentials: true})
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/get-users`, { withCredentials: true})
       .then(res => {
         setUsers(res.data)
         setIsLoading(false)
@@ -46,7 +46,7 @@ const UserListPage = () => {
   //delete user
   const handleUserDelete = () => {
     setIsLoading(true)
-    axios.delete(`http://localhost:3001/api/admin/delete-user/${modalDetails.data._id}`, { withCredentials: true})
+    axios.delete(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/delete-user/${modalDetails.data._id}`, { withCredentials: true})
       .then(res => {
         setSuccess(res.data.message)
         setUsers(prevState => prevState.filter(item => item._id !== res.data.id))

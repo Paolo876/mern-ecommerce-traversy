@@ -5,7 +5,7 @@ import axios from "axios";
 export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWithValue }) => {
     try {
         const { email, password } = payload;
-        const res = await axios.post('http://localhost:3001/api/users/login', { email, password }, 
+        const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/login`, { email, password }, 
         {
             headers: {
                 'Content-Type': 'application/json',  
@@ -21,7 +21,7 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
 // authorize -runs on initial load
 export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.get('http://localhost:3001/api/users/authorize', 
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/authorize`, 
         {
             headers: {
                 'Content-Type': 'application/json',  
@@ -37,7 +37,7 @@ export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( p
 // register
 export const register = createAsyncThunk( 'user/register', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.post('http://localhost:3001/api/users/register', payload , 
+        const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/register`, payload , 
         {
             headers: {
                 'Content-Type': 'application/json',  
@@ -53,7 +53,7 @@ export const register = createAsyncThunk( 'user/register', async ( payload, { re
 // updateProfile
 export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.put('http://localhost:3001/api/users/update', payload , 
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/update`, payload , 
         {
             headers: {
                 'Content-Type': 'application/json',  
@@ -69,7 +69,7 @@ export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( pay
 //logout --clear cookies
 export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithValue }) => {
     try {
-        const res = await axios.get('http://localhost:3001/api/users/logout', { withCredentials: true});
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/logout`, { withCredentials: true});
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)

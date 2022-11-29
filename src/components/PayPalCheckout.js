@@ -15,7 +15,7 @@ const PayPalCheckout = ({ orderTotal, setPaymentResult, disabled=false }) => {
    */
   useEffect(() => {
     setIsLoading(true)
-    axios.get(`http://localhost:3001/api/config/paypal`)
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/config/paypal`)
         .then(res => {
             setPayPalClientId(res.data)
             setIsLoading(false)
