@@ -9,7 +9,6 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import axios from 'axios'
 import useCartRedux from '../hooks/useCartRedux'
-import useDocumentTitle from '../hooks/useDocumentTitle'
 import DocumentHead from '../components/DocumentHead'
 import CreateRatingForm from '../components/CreateRatingForm'
 
@@ -22,8 +21,6 @@ const ProductPage = () => {
     const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
-
-    // useDocumentTitle(product ? `ProShop | ${product.name}` : "ProShop")
     
     useEffect(() => {
         if(!products.find(item => item._id === params.id)) {

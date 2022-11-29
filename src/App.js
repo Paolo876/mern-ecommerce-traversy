@@ -24,6 +24,7 @@ import ProductListPage from "./pages/ProductListPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CreateProductPage from "./pages/CreateProductPage";
 import OrderListPage from "./pages/OrderListPage";
+import DocumentHead from "./components/DocumentHead";
 
 const App = () => {
   const { fetchProducts, fetchShowcase } = useProductsRedux();
@@ -50,6 +51,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <DocumentHead
+        title="ProShop | Home"
+        description="We sell electronics and devices for the best price"
+        keyword="video game, phone, electronics, iphone, computer, gadgets"
+      />
       <Header />
         <main className="py-3">
           <Container>
