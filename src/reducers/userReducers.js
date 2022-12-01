@@ -15,7 +15,7 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
             withCredentials: true,
             
         });
-        cookies.set(`test`, `hello`);
+        cookies.set("token", res.data.token);
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -42,6 +42,7 @@ export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( p
 // register
 export const register = createAsyncThunk( 'user/register', async ( payload, { rejectWithValue }) => {
     try {
+        const cookies = new Cookies();
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/register`, payload , 
         {
             headers: {
@@ -49,6 +50,7 @@ export const register = createAsyncThunk( 'user/register', async ( payload, { re
             },
             withCredentials: true,
         });
+        cookies.set("token", res.data.token);
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
