@@ -1,17 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Cookies from 'universal-cookie';
 
 // login
 export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWithValue }) => {
     try {
         const { email, password } = payload;
+        const cookies = new Cookies();
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/login`, { email, password }, 
         {
             headers: {
                 'Content-Type': 'application/json',  
             },
             withCredentials: true,
+            
         });
+        cookies.set(`test`, `hello`);
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -25,6 +29,7 @@ export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( p
         {
             headers: {
                 'Content-Type': 'application/json',  
+                
             },
             withCredentials: true,
         });

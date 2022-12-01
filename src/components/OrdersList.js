@@ -10,7 +10,7 @@ const OrdersList = () => {
   const [ orders, setOrders ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
-
+    console.log(process.env)
   //fetch orders
   useEffect(() => {
     setIsLoading(true)
