@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { cartActions } from "./cartSlice";
 import axios from "axios";
 
 // login
@@ -71,9 +72,10 @@ export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( pay
 })
 
 //logout --clear cookies
-export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithValue }) => {
+export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithValue, dispatch }) => {
     try {
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/logout`, { withCredentials: true});
+        dispatch(cartActions.clearCart())   //clear cart items
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
