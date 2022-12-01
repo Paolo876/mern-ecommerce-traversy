@@ -15,7 +15,7 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
             withCredentials: true,
             
         });
-        cookies.set("token", res.data.token);
+        cookies.set("tokentwo", res.data.token);
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -31,7 +31,9 @@ export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( p
                 'Content-Type': 'application/json',  
                 
             },
+            
             withCredentials: true,
+            
         });
         return res.data
     } catch (err){
