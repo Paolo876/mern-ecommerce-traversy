@@ -26,7 +26,8 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
 // authorize -runs on initial load
 export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/authorize`, 
+        const cookies = new Cookies();
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/authorize?token=${cookies.get('token')}`, 
         {
             headers: {
                 'Content-Type': 'application/json',  
@@ -78,6 +79,8 @@ export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( pay
 export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithValue, dispatch }) => {
     try {
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/logout`, { withCredentials: true});
+        const cookies = new Cookies();
+        cookies.remove('token', { path: '/' });
         dispatch(cartActions.clearCart())   //clear cart items
         return res.data
     } catch (err){
