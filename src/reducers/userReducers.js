@@ -1,11 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { cartActions } from "./cartSlice";
 import axios from "axios";
+import Cookies from 'universal-cookie';
 
 // login
 export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWithValue }) => {
     try {
         const { email, password } = payload;
+        const cookies = new Cookies();
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/login`, { email, password }, 
         {
             headers: {
@@ -14,6 +16,7 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
             withCredentials: true,
             
         });
+        cookies.set('token', res.data.token, { path: '/' });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
