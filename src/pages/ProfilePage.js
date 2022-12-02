@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Button, Row, Col } from 'react-bootstrap'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Row, Col } from 'react-bootstrap'
 import useUserRedux from '../hooks/useUserRedux'
 import axios from 'axios';
 import Message from '../components/Message';
@@ -8,6 +8,8 @@ import Loader from '../components/Loader';
 import UpdateProfileForm from '../components/UpdateProfileForm';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import OrdersList from '../components/OrdersList';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const ProfilePage = () => {
   useDocumentTitle("ProShop | Profile")
@@ -29,7 +31,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if(!profileData) {
       setIsLoading(true)
-      axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/profile/${id}`, { withCredentials: true})
+      axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/profile/${id}?token=${cookies.get('token')}`, { withCredentials: true})
       .then( res => {
         const data = res.data;
         data._id === id ? setIsUserProfile(true) : setIsUserProfile(false);

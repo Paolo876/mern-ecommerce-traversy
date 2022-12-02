@@ -2,12 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { cartActions } from "./cartSlice";
 import axios from "axios";
 import Cookies from 'universal-cookie';
-
+const cookies = new Cookies();
 // login
 export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWithValue }) => {
     try {
         const { email, password } = payload;
-        const cookies = new Cookies();
+        
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/login`, { email, password }, 
         {
             headers: {
@@ -26,7 +26,7 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
 // authorize -runs on initial load
 export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( payload, { rejectWithValue }) => {
     try {
-        const cookies = new Cookies();
+        
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/authorize?token=${cookies.get('token')}`, 
         {
             headers: {
@@ -53,6 +53,7 @@ export const register = createAsyncThunk( 'user/register', async ( payload, { re
             },
             withCredentials: true,
         });
+        cookies.set('token', res.data.token, { path: '/' });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -62,7 +63,7 @@ export const register = createAsyncThunk( 'user/register', async ( payload, { re
 // updateProfile
 export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/update`, payload , 
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/update?token=${cookies.get('token')}`, payload , 
         {
             headers: {
                 'Content-Type': 'application/json',  
@@ -79,7 +80,7 @@ export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( pay
 export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithValue, dispatch }) => {
     try {
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/logout`, { withCredentials: true});
-        const cookies = new Cookies();
+        
         cookies.remove('token', { path: '/' });
         dispatch(cartActions.clearCart())   //clear cart items
         return res.data

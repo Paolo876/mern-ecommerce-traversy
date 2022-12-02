@@ -6,6 +6,9 @@ import Rating from "../components/Rating"
 import useUserRedux from "../hooks/useUserRedux"
 import useProductsRedux from '../hooks/useProductsRedux'
 import axios from "axios"
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const CreateRatingForm = ({ product }) => {
   const { user: { userData } } = useUserRedux();
   const { updateProductReview } = useProductsRedux();
@@ -21,7 +24,7 @@ const CreateRatingForm = ({ product }) => {
     e.preventDefault();
     if(rating !== 0){
         setIsLoading(true)
-        axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${product._id}/reviews`, { rating, comment, name }, { withCredentials: true})
+        axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${product._id}/reviews?token=${cookies.get('token')}`, { rating, comment, name }, { withCredentials: true})
             .then(res => {
                 setSuccess(res.data.message)
                 setIsLoading(false)

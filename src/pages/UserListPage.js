@@ -12,6 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const UserListPage = () => {
   useDocumentTitle("Admin | Users")
@@ -32,7 +34,7 @@ const UserListPage = () => {
   //fetch users
   useEffect(()=> {
     setIsLoading(true)
-    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/get-users`, { withCredentials: true})
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/get-users?token=${cookies.get('token')}`, { withCredentials: true})
       .then(res => {
         setUsers(res.data)
         setIsLoading(false)
@@ -46,7 +48,7 @@ const UserListPage = () => {
   //delete user
   const handleUserDelete = () => {
     setIsLoading(true)
-    axios.delete(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/delete-user/${modalDetails.data._id}`, { withCredentials: true})
+    axios.delete(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/delete-user/${modalDetails.data._id}?token=${cookies.get('token')}`, { withCredentials: true})
       .then(res => {
         setSuccess(res.data.message)
         setUsers(prevState => prevState.filter(item => item._id !== res.data.id))

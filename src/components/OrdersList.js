@@ -6,15 +6,18 @@ import Message from './Message';
 import { Table, Button } from 'react-bootstrap';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import currencyFormatter from "../utils/currencyFormatter";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const OrdersList = () => {
   const [ orders, setOrders ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
-    console.log(process.env)
+
   //fetch orders
   useEffect(() => {
     setIsLoading(true)
-    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/orders`, { withCredentials: true })
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/orders?token=${cookies.get('token')}`, { withCredentials: true })
     .then(res => {
         setOrders(res.data)
         setIsLoading(false)
@@ -24,7 +27,6 @@ const OrdersList = () => {
         setIsLoading(false)
     })
   }, [])
-  console.log(orders)
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error.message}</Message>
   return (
@@ -39,7 +41,7 @@ const OrdersList = () => {
             </tr>
         </thead>
         <tbody>
-            {orders.map(item => <tr>
+            {orders.map(item => <tr key={item._id}>
                 <td><Link to={`/order/${item._id}`}>{item._id}</Link></td>
                 <td>{new Date(item.createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: '2-digit'})}</td>
                 <td>{currencyFormatter(item.totalAmount)}</td>

@@ -13,6 +13,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import currencyFormatter from "../utils/currencyFormatter"
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const OrderListPage = () => {
   useDocumentTitle("Admin | Orders")
   const navigate = useNavigate();
@@ -23,6 +26,7 @@ const OrderListPage = () => {
   const [ modalDetails, setModalDetails ] = useState({show: false, data: null});
   const [ success, setSuccess ] = useState(null);
 
+
   // if not logged in or not an admin, redirect
   useEffect(() => {
     if(!userData) navigate("/login")
@@ -32,7 +36,7 @@ const OrderListPage = () => {
   //fetch orders
   useEffect(()=> {
     setIsLoading(true)
-    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/orders`, { withCredentials: true})
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/orders?token=${cookies.get('token')}`, { withCredentials: true})
       .then(res => {
         setOrders(res.data)
         setIsLoading(false)

@@ -11,6 +11,9 @@ import fetchProductInformations from '../utils/fetchProductInformations';
 import useProductsRedux from '../hooks/useProductsRedux';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import AdminUpdateOrderForm from '../components/AdminUpdateOrderForm';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const OrderPage = () => {
   const { state: locationState } = useLocation();
   const { user: { userData } } = useUserRedux();
@@ -37,7 +40,7 @@ const OrderPage = () => {
   const fetchOrder = async () => {
     try {
       setIsLoading(true)
-      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/orders/${params.id}`, {withCredentials: true});
+      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/orders/${params.id}?token=${cookies.get('token')}`, {withCredentials: true});
       const orderData = res.data;
       const orderItems = await fetchProductInformations(orderData.orderItems, products);
       orderData.orderItems = orderItems;

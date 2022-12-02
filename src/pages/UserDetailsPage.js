@@ -9,6 +9,8 @@ import useUserRedux from '../hooks/useUserRedux'
 import currencyFormatter from '../utils/currencyFormatter';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const UserDetailsPage = () => {
   useDocumentTitle("Admin | User")
@@ -28,7 +30,7 @@ const UserDetailsPage = () => {
   //fetch user data
   useEffect(() => {
     setIsLoading(true)
-    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/users/${id}`, { withCredentials: true })
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/users/${id}?token=${cookies.get('token')}`, { withCredentials: true })
     .then(res => {
         setUserDetails(res.data)
         setIsLoading(false)

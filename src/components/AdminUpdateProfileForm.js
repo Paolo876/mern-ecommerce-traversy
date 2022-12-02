@@ -3,6 +3,8 @@ import { Form, Button, Row, Col, FormGroup, FormLabel, FormControl, FormCheck } 
 import Loader from './Loader'
 import Message from './Message'
 import axios from "axios"
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const AdminUpdateProfileForm = ({ user }) => {
   const [ name, setName ] = useState(user.name);
@@ -14,7 +16,7 @@ const AdminUpdateProfileForm = ({ user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true)
-    axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/users/${user._id}/update`, { name, isAdmin }, { withCredentials: true})
+    axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/users/${user._id}/update?token=${cookies.get('token')}`, { name, isAdmin }, { withCredentials: true})
       .then(res => {
         setName(res.data.name)
         setIsAdmin(res.data.isAdmin)

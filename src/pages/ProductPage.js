@@ -11,6 +11,8 @@ import axios from 'axios'
 import useCartRedux from '../hooks/useCartRedux'
 import DocumentHead from '../components/DocumentHead'
 import CreateRatingForm from '../components/CreateRatingForm'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const ProductPage = () => {
     const params = useParams();
@@ -24,7 +26,7 @@ const ProductPage = () => {
     
     useEffect(() => {
         if(!products.find(item => item._id === params.id)) {
-            axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${params.id}`)
+            axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${params.id}?token=${cookies.get('token')}`)
                 .then(res => setProduct(res.data))
                 .catch(err => console.log(err))
         }
