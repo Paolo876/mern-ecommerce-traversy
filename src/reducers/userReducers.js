@@ -16,7 +16,7 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
             withCredentials: true,
             
         });
-        cookies.set('token', res.data.token, { path: '/' });
+        // cookies.set('token', res.data.token, { path: '/' });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -53,7 +53,7 @@ export const register = createAsyncThunk( 'user/register', async ( payload, { re
             },
             withCredentials: true,
         });
-        cookies.set('token', res.data.token, { path: '/' });
+        // cookies.set('token', res.data.token, { path: '/' });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
