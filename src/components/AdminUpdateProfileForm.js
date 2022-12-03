@@ -16,7 +16,7 @@ const AdminUpdateProfileForm = ({ user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true)
-    axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/users/${user._id}/update?token=${cookies.get('token')}`, { name, isAdmin }, { withCredentials: true})
+    axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/users/${user._id}/update`, { name, isAdmin }, { withCredentials: true})
       .then(res => {
         setName(res.data.name)
         setIsAdmin(res.data.isAdmin)

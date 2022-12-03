@@ -30,7 +30,7 @@ const UserDetailsPage = () => {
   //fetch user data
   useEffect(() => {
     setIsLoading(true)
-    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/users/${id}?token=${cookies.get('token')}`, { withCredentials: true })
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/users/${id}`, { withCredentials: true })
     .then(res => {
         setUserDetails(res.data)
         setIsLoading(false)

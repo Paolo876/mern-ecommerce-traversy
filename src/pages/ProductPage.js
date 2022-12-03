@@ -26,7 +26,7 @@ const ProductPage = () => {
     
     useEffect(() => {
         if(!products.find(item => item._id === params.id)) {
-            axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${params.id}?token=${cookies.get('token')}`)
+            axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${params.id}`)
                 .then(res => setProduct(res.data))
                 .catch(err => console.log(err))
         }

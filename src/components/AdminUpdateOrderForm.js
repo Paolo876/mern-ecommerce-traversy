@@ -22,7 +22,7 @@ const AdminUpdateOrderForm = ({ order, setOrder }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsLoading(true)
-    axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/orders/${order._id}/update?token=${cookies.get('token')}`, {orderStatus, trackingNumber, cancelReason, isDelivered}, {withCredentials: true})
+    axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/orders/${order._id}/update`, {orderStatus, trackingNumber, cancelReason, isDelivered}, {withCredentials: true})
         .then(res => {
             setOrder(prevState => ({ ...prevState, ...res.data, orderItems: prevState.orderItems }))
             setIsLoading(false)

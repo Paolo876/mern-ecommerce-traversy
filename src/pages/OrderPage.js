@@ -40,7 +40,7 @@ const OrderPage = () => {
   const fetchOrder = async () => {
     try {
       setIsLoading(true)
-      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/orders/${params.id}?token=${cookies.get('token')}`, {withCredentials: true});
+      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/orders/${params.id}`, {withCredentials: true});
       const orderData = res.data;
       const orderItems = await fetchProductInformations(orderData.orderItems, products);
       orderData.orderItems = orderItems;

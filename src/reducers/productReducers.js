@@ -32,7 +32,7 @@ export const fetchShowcase = createAsyncThunk( 'productList/fetchShowcase', asyn
 //admin only
 export const deleteProduct = createAsyncThunk( 'productList/deleteProduct', async ( id, { rejectWithValue }) => {
     try {
-        const res = await axios.delete(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/products/${id}?token=${cookies.get('token')}`, { withCredentials: true });
+        const res = await axios.delete(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/products/${id}`, { withCredentials: true });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -42,7 +42,7 @@ export const deleteProduct = createAsyncThunk( 'productList/deleteProduct', asyn
 //admin only
 export const createProduct = createAsyncThunk( 'productList/createProduct', async ( data, { rejectWithValue }) => {
     try {
-        const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/products?token=${cookies.get('token')}`, data, { withCredentials: true });
+        const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/products`, data, { withCredentials: true });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -52,7 +52,7 @@ export const createProduct = createAsyncThunk( 'productList/createProduct', asyn
 //admin only
 export const updateProduct = createAsyncThunk( 'productList/updateProduct', async ( data, { rejectWithValue }) => {
     try {
-        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/products/${data._id}?token=${cookies.get('token')}`, data, { withCredentials: true });
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/admin/products/${data._id}`, data, { withCredentials: true });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)

@@ -9,6 +9,7 @@ const Loader = () => {
             width: '100px',
             height: '100px',
             margin: 'auto',
+            padding: "2em",
             display: 'block',
             opacity: ".5"
         }}

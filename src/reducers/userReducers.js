@@ -27,7 +27,7 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
 export const authorizeToken = createAsyncThunk( 'user/authorizeToken', async ( payload, { rejectWithValue }) => {
     try {
         
-        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/authorize?token=${cookies.get('token')}`, 
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/authorize`, 
         {
             headers: {
                 'Content-Type': 'application/json',  
@@ -63,7 +63,7 @@ export const register = createAsyncThunk( 'user/register', async ( payload, { re
 // updateProfile
 export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/update?token=${cookies.get('token')}`, payload , 
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/update`, payload , 
         {
             headers: {
                 'Content-Type': 'application/json',  
