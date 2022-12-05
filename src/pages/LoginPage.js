@@ -6,6 +6,10 @@ import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
 import useDocumentTitle from '../hooks/useDocumentTitle'
+// import GoogleLogin from '../components/GoogleLoginButton'
+import { useGoogleLogin } from "@react-oauth/google"
+import axios from "axios"
+
 const LoginPage = () => {
   useDocumentTitle("MernShop | Login")
   const { login, user: {isLoading, error, userData} } = useUserRedux();
@@ -26,11 +30,26 @@ const LoginPage = () => {
     login({email, password})
   }
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: async ({ code }) => {
+      // const tokens = await axios.post('http://localhost:3001/auth/google', {  // http://localhost:3001/auth/google backend that will exchange the code
+      //   code,
+      // });
+      const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`, { code })
+      console.log(res)
+
+      // console.log(tokens);
+    },
+    flow: 'auth-code',
+  });
+  
   return (
     <FormContainer>
         <h1>Sign In</h1>
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
+        <Button onClick={googleLogin}>LOGIN WITH GOOGLE</Button>
+        <span>or</span>
         <Form onSubmit={handleSubmit}>
             <FormGroup  className="my-3">
                 <FormLabel>Email Address</FormLabel>
