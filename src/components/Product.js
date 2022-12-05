@@ -1,14 +1,14 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Card, Image } from "react-bootstrap";
 import Rating from "./Rating";
 import PropTypes from 'prop-types';
 import { Link, useLocation } from "react-router-dom";
 const Product = ({ product }) => {
   const location = useLocation();
   return (
-    <Card className="my-3 p-3 rounded">
-      <Link to={`/product/${product._id}`} state={{from: location.pathname}}>
-        <Card.Img src={product.image.url} variant="top" />
+    <Card className="my-3 p-3 rounded" style={{height: "30rem"}}>
+      <Link to={`/product/${product._id}`} state={{from: location.pathname}} style={{overflow: "hidden"}}>
+        <Image src={product.image.url} variant="top" fluid style={{objectFit: "cover", height:"100%", width: "100%"}}/>
       </Link>
 
       <Card.Body>
