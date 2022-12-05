@@ -11,8 +11,7 @@ import axios from 'axios'
 import useCartRedux from '../hooks/useCartRedux'
 import DocumentHead from '../components/DocumentHead'
 import CreateRatingForm from '../components/CreateRatingForm'
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const ProductPage = () => {
     const params = useParams();

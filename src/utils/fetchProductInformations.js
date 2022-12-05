@@ -1,6 +1,5 @@
 import axios from "axios";
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const fetchProductInformations = async ( cartItems, products ) => {
     let _cartItems = [];

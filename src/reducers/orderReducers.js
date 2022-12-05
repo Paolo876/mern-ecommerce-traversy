@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { cartActions } from "./cartSlice";
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 export const createOrder = createAsyncThunk('order/createOrder', async ( data, { rejectWithValue, dispatch }) => {
     try {

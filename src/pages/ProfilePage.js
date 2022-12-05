@@ -8,8 +8,7 @@ import Loader from '../components/Loader';
 import UpdateProfileForm from '../components/UpdateProfileForm';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import OrdersList from '../components/OrdersList';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const ProfilePage = () => {
   useDocumentTitle("ProShop | Profile")

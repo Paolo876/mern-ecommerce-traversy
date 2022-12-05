@@ -3,8 +3,7 @@ import { ListGroup, Button, Form, FormGroup, FormLabel, FormControl, FormCheck, 
 import Message from './Message'
 import Loader from './Loader'
 import axios from 'axios'
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const AdminUpdateOrderForm = ({ order, setOrder }) => {
   const [ orderStatus, setOrderStatus ] = useState(order.orderStatus)

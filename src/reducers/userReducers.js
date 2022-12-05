@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { cartActions } from "./cartSlice";
 import axios from "axios";
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 // login
 export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWithValue }) => {
     try {
@@ -16,7 +15,6 @@ export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWi
             withCredentials: true,
             
         });
-        // cookies.set('token', res.data.token, { path: '/' });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -53,7 +51,6 @@ export const register = createAsyncThunk( 'user/register', async ( payload, { re
             },
             withCredentials: true,
         });
-        // cookies.set('token', res.data.token, { path: '/' });
         return res.data
     } catch (err){
         return rejectWithValue(err.response.data)
@@ -81,7 +78,6 @@ export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithV
     try {
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/logout`, { withCredentials: true});
         
-        cookies.remove('token', { path: '/' });
         dispatch(cartActions.clearCart())   //clear cart items
         return res.data
     } catch (err){

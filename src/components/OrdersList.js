@@ -6,8 +6,7 @@ import Message from './Message';
 import { Table, Button } from 'react-bootstrap';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import currencyFormatter from "../utils/currencyFormatter";
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const OrdersList = () => {
   const [ orders, setOrders ] = useState([]);

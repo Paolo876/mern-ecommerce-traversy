@@ -13,8 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import currencyFormatter from "../utils/currencyFormatter"
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const OrderListPage = () => {
   useDocumentTitle("Admin | Orders")

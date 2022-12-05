@@ -6,8 +6,7 @@ import Rating from "../components/Rating"
 import useUserRedux from "../hooks/useUserRedux"
 import useProductsRedux from '../hooks/useProductsRedux'
 import axios from "axios"
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const CreateRatingForm = ({ product }) => {
   const { user: { userData } } = useUserRedux();

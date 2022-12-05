@@ -3,8 +3,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import axios from 'axios'
 import Loader from './Loader';
 import Message from './Message';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const PayPalCheckout = ({ orderTotal, setPaymentResult, disabled=false }) => {
   const [ payPalClientId, setPayPalClientId ] = useState(null);

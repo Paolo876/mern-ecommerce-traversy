@@ -9,8 +9,7 @@ import useUserRedux from '../hooks/useUserRedux'
 import currencyFormatter from '../utils/currencyFormatter';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import useDocumentTitle from '../hooks/useDocumentTitle';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const UserDetailsPage = () => {
   useDocumentTitle("Admin | User")

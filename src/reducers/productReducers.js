@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 export const fetchProducts = createAsyncThunk( 'productList/fetchProducts', async ( { keyword="", pageNumber = 1}, { rejectWithValue }) => {
     try {

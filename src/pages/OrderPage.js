@@ -11,8 +11,7 @@ import fetchProductInformations from '../utils/fetchProductInformations';
 import useProductsRedux from '../hooks/useProductsRedux';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import AdminUpdateOrderForm from '../components/AdminUpdateOrderForm';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const OrderPage = () => {
   const { state: locationState } = useLocation();

@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 export const fetchCartItems = createAsyncThunk('cart/fetchCartItems', async ( id, { rejectWithValue, getState }) => {
     const { user:{ userData }, cart: { cartItems } } = getState();
