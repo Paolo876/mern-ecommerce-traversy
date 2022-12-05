@@ -12,6 +12,7 @@ const RegisterPage = () => {
   const { register, user: { isLoading, error, userData } } = useUserRedux();
   const [ name, setName ] = useState('');
   const [ email, setEmail ] = useState('');
+  const [ confirmEmail, setConfirmEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ confirmPassword, setConfirmPassword ] = useState('');
   const [ formError, setFormError ] = useState(null);
@@ -29,7 +30,10 @@ const RegisterPage = () => {
     e.preventDefault();
     if(password !== confirmPassword){
       setFormError("Passwords do not match.")
-    } else {
+    } 
+    else if(email !== confirmEmail) {
+      setFormError("Emails do not match.")
+    }else {
       register({name, email, password})
       setFormError(null)
     }
@@ -42,24 +46,28 @@ const RegisterPage = () => {
         {error && <Message variant="danger">{error}</Message>}
         {formError && <Message variant ="danger">{formError}</Message>}
         <Form onSubmit={handleSubmit}>
-            <FormGroup controlId='name' className="my-4">
-                <FormLabel>Name</FormLabel>
+            <FormGroup controlId='name' className="my-3">
+                <FormLabel><strong>Name</strong></FormLabel>
                 <FormControl type="text" placeholder="Enter name" value={name} onChange={e => setName(e.target.value)} autoComplete="name" required/>
             </FormGroup>
-            <FormGroup controlId='email' className="my-4">
-                <FormLabel>Email Address</FormLabel>
-                <FormControl type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" required/>
+            <FormGroup controlId='email' className="my-3">
+                <FormLabel><strong>Email Address</strong></FormLabel>
+                <FormControl type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="new-email" required/>
             </FormGroup>
-            <FormGroup controlId='password' className="my-4">
-                <FormLabel>Password</FormLabel>
-                <FormControl type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" required/>
+            <FormGroup controlId='confirmEmail' className="my-3">
+                <FormLabel><strong>Confirm Email Address</strong></FormLabel>
+                <FormControl type="email" placeholder="Confirm email" value={confirmEmail} onChange={e => setConfirmEmail(e.target.value)} autoComplete="confirm-email" required/>
             </FormGroup>
-            <FormGroup controlId='confirmPassword' className="my-4">
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl type="password" placeholder="Confirm password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required/>
+            <FormGroup controlId='password' className="my-3">
+                <FormLabel><strong>Password</strong></FormLabel>
+                <FormControl type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" required/>
+            </FormGroup>
+            <FormGroup controlId='confirmPassword' className="my-3">
+                <FormLabel><strong>Confirm Password</strong></FormLabel>
+                <FormControl type="password" placeholder="Confirm password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} autoComplete="confirm-password"  required/>
             </FormGroup>
             {isLoading && <Loader/>}
-            {!isLoading && <Button type="submit" variant="primary"  className="my-4">Sign Up</Button>}
+            {!isLoading && <Button type="submit" variant="primary"  className="my-3">Sign Up</Button>}
         </Form>
         <Row className='py-5'>
             <Col>
