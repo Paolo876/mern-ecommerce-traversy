@@ -51,7 +51,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <DocumentHead
-        title="ProShop | Home"
+        title="MernShop | Home"
         description="We sell electronics and devices for the best price"
         keyword="video game, phone, electronics, iphone, computer, gadgets"
       />

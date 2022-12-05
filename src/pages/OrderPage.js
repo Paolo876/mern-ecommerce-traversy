@@ -22,7 +22,7 @@ const OrderPage = () => {
   const [ order, setOrder ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
-  useDocumentTitle( order ? `ProShop | Order ID: ${order._id}`: "ProShop" )
+  useDocumentTitle( order ? `MernShop | Order ID: ${order._id}`: "MernShop" )
 
   // if not logged in, redirect to /login
   useEffect(() => {

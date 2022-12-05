@@ -7,7 +7,7 @@ import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
 import useDocumentTitle from '../hooks/useDocumentTitle'
 const LoginPage = () => {
-  useDocumentTitle("ProShop | Login")
+  useDocumentTitle("MernShop | Login")
   const { login, user: {isLoading, error, userData} } = useUserRedux();
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');

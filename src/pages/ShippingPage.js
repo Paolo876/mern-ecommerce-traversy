@@ -8,7 +8,7 @@ import CheckoutSteps from '../components/CheckoutSteps'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const ShippingPage = () => {
-  useDocumentTitle("ProShop | Shipping")
+  useDocumentTitle("MernShop | Shipping")
   const { user: { userData } } = useUserRedux();
   const { saveShippingAddress, cart: { shippingAddress } } = useCartRedux();
   const navigate = useNavigate();

@@ -11,7 +11,7 @@ import OrdersList from '../components/OrdersList';
 
 
 const ProfilePage = () => {
-  useDocumentTitle("ProShop | Profile")
+  useDocumentTitle("MernShop | Profile")
   const { user: { userData } } = useUserRedux();
   const navigate = useNavigate();
   const { id } = useParams();

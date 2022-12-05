@@ -53,7 +53,7 @@ const ProductPage = () => {
         {product &&
         <>
             <DocumentHead
-                title={`ProShop | ${product.name}`}
+                title={`MernShop | ${product.name}`}
                 description={product.description}
             />
             <Row>

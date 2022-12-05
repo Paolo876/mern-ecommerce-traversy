@@ -8,7 +8,7 @@ import FormContainer from "../components/FormContainer"
 import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const RegisterPage = () => {
-  useDocumentTitle("ProShop | Sign Up")
+  useDocumentTitle("MernShop | Sign Up")
   const { register, user: { isLoading, error, userData } } = useUserRedux();
   const [ name, setName ] = useState('');
   const [ email, setEmail ] = useState('');

@@ -15,7 +15,7 @@ import axios from 'axios';
 import PayPalCheckout from '../components/PayPalCheckout'
 
 const PlaceOrderPage = () => {
-    useDocumentTitle("ProShop | Place Order")
+    useDocumentTitle("MernShop | Place Order")
     const { cart: { cartItems, shippingAddress, paymentMethod } } = useCartRedux();
     const { user: { userData } } = useUserRedux();
     const { productsList: { products }} = useProductsRedux();
