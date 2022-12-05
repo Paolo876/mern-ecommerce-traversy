@@ -9,6 +9,7 @@ import useDocumentTitle from '../hooks/useDocumentTitle'
 // import GoogleLogin from '../components/GoogleLoginButton'
 import { useGoogleLogin } from "@react-oauth/google"
 import axios from "axios"
+import GoogleLoginButton from '../components/GoogleLoginButton'
 
 const LoginPage = () => {
   useDocumentTitle("MernShop | Login")
@@ -31,16 +32,13 @@ const LoginPage = () => {
   }
 
   const googleLogin = useGoogleLogin({
-    onSuccess: async ({ code }) => {
-      // const tokens = await axios.post('http://localhost:3001/auth/google', {  // http://localhost:3001/auth/google backend that will exchange the code
-      //   code,
-      // });
-      const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`, { code })
-      console.log(res)
+    onSuccess: async (credentialResponse) => {
+      const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`, { code: credentialResponse.code })
 
-      // console.log(tokens);
+      console.log(res);
     },
     flow: 'auth-code',
+    
   });
   
   return (
@@ -48,7 +46,8 @@ const LoginPage = () => {
         <h1>Sign In</h1>
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        <Button onClick={googleLogin}>LOGIN WITH GOOGLE</Button>
+        <Button onClick={googleLogin} type="button">LOGIN WITH GOOGLE</Button>
+        <GoogleLoginButton/>
         <span>or</span>
         <Form onSubmit={handleSubmit}>
             <FormGroup  className="my-3">
