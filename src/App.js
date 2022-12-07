@@ -26,14 +26,27 @@ import CreateProductPage from "./pages/CreateProductPage";
 import OrderListPage from "./pages/OrderListPage";
 import DocumentHead from "./components/DocumentHead";
 
+import { loadAuth2, loadGapiInsideDOM, gapi  } from 'gapi-script';
+import useGapi from "./hooks/useGapi";
+
 const App = () => {
+  // const { gapiInit, googleProfile } = useGapi();
   const { fetchProducts, fetchShowcase } = useProductsRedux();
   const { user: { userData, isLoading, isAuthReady }, authorizeToken } = useUserRedux();
   const { fetchCartItems,  } = useCartRedux();
   
   useEffect(() => {
       authorizeToken()
+      oauth()
   }, [])
+
+  const oauth = async () => {
+    const gapi = await loadGapiInsideDOM();
+    let auth2 = await loadAuth2(gapi, process.env.REACT_APP_OAUTH_CLIENT_ID, "" );
+    console.log(auth2)
+
+  }
+  // console.log(googleProfile)
 
   //if user, check for cart items
   useEffect(() => {

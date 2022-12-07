@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Form, Button, Row, Col, FormGroup, FormLabel, FormControl } from 'react-bootstrap'
 import Message from "../components/Message"
 import Loader from "../components/Loader"
@@ -18,7 +18,6 @@ const RegisterPage = () => {
   const [ formError, setFormError ] = useState(null);
   const { state: locationState } = useLocation();
   const navigate = useNavigate();
-
   //redirect user if logged in.
   useEffect(() => {
     if(userData){

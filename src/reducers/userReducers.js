@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { cartActions } from "./cartSlice";
-import { googleLogout } from '@react-oauth/google';
-
+// import { googleLogout } from '@react-oauth/google';
+// import { loadAuth2, loadGapiInsideDOM  } from 'gapi-script';
+import useGapi from "../hooks/useGapi";
 import axios from "axios";
 
 // login
@@ -77,9 +78,10 @@ export const updateProfile = createAsyncThunk( 'user/updateProfile', async ( pay
 
 //logout --clear cookies
 export const logout = createAsyncThunk( 'user/logout', async ( id, { rejectWithValue, dispatch }) => {
+    // const { signOut } = useGapi();
     try {
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/logout`, { withCredentials: true});
-        googleLogout();
+        // signOut()
         dispatch(cartActions.clearCart())   //clear cart items
         return res.data
     } catch (err){
