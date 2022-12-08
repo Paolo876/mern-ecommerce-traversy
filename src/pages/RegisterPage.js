@@ -52,7 +52,7 @@ const RegisterPage = () => {
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
         {formError && <Message variant ="danger">{formError}</Message>}
-        <div className="d-grid my-4">
+        <div className="d-grid my-4 mt-5">
           <GoogleLoginButton 
             text="Sign up with Google"
             logoSrc="/assets/google-icon.svg"
@@ -89,7 +89,7 @@ const RegisterPage = () => {
             {isLoading && <Loader/>}
             {!isLoading && <Button type="submit" variant="primary"  className="my-3 px-4" size="lg">Sign Up</Button>}
         </Form>
-        <Row className='py-5'>
+        <Row className='py-4'>
             <Col>
                 Already a member? <Link to={"/login"} state={{from: locationState && locationState.from}}>Click here to log in.</Link>
             </Col>

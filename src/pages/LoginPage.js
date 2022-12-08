@@ -38,7 +38,7 @@ const LoginPage = () => {
         <h1>Sign In</h1>
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        <div className="d-grid my-4">
+        <div className="d-grid my-4 mt-5">
           <GoogleLoginButton 
             text="Login with Google"
             logoSrc="/assets/google-icon.svg"
@@ -67,7 +67,7 @@ const LoginPage = () => {
         </Form>
         <Row className='py-5'>
             <Col>
-                Not a member yet? <Link to={"/register"} state={{from: locationState && locationState.from}}>Click here to sign up.</Link>
+                Not a member yet? <Link to={"/register"} state={{from: locationState && locationState.from}}>Click here to create an account.</Link>
             </Col>
         </Row>
     </FormContainer>
