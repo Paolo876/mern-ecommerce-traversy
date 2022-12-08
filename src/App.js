@@ -53,7 +53,7 @@ const App = () => {
       <DocumentHead
         title="MernShop | Home"
         description="We sell electronics and devices for the best price"
-        keyword="video game, phone, electronics, iphone, computer, gadgets"
+        keyword="video game, phone, electronics, iphone, computer, gadgets, paolo bugarin, mernshop, mern-shop, mern shop"
       />
       <Header />
         <main className="py-3">
