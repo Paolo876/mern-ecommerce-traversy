@@ -11,7 +11,8 @@ const GoogleLoginButton = () => {
   onError={() => {
     console.log('Login Failed');
   }}
-  auto_select
+  // auto_select
+  
 />
   )
 }
