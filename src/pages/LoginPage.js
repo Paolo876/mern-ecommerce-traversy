@@ -6,11 +6,9 @@ import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
 import useDocumentTitle from '../hooks/useDocumentTitle'
-// import GoogleLogin from '../components/GoogleLoginButton'
-import { useGoogleLogin } from "@react-oauth/google"
-import axios from "axios"
-import GoogleLoginButton from '../components/GoogleLoginButton'
-// import googleIcon from "../../public/assets/google-icon.svg"
+import GoogleLoginButton from "../components/GoogleLoginButton"
+
+
 const LoginPage = () => {
   useDocumentTitle("MernShop | Login")
   const { login, user: {isLoading, error, userData} } = useUserRedux();
@@ -30,16 +28,6 @@ const LoginPage = () => {
     e.preventDefault();
     login({email, password})
   }
-
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (credentialResponse) => {
-      const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`, { code: credentialResponse.code })
-
-      console.log(res);
-    },
-    flow: 'auth-code',
-    
-  });
   
   return (
     <FormContainer>
@@ -48,7 +36,14 @@ const LoginPage = () => {
         {error && <Message variant="danger">{error}</Message>}
 
             <div className="d-grid my-4">
-              <Button onClick={googleLogin} type="button" variant="outline-primary" size="lg"><img src="/assets/google-icon.svg" style={{maxHeight: "20px"}}/> Login with Google</Button>
+              <GoogleLoginButton 
+                text="Login with Google"
+                logoSrc="/assets/google-icon.svg"
+                variant="outline-primary"
+                size="lg"
+                flow="auth-code"
+                authUrl={`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`}
+              />
             </div>
             <div className='hr-text'>
               <div></div>
