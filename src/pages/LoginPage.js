@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Form, Button, Row, Col, FormGroup, FormLabel, FormControl, ListGroup, ListGroupItem } from 'react-bootstrap'
+import { Form, Button, Row, Col, FormGroup, FormLabel, FormControl, InputGroup } from 'react-bootstrap'
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import GoogleLoginButton from "../components/GoogleLoginButton"
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const LoginPage = () => {
   useDocumentTitle("MernShop | Login")
   const { login, user: {isLoading, error, userData} } = useUserRedux();
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  const [ showPassword, setShowPassword ] = useState(false);
   const { state: locationState } = useLocation();
   const navigate = useNavigate();
 
@@ -34,34 +37,37 @@ const LoginPage = () => {
         <h1>Sign In</h1>
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
+        <div className="d-grid my-4">
+          <GoogleLoginButton 
+            text="Login with Google"
+            logoSrc="/assets/google-icon.svg"
+            variant="outline-primary"
+            size="lg"
+            flow="auth-code"
+            authUrl={`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`}
+          />
+        </div>
+        <div className='hr-text'>
+          <div></div>
+          <p>OR</p>
+          <div></div>
+        </div>
+        <Form onSubmit={handleSubmit} className="my-1">
+            <h5 className='mb-4'>Sign in with e-mail and password</h5>
+            <InputGroup className="my-4">
+              <InputGroup.Text className="px-2 text-primary"><AccountCircleIcon style={{margin: 0}}/></InputGroup.Text>
+              <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" aria-label="email"/>
+            </InputGroup>
+            <InputGroup className="my-4">
+              <InputGroup.Text className="px-2 text-primary" style={{cursor: "pointer"}} onClick={() => setShowPassword(prevState => !prevState)}>
+                {showPassword ? <VisibilityOffIcon style={{margin: 0}}/> : <VisibilityIcon style={{margin: 0}}/>}
+              </InputGroup.Text>
+              <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" aria-label="email"/>
+            </InputGroup>
 
-            <div className="d-grid my-4">
-              <GoogleLoginButton 
-                text="Login with Google"
-                logoSrc="/assets/google-icon.svg"
-                variant="outline-primary"
-                size="lg"
-                flow="auth-code"
-                authUrl={`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`}
-              />
-            </div>
-            <div className='hr-text'>
-              <div></div>
-              <p>OR</p>
-              <div></div>
-            </div>
-            <Form onSubmit={handleSubmit} className="my-3">
-                <FormGroup  className="my-4">
-                    <FormLabel>Email Address</FormLabel>
-                    <FormControl type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email"/>
-                </FormGroup>
-                <FormGroup  className="my-3">
-                    <FormLabel>Password</FormLabel>
-                    <FormControl type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password"/>
-                </FormGroup>
-                {isLoading && <Loader/>}
-                {!isLoading && <Button type="submit" variant="primary"  className="my-4" size="lg">Sign In</Button>}
-            </Form>
+            {isLoading && <Loader/>}
+            {!isLoading && <Button type="submit" variant="primary"  className="my-4" size="lg">Sign In</Button>}
+        </Form>
         <Row className='py-5'>
             <Col>
                 Not a member yet? <Link to={"/register"} state={{from: locationState && locationState.from}}>Click here to sign up.</Link>

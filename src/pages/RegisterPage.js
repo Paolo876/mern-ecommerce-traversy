@@ -6,6 +6,7 @@ import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
 import useDocumentTitle from '../hooks/useDocumentTitle'
+import GoogleLoginButton from '../components/GoogleLoginButton'
 
 const RegisterPage = () => {
   useDocumentTitle("MernShop | Sign Up")
@@ -44,6 +45,21 @@ const RegisterPage = () => {
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
         {formError && <Message variant ="danger">{formError}</Message>}
+        <div className="d-grid my-4">
+          <GoogleLoginButton 
+            text="Sign up with Google"
+            logoSrc="/assets/google-icon.svg"
+            variant="outline-primary"
+            size="lg"
+            flow="auth-code"
+            authUrl={`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`}
+          />
+        </div>
+        <div className='hr-text'>
+          <div></div>
+          <p>OR</p>
+          <div></div>
+        </div>
         <Form onSubmit={handleSubmit}>
             <FormGroup controlId='name' className="my-3">
                 <FormLabel><strong>Name</strong></FormLabel>
