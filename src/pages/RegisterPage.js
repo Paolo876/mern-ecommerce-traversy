@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Form, Button, Row, Col, FormGroup, FormLabel, FormControl } from 'react-bootstrap'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Form, Button, Row, Col, FormGroup, FormLabel, FormControl, InputGroup } from 'react-bootstrap'
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import GoogleLoginButton from '../components/GoogleLoginButton'
+import HrDivider from '../components/HrDivider'
+import BadgeIcon from '@mui/icons-material/Badge';
+import EmailIcon from '@mui/icons-material/Email';import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const RegisterPage = () => {
   useDocumentTitle("MernShop | Sign Up")
@@ -15,7 +19,10 @@ const RegisterPage = () => {
   const [ email, setEmail ] = useState('');
   const [ confirmEmail, setConfirmEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  const [ showPassword, setShowPassword ] = useState(false);
   const [ confirmPassword, setConfirmPassword ] = useState('');
+  const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
+
   const [ formError, setFormError ] = useState(null);
   const { state: locationState } = useLocation();
   const navigate = useNavigate();
@@ -55,34 +62,32 @@ const RegisterPage = () => {
             authUrl={`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`}
           />
         </div>
-        <div className='hr-text'>
-          <div></div>
-          <p>OR</p>
-          <div></div>
-        </div>
-        <Form onSubmit={handleSubmit}>
-            <FormGroup controlId='name' className="my-3">
-                <FormLabel><strong>Name</strong></FormLabel>
-                <FormControl type="text" placeholder="Enter name" value={name} onChange={e => setName(e.target.value)} autoComplete="name" required/>
-            </FormGroup>
-            <FormGroup controlId='email' className="my-3">
-                <FormLabel><strong>Email Address</strong></FormLabel>
-                <FormControl type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="new-email" required/>
-            </FormGroup>
-            <FormGroup controlId='confirmEmail' className="my-3">
-                <FormLabel><strong>Confirm Email Address</strong></FormLabel>
-                <FormControl type="email" placeholder="Confirm email" value={confirmEmail} onChange={e => setConfirmEmail(e.target.value)} autoComplete="confirm-email" required/>
-            </FormGroup>
-            <FormGroup controlId='password' className="my-3">
-                <FormLabel><strong>Password</strong></FormLabel>
-                <FormControl type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" required/>
-            </FormGroup>
-            <FormGroup controlId='confirmPassword' className="my-3">
-                <FormLabel><strong>Confirm Password</strong></FormLabel>
-                <FormControl type="password" placeholder="Confirm password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} autoComplete="confirm-password"  required/>
-            </FormGroup>
+        <HrDivider text="OR"/>
+        <Form onSubmit={handleSubmit} className="my-5">
+            <h5 className='mb-4'>Sign up with Information</h5>
+            <InputGroup className="my-4">
+              <InputGroup.Text className="px-2 text-primary"><BadgeIcon style={{margin: 0}}/></InputGroup.Text>
+              <Form.Control  type="text" placeholder="Enter name" value={name} onChange={e => setName(e.target.value)} autoComplete="name" required aria-label="name"/>
+            </InputGroup>
+            <InputGroup className="my-4">
+              <InputGroup.Text className="px-2 text-primary"><EmailIcon style={{margin: 0}}/></InputGroup.Text>
+              <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" aria-label="email"/>
+            </InputGroup>
+            <InputGroup className="my-4">
+              <InputGroup.Text className="px-2 text-primary" style={{cursor: "pointer"}} onClick={() => setShowPassword(prevState => !prevState)}>
+                {showPassword ? <VisibilityOffIcon style={{margin: 0}}/> : <VisibilityIcon style={{margin: 0}}/>}
+              </InputGroup.Text>
+              <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" aria-label="password"/>
+            </InputGroup>
+            <InputGroup className="my-4">
+              <InputGroup.Text className="px-2 text-primary" style={{cursor: "pointer"}} onClick={() => setShowConfirmPassword(prevState => !prevState)}>
+                {showConfirmPassword ? <VisibilityOffIcon style={{margin: 0}}/> : <VisibilityIcon style={{margin: 0}}/>}
+              </InputGroup.Text>
+              <Form.Control type={showConfirmPassword ? "text" : "password"} placeholder="Confirm password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} autoComplete="current-password" aria-label="confirm-password"/>
+            </InputGroup>
+
             {isLoading && <Loader/>}
-            {!isLoading && <Button type="submit" variant="primary"  className="my-3">Sign Up</Button>}
+            {!isLoading && <Button type="submit" variant="primary"  className="my-3 px-4" size="lg">Sign Up</Button>}
         </Form>
         <Row className='py-5'>
             <Col>

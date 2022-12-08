@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Form, Button, Row, Col, FormGroup, FormLabel, FormControl, InputGroup } from 'react-bootstrap'
+import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap'
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
@@ -10,6 +10,7 @@ import GoogleLoginButton from "../components/GoogleLoginButton"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import HrDivider from '../components/HrDivider'
 
 const LoginPage = () => {
   useDocumentTitle("MernShop | Login")
@@ -47,13 +48,9 @@ const LoginPage = () => {
             authUrl={`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/google-auth/login`}
           />
         </div>
-        <div className='hr-text'>
-          <div></div>
-          <p>OR</p>
-          <div></div>
-        </div>
-        <Form onSubmit={handleSubmit} className="my-1">
-            <h5 className='mb-4'>Sign in with e-mail and password</h5>
+        <HrDivider text="OR"/>
+        <Form onSubmit={handleSubmit} className="my-5">
+            <h5 className='mb-4'>Sign in with E-mail and Password</h5>
             <InputGroup className="my-4">
               <InputGroup.Text className="px-2 text-primary"><AccountCircleIcon style={{margin: 0}}/></InputGroup.Text>
               <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" aria-label="email"/>
@@ -62,11 +59,11 @@ const LoginPage = () => {
               <InputGroup.Text className="px-2 text-primary" style={{cursor: "pointer"}} onClick={() => setShowPassword(prevState => !prevState)}>
                 {showPassword ? <VisibilityOffIcon style={{margin: 0}}/> : <VisibilityIcon style={{margin: 0}}/>}
               </InputGroup.Text>
-              <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" aria-label="email"/>
+              <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" aria-label="password"/>
             </InputGroup>
 
             {isLoading && <Loader/>}
-            {!isLoading && <Button type="submit" variant="primary"  className="my-4" size="lg">Sign In</Button>}
+            {!isLoading && <Button type="submit" variant="primary"  className="my-4 px-4" size="lg">Sign In</Button>}
         </Form>
         <Row className='py-5'>
             <Col>
