@@ -46,13 +46,15 @@ const LoginPage = () => {
         <h1>Sign In</h1>
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        <ListGroup variant="flush">
-          <ListGroupItem>
+
             <div className="d-grid my-4">
               <Button onClick={googleLogin} type="button" variant="outline-primary" size="lg"><img src="/assets/google-icon.svg" style={{maxHeight: "20px"}}/> Login with Google</Button>
             </div>
-          </ListGroupItem>
-          <ListGroupItem>
+            <div className='hr-text'>
+              <div></div>
+              <p>OR</p>
+              <div></div>
+            </div>
             <Form onSubmit={handleSubmit} className="my-3">
                 <FormGroup  className="my-4">
                     <FormLabel>Email Address</FormLabel>
@@ -63,10 +65,8 @@ const LoginPage = () => {
                     <FormControl type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password"/>
                 </FormGroup>
                 {isLoading && <Loader/>}
-                {!isLoading && <Button type="submit" variant="primary"  className="my-4">Sign In</Button>}
+                {!isLoading && <Button type="submit" variant="primary"  className="my-4" size="lg">Sign In</Button>}
             </Form>
-          </ListGroupItem>
-        </ListGroup>
         <Row className='py-5'>
             <Col>
                 Not a member yet? <Link to={"/register"} state={{from: locationState && locationState.from}}>Click here to sign up.</Link>

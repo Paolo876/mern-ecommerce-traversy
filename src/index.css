@@ -64,5 +64,24 @@ svg {
     margin: 0 auto;
 }
 
+.hr-text {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    margin: 2em 0;
+}
 
+.hr-text div {
+    height: 1px;
+    width: 100%;
+    background-color: black;
+    opacity: .15;
+}
 
+.hr-text p {
+    margin: 0 .75em;
+    opacity: .8;
+}
