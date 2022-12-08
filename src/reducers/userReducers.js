@@ -7,7 +7,6 @@ import axios from "axios";
 export const login = createAsyncThunk( 'user/login', async ( payload, { rejectWithValue }) => {
     try {
         const { email, password } = payload;
-        console.log(payload);
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/login`, { email, password }, 
         {
             headers: {
