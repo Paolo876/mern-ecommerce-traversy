@@ -5,15 +5,14 @@ import Message from "../components/Message"
 import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
-import useDocumentTitle from '../hooks/useDocumentTitle'
 import GoogleLoginButton from "../components/GoogleLoginButton"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import HrDivider from '../components/HrDivider'
+import DocumentHead from '../components/DocumentHead'
 
 const LoginPage = () => {
-  useDocumentTitle("MernShop | Login")
   const { login, user: {isLoading, error, userData} } = useUserRedux();
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -35,6 +34,11 @@ const LoginPage = () => {
   
   return (
     <FormContainer>
+          <DocumentHead
+        title="MernShop | Login"
+        description="Log into MernShop to start purchasing the best and newest gadgets and electronics."
+        keyword="video game, phone, electronics, iphone, computer, gadgets"
+      />
         <h1>Sign In</h1>
         {locationState && locationState.error && <Message variant="warning">{locationState.error}</Message>}
         {error && <Message variant="danger">{error}</Message>}
