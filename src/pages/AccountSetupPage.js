@@ -5,17 +5,17 @@ import useUserRedux from '../hooks/useUserRedux'
 import FormContainer from "../components/FormContainer"
 import DocumentHead from '../components/DocumentHead'
 import Loader from '../components/Loader'
+import Message from '../components/Message'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from '@mui/icons-material/Google';
 import BadgeIcon from '@mui/icons-material/Badge';
 
-
 const AccountSetupPage = () => {
-  const { user: { isLoading, error, userData } } = useUserRedux();
+  const { user: { isLoading, error, userData }, register } = useUserRedux();
   const { state: locationState } = useLocation();
   const navigate = useNavigate();
-  const { email, picture, name: _name } = locationState.userData
+  const { email, picture, name: _name, googleId } = locationState.userData
   //form states
   const [ name, setName ] = useState(_name);
   const [ password, setPassword ] = useState('');
@@ -24,6 +24,7 @@ const AccountSetupPage = () => {
   const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
 
   const [ pictureError, setPictureError ] = useState(false);
+  const [ formError, setFormError ] = useState()
   //redirect user if logged in.
   useEffect(() => {
     if(userData || !(locationState && locationState.userData)){
@@ -32,20 +33,31 @@ const AccountSetupPage = () => {
   }, [error, locationState, navigate, userData])
 
   const handleSubmit = (e) => {
+    if(name.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0 || confirmPassword.trim().length === 0 || picture.length === 0) {
+      setFormError("Input must not be left blank.")
+    } else if(password !== confirmPassword) {
+      setFormError("Passwords do not match.")
+    } else {
+      register({name, email, password, picture, googleId})
+    }
     e.preventDefault();
   }
-  console.log(picture)
   return (
     <FormContainer>
       <DocumentHead title="MernShop | Account Setup" description="Finish Setting up your Account to start purchasing the best and newest gadgets and electronics."/>
+      {error && <Message variant="danger">{error}</Message>}
       <h1>Welcome, {_name}! Let's set up your account</h1>
-      {!pictureError && <div class="align-items-center mt-5">
-        <div class="align-items-center d-flex flex-column">
-          <Image src={picture} roundedCircle fluid style={{maxHeight: "75px", width: "auto"}} onError={() => setPictureError(true)}/>
-        </div>
-      </div>}
+      {!pictureError && <Image 
+        className='rounded mx-auto d-block'
+        src={picture} 
+        style={{maxHeight: "100px", width: "auto"}} 
+        onError={() => setPictureError(true)} 
+        roundedCircle 
+        fluid
+        thumbnail/>}
 
       <Form onSubmit={handleSubmit} className="mt-4">
+        {formError && <Message variant="danger">{formError}</Message>}
         <InputGroup className="my-4">
           <InputGroup.Text className="px-2 text-primary"><GoogleIcon style={{margin: 0}}/></InputGroup.Text>
           <Form.Control type="email" disabled value={locationState.userData.email}  autoComplete="email" aria-label="email"/>

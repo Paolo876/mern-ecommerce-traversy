@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Form, Button, Row, Col, FormGroup, FormLabel, FormControl, InputGroup } from 'react-bootstrap'
+import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap'
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import useUserRedux from '../hooks/useUserRedux'
@@ -18,7 +18,6 @@ const RegisterPage = () => {
   const { register, user: { isLoading, error, userData } } = useUserRedux();
   const [ name, setName ] = useState('');
   const [ email, setEmail ] = useState('');
-  const [ confirmEmail, setConfirmEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ showPassword, setShowPassword ] = useState(false);
   const [ confirmPassword, setConfirmPassword ] = useState('');
@@ -38,10 +37,7 @@ const RegisterPage = () => {
     e.preventDefault();
     if(password !== confirmPassword){
       setFormError("Passwords do not match.")
-    } 
-    else if(email !== confirmEmail) {
-      setFormError("Emails do not match.")
-    }else {
+    } else {
       register({name, email, password})
       setFormError(null)
     }
