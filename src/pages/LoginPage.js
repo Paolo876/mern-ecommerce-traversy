@@ -60,7 +60,7 @@ const LoginPage = () => {
               <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" aria-label="email"/>
             </InputGroup>
             <InputGroup className="my-4">
-              <InputGroup.Text className="px-2 text-primary" style={{cursor: "pointer"}} onClick={() => setShowPassword(prevState => !prevState)}>
+              <InputGroup.Text className="px-2 text-info" style={{cursor: "pointer"}} onClick={() => setShowPassword(prevState => !prevState)}>
                 {showPassword ? <VisibilityOffIcon style={{margin: 0}}/> : <VisibilityIcon style={{margin: 0}}/>}
               </InputGroup.Text>
               <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" aria-label="password"/>
