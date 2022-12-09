@@ -25,6 +25,7 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CreateProductPage from "./pages/CreateProductPage";
 import OrderListPage from "./pages/OrderListPage";
 import DocumentHead from "./components/DocumentHead";
+import AccountSetupPage from "./pages/AccountSetupPage";
 
 const App = () => {
   const { fetchProducts, fetchShowcase } = useProductsRedux();
@@ -69,6 +70,7 @@ const App = () => {
                 <Route element={<CartPage />} path="/cart"/>  
                 <Route element={<LoginPage />} path="/login"/>  
                 <Route element={<RegisterPage />} path="/register"/>  
+                <Route element={<AccountSetupPage />} path="/account-setup"/>  
                 <Route element={<ProfilePage />} path="/profile/:id"/>  
                 <Route element={<ShippingPage />} path="/shipping"/>  
                 <Route element={<PaymentPage />} path="/payment"/>  
