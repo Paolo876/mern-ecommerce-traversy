@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"
-import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Container, Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap';   //this is used instead of Link(react-router-dom) when the children is a react bootstrap element
 import SearchBox from "./SearchBox";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -34,7 +34,13 @@ const Header = () => {
                 <LinkContainer to={`/product-list`}><NavDropdown.Item>Product List</NavDropdown.Item></LinkContainer>
                 <LinkContainer to={`/order-list`}><NavDropdown.Item>Order List</NavDropdown.Item></LinkContainer>
               </NavDropdown>}
-              {userData && <NavDropdown title={userData.name} id="username">
+              {userData && <NavDropdown 
+                title={
+                  <>
+                    {userData.picture && <Image src={userData.picture} roundedCircle height={"20px"} width={"20px"} className="mx-1"/>} {userData.name}
+                  </>} 
+                id="username"
+              >
                 <LinkContainer to={`/profile/${userData._id}`}><NavDropdown.Item>Profile</NavDropdown.Item></LinkContainer>
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>}
