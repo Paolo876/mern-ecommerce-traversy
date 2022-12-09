@@ -1,11 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login, logout, authorizeToken, register, updateProfile } from "./userReducers";
 import { userInitialState } from "./initialStates";
+
 const userSlice = createSlice({
     name: "user",
     initialState: userInitialState,
     reducers: {
-
+        setUserData(state, { payload }){
+            state.isLoading = false;
+            state.userData = payload;
+            state.error = null;
+            state.success = false;
+        },
+        setIsLoading(state, { payload }){
+            state.isLoading = payload;
+            state.error = null;
+            state.success = false;
+        },
+        setError(state, { payload }){
+            state.isLoading = false;
+            state.error = payload.message;
+            state.success = false;
+        }
     }, 
     extraReducers: {
         //login

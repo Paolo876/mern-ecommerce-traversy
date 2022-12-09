@@ -6,6 +6,9 @@ export default function useUserRedux() {
   if(useSelector(state => state.user)) {
     return {
         user: useSelector(state => state.user),
+        setUserData: data => dispatch(userActions.setUserData(data)),
+        setIsLoading: data => dispatch(userActions.setIsLoading(data)),
+        setError: () => dispatch(userActions.setError()),
         login: data => dispatch(login(data)),
         register: data => dispatch(register(data)),
         updateProfile: data => dispatch(updateProfile(data)),

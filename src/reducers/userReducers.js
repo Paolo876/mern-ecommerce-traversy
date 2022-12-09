@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { cartActions } from "./cartSlice";
-// import { googleLogout } from '@react-oauth/google';
 import axios from "axios";
 
 // login
