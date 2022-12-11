@@ -6,6 +6,7 @@ import useUserRedux from '../hooks/useUserRedux'
 import useCartRedux from '../hooks/useCartRedux'
 import CheckoutSteps from '../components/CheckoutSteps'
 import useDocumentTitle from '../hooks/useDocumentTitle'
+import usStatesArray from '../utils/usStatesArray'
 
 const ShippingPage = () => {
   useDocumentTitle("MernShop | Shipping")
@@ -16,6 +17,7 @@ const ShippingPage = () => {
   //check for a shipping address on mount, autofill if true
   const [ name, setName ] = useState(userData.name)
   const [ address2, setAddress2 ] = useState('')
+  const [ address1, setAddress1 ] = useState('')
   const [ city, setCity ] = useState('')
   const [ zip5, setZip5 ] = useState('')
   const [ state, setState ] = useState('')
@@ -32,6 +34,7 @@ const ShippingPage = () => {
   const verifyAddress = () => {
     
   }
+  console.log(usStatesArray)
   const handleSubmit = (e) => {
     e.preventDefault();
     // if(address.trim().length !== 0 || 
@@ -52,25 +55,25 @@ const ShippingPage = () => {
           <FormLabel><strong>Receipient Full name (First and Last name)</strong></FormLabel>
           <FormControl type="text" placeholder="Enter full name" value={name} onChange={e => setName(e.target.value)} autoComplete="address" disabled={isAddressValid} required/>
         </FormGroup>
-        <FormGroup controlId='name' className="my-4">
+        <FormGroup controlId='address2' className="my-4">
           <FormLabel><strong>Street address</strong></FormLabel>
-          <FormControl type="text" placeholder="Enter street address or P.O. Box" value={address} onChange={e => setAddress(e.target.value)} autoComplete="address" disabled={isAddressValid} required/>
+          <FormControl type="text" placeholder="Enter street address or P.O. Box" value={address2} onChange={e => setAddress2(e.target.value)} autoComplete="address2" disabled={isAddressValid} required/>
         </FormGroup>
-        <FormGroup controlId='name' className="my-4">
+        <FormGroup controlId='address1' className="my-4">
           <FormLabel><strong>Apt, suite, unit, building, floor, etc...</strong><span className='text-info'> (Optional)</span></FormLabel>
-          <FormControl type="text" placeholder="Apt, suite, unit, building, floor, etc..." value={address} onChange={e => setAddress(e.target.value)} autoComplete="address" disabled={isAddressValid} required/>
+          <FormControl type="text" placeholder="Apt, suite, unit, building, floor, etc..." value={address1} onChange={e => setAddress1(e.target.value)} autoComplete="address1" disabled={isAddressValid} required/>
         </FormGroup>
-        <FormGroup controlId='name' className="my-4">
+        <FormGroup controlId='city' className="my-4">
           <FormLabel><strong>City</strong></FormLabel>
           <FormControl type="text" placeholder="Enter City" value={city} onChange={e => setCity(e.target.value)} autoComplete="city" disabled={isAddressValid} required/>
         </FormGroup>
-        <FormGroup controlId='name' className="my-4">
+        <FormGroup controlId='state' className="my-4">
           <FormLabel><strong>State</strong></FormLabel>
-          <FormControl type="text" placeholder="Enter State" value={country} onChange={e => setCountry(e.target.value)} autoComplete="country" disabled={isAddressValid} required/>
+          <FormControl type="text" placeholder="Enter State" value={state} onChange={e => setState(e.target.value)} autoComplete="state" disabled={isAddressValid} required/>
         </FormGroup>
-        <FormGroup controlId='name' className="my-4">
+        <FormGroup controlId='zip5' className="my-4">
           <FormLabel><strong>Zip Code</strong></FormLabel>
-          <FormControl type="text" placeholder="Enter Postal Code" value={postalCode} onChange={e => setPostalCode(e.target.value)} autoComplete="postalCode" disabled={isAddressValid} required/>
+          <FormControl type="text" placeholder="Enter Zip Code" value={zip5} onChange={e => setZip5(e.target.value)} autoComplete="zip5" disabled={isAddressValid} required/>
         </FormGroup>
         <FormGroup controlId='name' className="my-4">
           <span className='me-5'>Set this as your default address?</span>
