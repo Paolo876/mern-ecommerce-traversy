@@ -1,6 +1,6 @@
 export const cartInitialState = {
     cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
-    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || null,
+    shippingAddress: JSON.parse(sessionStorage.getItem('shippingAddress')) || null,
     paymentMethod: JSON.parse(localStorage.getItem('paymentMethod')) || "PayPal",
     isLoading: false,
     error: null

@@ -12,6 +12,7 @@ import Loader from '../components/Loader'
 import usStatesArray from '../utils/usStatesArray'
 import usZipValidation from '../utils/usZipValidation'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import axios from 'axios'
 
 const ShippingPage = () => {
   useDocumentTitle("MernShop | Shipping")
@@ -19,14 +20,14 @@ const ShippingPage = () => {
   const { saveShippingAddress, cart: { shippingAddress } } = useCartRedux();
   const { isAddressValid, isLoading, error, verifyAddress, verifiedAddress } = useUspsAddressVerification();
   const navigate = useNavigate();
-
+  console.log(shippingAddress)
   //check for a shipping address on mount, autofill if true
-  const [ name, setName ] = useState(userData.name)
-  const [ address2, setAddress2 ] = useState('')
-  const [ address1, setAddress1 ] = useState('')
-  const [ city, setCity ] = useState('')
-  const [ zip5, setZip5 ] = useState('')
-  const [ state, setState ] = useState("none")
+  const [ name, setName ] = useState(shippingAddress && shippingAddress.name || userData && userData.name)
+  const [ address2, setAddress2 ] = useState(shippingAddress && shippingAddress.address2 || '')
+  const [ address1, setAddress1 ] = useState(shippingAddress && shippingAddress.address1 || '')
+  const [ city, setCity ] = useState(shippingAddress && shippingAddress.city || '')
+  const [ zip5, setZip5 ] = useState(shippingAddress && shippingAddress.zip5 || '')
+  const [ state, setState ] = useState(shippingAddress && shippingAddress.state || "none")
   const [ isDefault, setIsDefault ] = useState(false)
   const [ formError, setFormError ] = useState(null)
   // if not logged in, redirect to /login
@@ -66,10 +67,16 @@ const ShippingPage = () => {
     }
   }
 
-  const handleContinueButton = () => {
+  const handleContinueButton = async () => {
     //save to userSchema
-    
-    saveShippingAddress({name, ...verifiedAddress})
+    const addAddress = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/add-address`, { name, ...verifiedAddress }, {             
+      headers: {
+      'Content-Type': 'application/json',  
+      },withCredentials: true})
+
+    //save to session storage?
+    saveShippingAddress(addAddress.data)
+
   }
   return (
     <FormContainer>
