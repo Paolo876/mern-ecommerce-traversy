@@ -8,3 +8,4 @@ const currencyFormatter = (amount, currency='USD') => {
       return formatter.format(amount)
 }
 export default currencyFormatter;
+
