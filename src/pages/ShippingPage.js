@@ -13,7 +13,6 @@ import usZipValidation from '../utils/usZipValidation'
 import uspsAddressValidationToUri from '../utils/uspsAddressValidationToUri'
 import axios from 'axios'
 import XMLParser from 'react-xml-parser';
-import { convertXML, createAST } from "simple-xml-to-json"
 
 const ShippingPage = () => {
   useDocumentTitle("MernShop | Shipping")
@@ -45,9 +44,16 @@ const ShippingPage = () => {
     e.preventDefault()
     const res = await axios.get(`http://production.shippingapis.com/ShippingAPI.dll?API=Verify&xml=${uspsAddressValidationToUri({address1, address2, city, state, zip5})}`)
     var data = new XMLParser().parseFromString(res.data).getElementsByTagName('Address')[0].children;    
-    // const error = xml
-    // console.log(error[0].children);
-    console.log(data);
+    let obj = {}
+    data.forEach(item => obj[item.name.charAt(0).toLowerCase() + item.name.slice(1)] = item.value)
+    if(obj.hasOwnProperty('error')){
+      setFormError("The address you entered was not found. Please make sure input is a valid United States address.")
+      return
+    }
+    if(obj.returnText){
+      setFormError(obj.returnText)
+      return
+    }
   }
   const handleSubmit = (e) => {
     e.preventDefault();
