@@ -7,11 +7,11 @@ const cartSlice = createSlice({
     reducers: {
         saveShippingAddress(state, { payload }) {
             state.shippingAddress = payload;
-            localStorage.setItem("shippingAddress", JSON.stringify(payload))
+            // localStorage.setItem("shippingAddress", JSON.stringify(payload))
         },
         savePaymentMethod(state, { payload }) {
             state.paymentMethod = payload;
-            localStorage.setItem("paymentMethod", JSON.stringify(payload))
+            // localStorage.setItem("paymentMethod", JSON.stringify(payload))
         },
         clearCart(state){
             state.cartItems = []

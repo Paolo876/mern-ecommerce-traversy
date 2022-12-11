@@ -67,7 +67,9 @@ const ShippingPage = () => {
   }
 
   const handleContinueButton = () => {
-    console.log(verifiedAddress)
+    //save to userSchema
+    
+    saveShippingAddress({name, ...verifiedAddress})
   }
   return (
     <FormContainer>
