@@ -1,10 +1,12 @@
 import { useState } from 'react'
-
+import uspsAddressValidationToUri from '../utils/uspsAddressValidationToUri';
+import XMLParser from 'react-xml-parser';
+import axios from 'axios';
 const useUspsAddressVerification = () => {
     const [ isAddressValid, setIsAddressValid ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ error, setError ] = useState(null)
-
+    const [ verifiedAddress, setVerifiedAddress ] = useState(null);
     const verifyAddress = async ({address1, address2, city, state, zip5}) => {
         setIsLoading(true)
         const res = await axios.get(`http://production.shippingapis.com/ShippingAPI.dll?API=Verify&xml=${uspsAddressValidationToUri({address1, address2, city, state, zip5})}`)
@@ -18,17 +20,19 @@ const useUspsAddressVerification = () => {
         }
         else if(result.returnText){
             setIsLoading(false)
+            setVerifiedAddress(result)
             setError(result.returnText)
             return
         }
         else {
             setIsAddressValid(true)
             setIsLoading(false)
-            return result
+            setVerifiedAddress(result)
+            return
         }
     }
     return {
-        isAddressValid, isLoading, error, verifyAddress
+        isAddressValid, isLoading, error, verifyAddress, verifiedAddress
     }
 }
 
