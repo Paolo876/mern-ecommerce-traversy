@@ -23,6 +23,7 @@ const PlaceOrderPage = () => {
     const navigate = useNavigate();
 
     const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
+    const [ costDetails, setCostDetails ] = useState(null)
     const [ paymentResult, setPaymentResult ] = useState(null)
 
     // if not logged in, redirect to /login
@@ -52,34 +53,24 @@ const PlaceOrderPage = () => {
 
     useEffect(() => {
         if(paymentResult && paymentResult.status === "COMPLETED"){
-            createOrder({
-                orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
-                shippingAddress, 
-                paymentMethod,
-                itemsTotalAmount,
-                shippingAmount,
-                taxAmount,
-                totalAmount,
-                paymentResult,
-                isPaid: paymentResult ? true : false
-              })
+            console.log(paymentResult)
+            // createOrder({
+            //     orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
+            //     shippingAddress, 
+            //     paymentMethod,
+            //     itemsTotalAmount,
+            //     shippingAmount,
+            //     taxAmount,
+            //     totalAmount,
+            //     paymentResult,
+            //     isPaid: paymentResult ? true : false
+            //   })
         }
     }, [paymentResult])
-    /**
-     *  future changes:
-     *      - these variables will be fetched & computed on backend.
-     */
-    //calculate total items cost
-    const itemsTotalAmount = (updatedCartItems.reduce(( acc, item) => parseFloat(acc) + parseInt(item.quantity) * parseFloat(item.price), 0).toFixed(2)) || 0
-    //calculate shipping cost (mock)
-    const shippingAmount = 0
-    //calculate tax cost (mock)
-    const taxAmount = itemsTotalAmount * .065
-    const totalAmount = parseFloat(itemsTotalAmount) + parseFloat(shippingAmount) + parseFloat(taxAmount);
 
     const fetchOrderCost = async () => {
       const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/order-actions/cost-summary`, shippingAddress , { withCredentials: true})
-      console.log(res);
+      setCostDetails(res.data);
     }
     /**
      *  future changes:
@@ -137,7 +128,7 @@ const PlaceOrderPage = () => {
                 </ListGroup>
             </Col>
             <Col md={4}>
-            {isLoading ? <Loader/> :
+            {!costDetails ? <Loader/> :
                 <Card>
                     <ListGroup variant="flush">
                         <ListGroupItem>
@@ -146,31 +137,30 @@ const PlaceOrderPage = () => {
                         <ListGroupItem>
                             <Row>
                                 <Col>Items</Col>
-                                <Col className="text-end pe-3">{currencyFormatter(itemsTotalAmount)}</Col>
+                                <Col className="text-end pe-3">{currencyFormatter(costDetails.itemsTotalAmount)}</Col>
                             </Row>
                         </ListGroupItem>
                         <ListGroupItem>
                             <Row>
                                 <Col>Shipping</Col>
-                                <Col className="text-end pe-3">{currencyFormatter(shippingAmount)}</Col>
+                                <Col className="text-end pe-3">{currencyFormatter(costDetails.shippingAmount)}</Col>
                             </Row>
                         </ListGroupItem>
                         <ListGroupItem>
                             <Row>
                                 <Col>Tax (6.5%)</Col>
-                                <Col className="text-end pe-3">{currencyFormatter(taxAmount)}</Col>
+                                <Col className="text-end pe-3">{currencyFormatter(costDetails.taxAmount)}</Col>
                             </Row>
                         </ListGroupItem>
                         <ListGroupItem className="py-3">
                             <Row>
                                 <Col><strong>Order Total</strong></Col>
-                                <Col className="text-end pe-3"><strong>{currencyFormatter(totalAmount)}</strong></Col>
+                                <Col className="text-end pe-3"><strong>{currencyFormatter(costDetails.totalAmount)}</strong></Col>
                             </Row>
                         </ListGroupItem>
                         <ListGroupItem className="d-grid gap-2 py-3">
                             {error && <Message variant="danger">{error}</Message>}
-                            {/* <Button type="button" className="py-2 my-2" disabled={updatedCartItems.length === 0} size="lg" onClick={handleSubmit}>Place Order</Button> */}
-                            <PayPalCheckout orderTotal={totalAmount} disabled={updatedCartItems.length === 0} setPaymentResult={setPaymentResult}/>
+                            <PayPalCheckout disabled={updatedCartItems.length === 0} setPaymentResult={setPaymentResult} shippingAddress={shippingAddress}/>
                         </ListGroupItem>
                     </ListGroup>
                 </Card>

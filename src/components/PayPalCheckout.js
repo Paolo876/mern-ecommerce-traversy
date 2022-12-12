@@ -5,7 +5,7 @@ import Loader from './Loader';
 import Message from './Message';
 
 
-const PayPalCheckout = ({ orderTotal, setPaymentResult, disabled=false }) => {
+const PayPalCheckout = ({ setPaymentResult, disabled=false, shippingAddress }) => {
   const [ payPalClientId, setPayPalClientId ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState()
@@ -28,10 +28,11 @@ const PayPalCheckout = ({ orderTotal, setPaymentResult, disabled=false }) => {
   }, []) 
 
   const createOrder = async (data, actions) => {
+    const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/order-actions/cost-summary`, shippingAddress , { withCredentials: true})
     return actions.order.create({
         purchase_units: [{
             amount: {
-                value: orderTotal.toFixed(2)
+                value: res.data.totalAmount.toFixed(2)
             }
         }],
         })
