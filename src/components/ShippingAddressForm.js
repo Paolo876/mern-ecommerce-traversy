@@ -7,19 +7,19 @@ import Message from './Message';
 import Loader from './Loader';
 import usStatesArray from '../utils/usStatesArray';
 import usZipValidation from '../utils/usZipValidation';
-
-const ShippingAddressForm = ({ setVerifiedAddress, setIsAddressValid }) => {
-    const { saveShippingAddress, cart: { shippingAddress, savedAddresses, isLoading: isCartLoading, error: cartError }, fetchUserAddresses } = useCartRedux();
+import HrDivider from "../components/HrDivider"
+const ShippingAddressForm = ({ setVerifiedAddress, setIsAddressValid, setShowShippingForm }) => {
+    const { cart: { shippingAddress } } = useCartRedux();
     const { isAddressValid, isLoading, error, verifyAddress, verifiedAddress } = useUspsAddressVerification();
     const { user: { userData } } = useUserRedux();
 
     //check for a shipping address on mount, autofill if true
-    const [ name, setName ] = useState(shippingAddress && shippingAddress.name || userData && userData.name)
-    const [ address2, setAddress2 ] = useState(shippingAddress && shippingAddress.address2 || '')
-    const [ address1, setAddress1 ] = useState(shippingAddress && shippingAddress.address1 || '')
-    const [ city, setCity ] = useState(shippingAddress && shippingAddress.city || '')
-    const [ zip5, setZip5 ] = useState(shippingAddress && shippingAddress.zip5 || '')
-    const [ state, setState ] = useState(shippingAddress && shippingAddress.state || "none")
+    const [ name, setName ] = useState(userData && userData.name)
+    const [ address2, setAddress2 ] = useState('')
+    const [ address1, setAddress1 ] = useState('')
+    const [ city, setCity ] = useState('')
+    const [ zip5, setZip5 ] = useState('')
+    const [ state, setState ] = useState("none")
     const [ formError, setFormError ] = useState(null)
 
     const handleSubmit = (e) => {
@@ -55,6 +55,13 @@ const ShippingAddressForm = ({ setVerifiedAddress, setIsAddressValid }) => {
     }, [verifiedAddress])
   return (
     <Form onSubmit={handleSubmit}>
+      {!isAddressValid && <>
+        <div className="d-grid gap-2">
+        <Button onClick={() => setShowShippingForm(false)} variant="outline-primary" size="lg">Ship To Saved Address</Button>
+
+        </div>
+        <HrDivider text="OR"/>
+      </>}
         {error && <Message variant="warning">{error}</Message>}
         {formError && <Message variant="warning">{formError}</Message>}
         <FormGroup controlId='name' className="my-4">

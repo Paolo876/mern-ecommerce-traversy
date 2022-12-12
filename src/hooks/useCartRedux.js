@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart, fetchUserAddresses } from "../reducers/cartReducers";
+import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart, fetchUserAddresses, shipToNewAddress } from "../reducers/cartReducers";
 import { cartActions } from '../reducers/cartSlice';
 export default function useCartRedux() {
   const dispatch = useDispatch();
@@ -11,6 +11,7 @@ export default function useCartRedux() {
         savePaymentMethod: data => dispatch(cartActions.savePaymentMethod(data)),
         fetchCartItems: data => dispatch(fetchCartItems(data)),
         fetchUserAddresses: () => dispatch(fetchUserAddresses()),
+        shipToNewAddress: (data) => dispatch(shipToNewAddress(data)),
         addToCart: item => dispatch(addToCart(item)),
         changeCartItemQuantity: item => dispatch(changeCartItemQuantity(item)),
         removeFromCart: item => dispatch(removeFromCart(item)),

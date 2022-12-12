@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart, fetchUserAddresses } from "./cartReducers";
+import { fetchCartItems, addToCart, changeCartItemQuantity, removeFromCart, fetchUserAddresses, shipToNewAddress } from "./cartReducers";
 import { cartInitialState } from "./initialStates";
 const cartSlice = createSlice({
     name: "cart",
@@ -7,7 +7,7 @@ const cartSlice = createSlice({
     reducers: {
         saveShippingAddress(state, { payload }) {
             state.shippingAddress = payload;
-            sessionStorage.setItem("shippingAddress", JSON.stringify(payload))
+            // sessionStorage.setItem("shippingAddress", JSON.stringify(payload))
         },
         savePaymentMethod(state, { payload }) {
             state.paymentMethod = payload;
@@ -118,6 +118,22 @@ const cartSlice = createSlice({
             state.savedAddresses = payload
         },
         [fetchUserAddresses.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload && payload.message;
+        },
+        //shipToNewAddress
+        [shipToNewAddress.pending.type]: ( state ) => {
+            state.isLoading = true;
+            state.error = null
+        },
+        [shipToNewAddress.fulfilled.type]: ( state, { payload }) => {
+            console.log(payload)
+            state.isLoading = false;
+            state.error = null;
+            state.savedAddresses = [...state.savedAddresses, payload]
+            state.shippingAddress = payload
+        },
+        [shipToNewAddress.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload && payload.message;
         },

@@ -75,3 +75,16 @@ export const fetchUserAddresses = createAsyncThunk( 'cart/fetchUserAddresses', a
       return rejectWithValue(err.response.data || {message: "An error has occurred."})
     }
 })
+
+export const shipToNewAddress = createAsyncThunk( 'cart/shipToNewAddress', async ( data, { rejectWithValue } ) => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/add-address`, data, {             
+        headers: {
+        'Content-Type': 'application/json',  
+        },withCredentials: true})      
+      return res.data
+      
+    } catch (err){
+      return rejectWithValue(err.response.data || {message: "An error has occurred."})
+    }
+})
