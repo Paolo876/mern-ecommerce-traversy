@@ -66,3 +66,12 @@ export const removeFromCart = createAsyncThunk( 'cart/removeFromCart', async ( i
       return rejectWithValue(err.response.data)
     }
 })
+
+export const fetchUserAddresses = createAsyncThunk( 'cart/fetchUserAddresses', async ( data, { rejectWithValue } ) => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/users/address`, { withCredentials: true })
+      return res.data
+    } catch (err){
+      return rejectWithValue(err.response.data || {message: "An error has occurred."})
+    }
+})
