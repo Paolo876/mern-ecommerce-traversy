@@ -23,7 +23,7 @@ const PaymentPage = () => {
       if(!shippingAddress) {
         navigate("/shipping")
     }
-    }, [userData])
+    }, [userData, shippingAddress])
   
     const handleSubmit = (e) => {
       e.preventDefault();

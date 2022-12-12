@@ -25,7 +25,6 @@ const PlaceOrderPage = () => {
     const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
     const [ paymentResult, setPaymentResult ] = useState(null)
 
-
     // if not logged in, redirect to /login
     useEffect(() => {
         if(!userData) {
@@ -34,7 +33,11 @@ const PlaceOrderPage = () => {
         if(!shippingAddress) {
             navigate("/shipping")
         }
-    }, [userData])
+        if(userData && shippingAddress){
+            //axios request here for computation
+            fetchOrderCost();
+        }
+    }, [userData, shippingAddress])
 
     // fetch product informations saved on cart
     useEffect(() => {
@@ -74,9 +77,13 @@ const PlaceOrderPage = () => {
     const taxAmount = itemsTotalAmount * .065
     const totalAmount = parseFloat(itemsTotalAmount) + parseFloat(shippingAmount) + parseFloat(taxAmount);
 
+    const fetchOrderCost = async () => {
+      const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/order-actions/cost-summary`, shippingAddress , { withCredentials: true})
+      console.log(res);
+    }
     /**
      *  future changes:
-     *      - only cartItems [{id, quantity}], shippingAddress, and paymentMethod will be submitted
+     *      - shippingAddress, and paymentMethod will be submitted
      */
     // const handleSubmit = () => {
     //   createOrder({

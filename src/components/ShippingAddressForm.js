@@ -9,7 +9,7 @@ import usStatesArray from '../utils/usStatesArray';
 import usZipValidation from '../utils/usZipValidation';
 import HrDivider from "../components/HrDivider"
 const ShippingAddressForm = ({ setVerifiedAddress, setIsAddressValid, setShowShippingForm }) => {
-    const { cart: { shippingAddress } } = useCartRedux();
+    const { cart: { shippingAddress, savedAddresses } } = useCartRedux();
     const { isAddressValid, isLoading, error, verifyAddress, verifiedAddress } = useUspsAddressVerification();
     const { user: { userData } } = useUserRedux();
 
@@ -55,7 +55,7 @@ const ShippingAddressForm = ({ setVerifiedAddress, setIsAddressValid, setShowShi
     }, [verifiedAddress])
   return (
     <Form onSubmit={handleSubmit}>
-      {!isAddressValid && <>
+      {!isAddressValid && savedAddresses.length!== 0 && <>
         <div className="d-grid gap-2">
         <Button onClick={() => setShowShippingForm(false)} variant="outline-primary" size="lg">Ship To Saved Address</Button>
 
