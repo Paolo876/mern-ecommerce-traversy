@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Form, Button, FormGroup, FormCheck, Card } from 'react-bootstrap'
+import { Form, Button, FormGroup, FormCheck, Card, Overlay } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import useUserRedux from '../hooks/useUserRedux'
 import useCartRedux from '../hooks/useCartRedux'
@@ -21,7 +21,7 @@ const ShippingPage = () => {
   const [ isDefault, setIsDefault ] = useState(false)
   const [ selectAddress, setSelectAddress ] = useState(null)
   const [ showShippingForm, setShowShippingForm ] = useState(true)
-
+  
   // if not logged in, redirect to /login
   useEffect(() => {
     if(!userData) {
@@ -53,7 +53,6 @@ const ShippingPage = () => {
     shipToNewAddress({ ...verifiedAddress, isDefault })
     navigate("/payment")
   }
-
   if(isCartLoading) return <Loader/>
   if(cartError) return <Message variant="danger">{cartError}</Message>
   return (
@@ -72,14 +71,16 @@ const ShippingPage = () => {
             name="address" 
             onChange={() => setSelectAddress(item)} 
             value={item._id} 
-            defaultChecked={(shippingAddress && shippingAddress._id === item._id) || item.isDefault}
+            defaultChecked={(shippingAddress && shippingAddress._id === item._id) || (!shippingAddress && item.isDefault)}
             />
           <Form.Check.Label style={{ width: '100%'}} >
             <Card sz="sm" style={{ width: '', fontSize: ".9em" }} >
+            {item.isDefault && <p  className='position-absolute top-0 end-0 bg-info text-light m-2 px-1 small opacity-75'>DEFAULT</p>}
               <Card.Body className='p-2'>
                 <Card.Text className='mb-0'>{item.name}</Card.Text>
                 <Card.Text className='mb-0'>{item.address2} {item.address1}</Card.Text>
                 <Card.Text>{item.city}, {item.state} {item.zip5}</Card.Text>
+                
               </Card.Body>
             </Card>
           </Form.Check.Label>

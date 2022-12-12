@@ -20,6 +20,9 @@ const PaymentPage = () => {
       if(!userData) {
         navigate("/login")
       }
+      if(!shippingAddress) {
+        navigate("/shipping")
+    }
     }, [userData])
   
     const handleSubmit = (e) => {

@@ -31,6 +31,9 @@ const PlaceOrderPage = () => {
         if(!userData) {
           navigate("/login")
         }
+        if(!shippingAddress) {
+            navigate("/shipping")
+        }
     }, [userData])
 
     // fetch product informations saved on cart
@@ -95,10 +98,11 @@ const PlaceOrderPage = () => {
         <Row>
             <Col md={8}>
                 <ListGroup variant="flush">
-                    <ListGroupItem>
-                        <h2>Shipping Address</h2>
-                        <p>{shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}</p>
-                    </ListGroupItem>
+                    {shippingAddress && <ListGroupItem>
+                        <h2>Shipping Information</h2>
+                        <p><strong>Name: </strong>{shippingAddress.name}</p>
+                        <p><strong>Address: </strong>{shippingAddress.address2} {shippingAddress.address1}, {shippingAddress.city} {shippingAddress.state} {shippingAddress.zip5}</p>
+                    </ListGroupItem>}
                     <ListGroupItem>
                         <h2>Payment Method</h2>
                         <p>{paymentMethod}</p>
