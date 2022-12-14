@@ -11,14 +11,14 @@ const ProductCarousel = () => {
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   return (
-    <Carousel pause="hover" className='bg-dark mb-5'>
+    <Carousel pause="hover" className='bg-dark mb-5 carousel-component'>
         {showcaseProducts.map(item => (
             <CarouselItem key={item._id}>
                 <Link to={`/product/${item._id}`}>
-                    <Image src={item.image.url} alt={item.image.name}/>
-                    <Carousel.Caption className='carousel-caption'>
+                    <Image src={item.bannerImage.url} alt={item.bannerImage.name}/>
+                    {/* <Carousel.Caption className='carousel-caption'>
                         <h2>{item.name} ({currencyFormatter(item.price)})</h2>
-                    </Carousel.Caption>
+                    </Carousel.Caption> */}
                 </Link>
             </CarouselItem>
         ))}
