@@ -49,7 +49,7 @@ const ProductPage = () => {
   return (
     <>
 
-        <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"}>Go Back</Link>
+        <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"} state={{from: "product"}}>Go Back</Link>
         {product &&
         <>
             <DocumentHead

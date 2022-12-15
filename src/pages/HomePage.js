@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import useProductsRedux from "../hooks/useProductsRedux";
 import Product from "../components/Product";
@@ -10,10 +10,11 @@ import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
 
 const HomePage = () => {
+  const {state: locationState} = useLocation();
   const { keyword, pageNumber=1 } = useParams();
   const { productsList: { error, isLoading, products, pages, page }, fetchProducts } = useProductsRedux();
   useEffect(() => {
-    if(!products.length !== 0){
+    if(!(locationState && locationState.from === "product") || products.length === 0){
       fetchProducts({keyword, pageNumber})
     }
   }, [keyword, pageNumber])

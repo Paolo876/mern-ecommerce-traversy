@@ -9,7 +9,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 const ProductCarousel = () => {
   const { productsList:{ showcaseProducts, isLoading, error} } = useProductsRedux();
   const [ showOverlay, setShowOverlay ] = useState(false)
-  console.log(showOverlay)
+
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   return (
