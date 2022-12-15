@@ -64,7 +64,9 @@ svg {
 }
 
 .carousel-component {
-    height: 450px;
+    max-height: 600px;
+    max-width: 1250px;
+    margin: 0 auto;
     overflow: hidden;
 
 }

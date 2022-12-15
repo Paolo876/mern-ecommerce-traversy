@@ -15,7 +15,7 @@ const ProductCarousel = () => {
         {showcaseProducts.map(item => (
             <CarouselItem key={item._id}>
                 <Link to={`/product/${item._id}`}>
-                    <Image src={item.bannerImage.url} alt={item.bannerImage.name}/>
+                    <Image src={item.bannerImage.url} alt={item.bannerImage.name} className="d-block w-100"/>
                     {/* <Carousel.Caption className='carousel-caption'>
                         <h2>{item.name} ({currencyFormatter(item.price)})</h2>
                     </Carousel.Caption> */}

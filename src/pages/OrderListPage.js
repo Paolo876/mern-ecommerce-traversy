@@ -9,7 +9,6 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import PromptModal from '../components/PromptModal'
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import currencyFormatter from "../utils/currencyFormatter"
