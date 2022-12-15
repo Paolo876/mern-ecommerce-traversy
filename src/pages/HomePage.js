@@ -18,6 +18,7 @@ const HomePage = () => {
       fetchProducts({keyword, pageNumber})
     }
   }, [keyword, pageNumber])
+  console.log(pageNumber)
   return (
     <>
       <DocumentHead
@@ -25,10 +26,12 @@ const HomePage = () => {
         description="We sell electronics and devices for the best price"
         keyword="video game, phone, electronics, iphone, computer, gadgets"
       />
-      {!keyword && <>
-        <ProductCarousel/>
-        <h1>Latest Products</h1>
-      </>}
+      {!keyword && pageNumber.toString() === "1" &&
+        <>
+          <ProductCarousel/>
+          <h1>Latest Products</h1>
+        </>
+      }
       {keyword && products.length !== 0 && <h1>{`Search Results for ${keyword}:`}</h1>}
       {keyword && products.length === 0 && <h1>{`Nothing found for ${keyword}:`}</h1>}
       
