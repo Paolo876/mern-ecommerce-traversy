@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Form, Button, FormGroup, FormCheck, Card, Overlay } from 'react-bootstrap'
+import { Form, Button, FormGroup, FormCheck, Card, Badge } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import useUserRedux from '../hooks/useUserRedux'
 import useCartRedux from '../hooks/useCartRedux'
@@ -75,7 +75,7 @@ const ShippingPage = () => {
             />
           <Form.Check.Label style={{ width: '100%'}} >
             <Card sz="sm" style={{ width: '', fontSize: ".9em" }} >
-            {item.isDefault && <p  className='position-absolute top-0 end-0 bg-info text-light m-2 px-1 small opacity-75'>DEFAULT</p>}
+            {item.isDefault && <Badge  className='position-absolute top-0 end-0 bg-secondary text-light m-2 px-1 small opacity-75'>DEFAULT</Badge>}
               <Card.Body className='p-2'>
                 <Card.Text className='mb-0'>{item.name}</Card.Text>
                 <Card.Text className='mb-0'>{item.address2} {item.address1}</Card.Text>
