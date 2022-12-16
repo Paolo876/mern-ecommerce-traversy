@@ -6,10 +6,18 @@ import Message from './Message'
 import useProductsRedux from '../hooks/useProductsRedux'
 import currencyFormatter from '../utils/currencyFormatter'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import Rating from './Rating'
+import Rating from './Rating';
+
 const ProductCarousel = () => {
   const { productsList:{ showcaseProducts, isLoading, error} } = useProductsRedux();
   const [ showOverlay, setShowOverlay ] = useState(false)
+
+  const optionsPrices = (productOptions) => {
+    let pricesList = []
+    productOptions.forEach(item => { pricesList = [...pricesList, ...item.options.map(_item => _item.price)] })
+    return ` (${currencyFormatter(Math.min(...pricesList))} - ${currencyFormatter(Math.max(...pricesList))})`;
+  }
+  
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   return (
@@ -20,7 +28,10 @@ const ProductCarousel = () => {
                     <Image src={item.bannerImage.url} alt={item.bannerImage.name} className="d-block w-100 hover-shadow"/>
                     {showOverlay && <div className='position-absolute translate-middle top-50 start-50 h-100 w-100 bg-dark bg-gradient bg-opacity-50'>
                     <Container className='text-light text-center p-5' style={{textShadow: "#333 1px 1px 3px"}}>
-                        <h1 className='pt-5 mt-5' style={{letterSpacing: ".05em", fontSize: "2.2em"}}>{item.name} {!item.hasOptions && `- ${currencyFormatter(item.price)}`}</h1>
+                        <h1 className='pt-5 mt-5' style={{letterSpacing: ".05em", fontSize: "2.2em"}}>
+                            {item.name} 
+                            {item.hasOptions ? `${optionsPrices(item.productOptions)}` : ` (${currencyFormatter(item.price)})`}
+                        </h1>
                         <Rating value={item.rating} text={`${item.numReviews} reviews`} className="justify-content-center"/>
                         <p className='m-5 px-5' style={{letterSpacing: ".01em"}}>{item.description}...</p>
                         <Button variant="info" size="lg" className='mt-5 px-4 '>CLICK HERE TO SEE MORE <ChevronRightIcon style={{marginRight: 0}}/></Button>
