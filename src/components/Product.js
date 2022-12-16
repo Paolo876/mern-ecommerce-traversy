@@ -1,14 +1,21 @@
-import React from "react";
-import { Card, Image } from "react-bootstrap";
+import { Card, Image, Carousel, CarouselItem } from "react-bootstrap";
 import Rating from "./Rating";
-import PropTypes from 'prop-types';
 import { Link, useLocation } from "react-router-dom";
+
 const Product = ({ product }) => {
   const location = useLocation();
+
   return (
     <Card className="my-3 p-3 rounded" style={{height: "30rem"}}>
       <Link to={`/product/${product._id}`} state={{from: location.pathname}} style={{overflow: "hidden"}}>
-        <Image src={product.image.url} variant="top" fluid style={{objectFit: "cover", height:"100%", width: "100%"}}/>
+      {/* <Image src={product.image.url} variant="top" fluid style={{objectFit: "cover", height:"100%", width: "100%"}}/> */}
+
+      <Carousel variant="dark" interval={null}>
+          <CarouselItem><Image src={product.image.url} variant="top" fluid style={{objectFit: "cover", height:"100%", width: "100%"}}/></CarouselItem>
+          {product.additionalImages.map(item => <CarouselItem key={item._id}>
+            <Image src={item.url} variant="top" fluid style={{objectFit: "cover", height:"100%", width: "100%"}}/>
+          </CarouselItem>)}
+      </Carousel>
       </Link>
 
       <Card.Body>
@@ -17,13 +24,11 @@ const Product = ({ product }) => {
             <strong>{product.name}</strong>
           </Card.Title>
         </Link>
-        {/* {product.reviews.length !== 0 && */}
         <Card.Text as="div">
           <div className="my-3">
             <Rating value={product.rating} text={`${product.numReviews} reviews`} />
           </div>
         </Card.Text>
-        {/* } */}
         <Card.Text as="h3">${product.price}</Card.Text>
       </Card.Body>
     </Card>
