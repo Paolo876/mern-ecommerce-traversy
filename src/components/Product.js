@@ -31,11 +31,6 @@ const Product = ({ product }) => {
 };
 
 
-
-Rating.defaultProps = {
-    color:"orange"
-}
-
 // //props typechecking
 // Rating.propTypes = {
 //     value: PropTypes.number.isRequired,
