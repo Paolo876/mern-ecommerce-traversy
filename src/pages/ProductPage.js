@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Button, ListGroupItem, FormControl, Modal, ModalHeader, CloseButton, ModalTitle, ModalBody, ModalFooter } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Button, ListGroupItem, FormControl, Modal, ModalHeader, Carousel, CarouselItem, ModalTitle, ModalBody, ModalFooter } from 'react-bootstrap'
+import axios from 'axios'
 import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import useProductsRedux from '../hooks/useProductsRedux'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import axios from 'axios'
-import useCartRedux from '../hooks/useCartRedux'
 import DocumentHead from '../components/DocumentHead'
 import CreateRatingForm from '../components/CreateRatingForm'
-
+import useProductsRedux from '../hooks/useProductsRedux'
+import useCartRedux from '../hooks/useCartRedux'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const ProductPage = () => {
     const params = useParams();
@@ -22,7 +21,8 @@ const ProductPage = () => {
     const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
-    
+    const imageStyleProps = { objectFit: "cover", height:"100%", width: "100%", cursor: "pointer" }
+
     useEffect(() => {
         if(!products.find(item => item._id === params.id)) {
             axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${params.id}`)
@@ -44,6 +44,10 @@ const ProductPage = () => {
       setQuantity(1)
     }
 
+    const handleClick = () => {
+      
+    }
+    console.log(product)
   if(isLoading) return <Loader/>
   if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
   return (
@@ -57,7 +61,14 @@ const ProductPage = () => {
                 description={product.description}
             />
             <Row>
-                <Col md={6}><Image src={product.image.url} alt={product.image.name} fluid/></Col>
+                <Col md={6}>
+                <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel">
+                    <CarouselItem><Image src={product.image.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/></CarouselItem>
+                    {product.additionalImages.map(item => <CarouselItem key={item._id}>
+                        <Image src={item.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/>
+                    </CarouselItem>)}
+                </Carousel>
+                </Col>
                 <Col md={3}>
                     <ListGroup variant="flush">
                         <ListGroupItem><h2>{product.name}</h2></ListGroupItem>

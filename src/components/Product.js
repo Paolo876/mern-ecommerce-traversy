@@ -1,8 +1,9 @@
 import { Card, Image, Carousel, CarouselItem } from "react-bootstrap";
-import Rating from "./Rating";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Rating from "./Rating";
 import productOptionsPrices from "../utils/productOptionsPrices";
 import currencyFormatter from "../utils/currencyFormatter";
+
 const Product = ({ product }) => {
   const location = useLocation();
   const navigate = useNavigate();
