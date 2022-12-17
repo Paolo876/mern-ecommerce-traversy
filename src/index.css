@@ -84,3 +84,20 @@ svg {
     margin: 0 .75em;
     opacity: .8;
 }
+
+.product-carousel {
+    display: relative;
+}
+
+.product-carousel .carousel-indicators {
+    margin-bottom: 0;
+    bottom: -1.8em;
+    gap: .25em;
+}
+
+.product-carousel .carousel-indicators button {
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+}
+

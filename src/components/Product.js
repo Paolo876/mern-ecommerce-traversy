@@ -12,7 +12,7 @@ const Product = ({ product }) => {
   }
   return (
     <Card className="my-3 p-3 rounded" style={{height: "30rem"}}>
-      <Carousel variant="dark" interval={null}>
+      <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel">
           <CarouselItem><Image src={product.image.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/></CarouselItem>
           {product.additionalImages.map(item => <CarouselItem key={item._id}>
             <Image src={item.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/>
@@ -21,7 +21,7 @@ const Product = ({ product }) => {
 
       <Card.Body>
         <Link to={`/product/${product._id}`} state={{from: location.pathname}}>
-          <Card.Title as="div">
+          <Card.Title as="div" className="mt-4">
             <strong>{product.name}</strong>
           </Card.Title>
         </Link>

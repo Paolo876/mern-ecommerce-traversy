@@ -16,7 +16,7 @@ const ProductCarousel = () => {
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   return (
-    <Carousel pause="hover" className='bg-dark mb-5 carousel-component'>
+    <Carousel pause="hover" className='bg-dark mb-5 carousel-component' indicators={false}>
         {showcaseProducts.map(item => (
             <CarouselItem key={item._id} onMouseEnter={() => setShowOverlay(true)} onMouseLeave={() => setShowOverlay(false)}>
                 <Link to={`/product/${item._id}`}>
