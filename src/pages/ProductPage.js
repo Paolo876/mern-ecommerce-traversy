@@ -47,7 +47,7 @@ const ProductPage = () => {
     const handleClick = () => {
       
     }
-    console.log(product)
+    // console.log(product)
   if(isLoading) return <Loader/>
   if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
   return (
