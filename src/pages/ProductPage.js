@@ -53,13 +53,16 @@ const ProductPage = () => {
   return (
     <>
 
-        <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"} state={{from: "product"}}>Go Back</Link>
         {product &&
         <>
             <DocumentHead
                 title={`MernShop | ${product.name}`}
                 description={product.description}
             />
+            <Row style={{maxHeight: "550px", overflow: "hidden", marginBottom: "2em"}}>
+                {product.bannerImage && <Col xs={12}><Image src={product.bannerImage.url} alt={product.name} variant="top" fluid style={imageStyleProps} className="d-block w-100 hover-shadow"/></Col>}
+            </Row>
+            <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"} state={{from: "product"}}>Go Back</Link>
             <Row>
                 <Col md={6}>
                 <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel">
