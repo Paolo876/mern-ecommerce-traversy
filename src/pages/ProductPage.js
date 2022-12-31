@@ -47,7 +47,7 @@ const ProductPage = () => {
     const handleClick = () => {
       
     }
-    // console.log(product)
+    console.log(product)
   if(isLoading) return <Loader/>
   if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
   return (
@@ -74,7 +74,12 @@ const ProductPage = () => {
                         <ListGroupItem><h2>{product.name}</h2></ListGroupItem>
                         <ListGroupItem><Rating value={product.rating} text={`${product.numReviews} reviews`}/></ListGroupItem>
                         <ListGroupItem>Price: ${product.price}</ListGroupItem>
-                        <ListGroupItem>Description: {product.description}</ListGroupItem>
+                        <ListGroupItem>{product.description}</ListGroupItem>
+                        <ListGroupItem><p>Features:</p>
+                            <ul>
+                                {product.features.map(item => <li key={item}>{item}</li>)}
+                            </ul>
+                        </ListGroupItem>
                     </ListGroup>
                 </Col>
                 <Col>
