@@ -101,3 +101,14 @@ svg {
     height: 8px;
 }
 
+.product-option-dropdown button {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.product-option-dropdown > div {
+    width: 100%;
+
+}

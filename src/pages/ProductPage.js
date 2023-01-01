@@ -11,7 +11,8 @@ import useProductsRedux from '../hooks/useProductsRedux'
 import useCartRedux from '../hooks/useCartRedux'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-
+import ProductOptions from '../components/ProductOptions'
+import currencyFormatter from '../utils/currencyFormatter'
 const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ const ProductPage = () => {
     const [ activeImageIndex, setActiveImageIndex ] = useState(0);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
+    const [ selectedProduct, setSelectedProduct ] = useState(null)
     const imageStyleProps = { objectFit: "cover", height:"100%", width: "100%", cursor: "pointer" }
 
     let productImages;
@@ -51,6 +53,7 @@ const ProductPage = () => {
     const handleClick = () => {
       
     }
+    // console.log(product)
   if(isLoading) return <Loader/>
   if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
   return (
@@ -86,39 +89,49 @@ const ProductPage = () => {
                         <ListGroupItem><h2>{product.name}</h2></ListGroupItem>
                         <ListGroupItem><Rating value={product.rating} text={`${product.numReviews} reviews`}/></ListGroupItem>
                         <ListGroupItem>{product.description}</ListGroupItem>
-                        <ListGroupItem>
-                            <Row>
-                                <Col>Price:</Col>
-                                <Col><strong>${product.price}</strong></Col>
-                            </Row>
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            <Row>
-                                <Col>Status:</Col>
-                                <Col>{product.countInStock > 0 ? `In Stock (${product.countInStock})` : "Out of Stock"}</Col>
-                            </Row>
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            {product.countInStock > 0 && (
+                        {product.hasOptions 
+                            ? 
+                            <>
+                                <ProductOptions options={product.productOptions} selected={selectedProduct} setSelected={setSelectedProduct}/>
+                            </>
+                            :
+                            <>
+                                <ListGroupItem>
                                     <Row>
-                                        <Col>Qty:</Col>
-                                        <Col>
-                                            <FormControl as="select" value={quantity} onChange={e => setQuantity(e.target.value)}>
-                                                {[...Array(product.countInStock).keys()].map(item => (
-                                                    <option key={item + 1} value={item + 1}>{item + 1}</option>
-                                                ))}
-                                            </FormControl>
-                                        </Col>
+                                        <Col>Price:</Col>
+                                        <Col><strong>{currencyFormatter(product.price)}</strong></Col>
                                     </Row>
-                            )}
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            {isCartLoading && <Loader/>}
-                            {!isCartLoading &&
-                                <div className="d-grid">
-                                    <Button className='btn-block mx-3 my-3' type="button" disabled={product.countInStock === 0} onClick={addToCartHandler} size="lg"><AddShoppingCartIcon/> ADD TO CART</Button>
-                                </div>}
-                        </ListGroupItem>
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                    <Row>
+                                        <Col>Status:</Col>
+                                        <Col>{product.countInStock > 0 ? `In Stock (${product.countInStock})` : "Out of Stock"}</Col>
+                                    </Row>
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                    {product.countInStock > 0 && (
+                                            <Row>
+                                                <Col>Qty:</Col>
+                                                <Col>
+                                                    <FormControl as="select" value={quantity} onChange={e => setQuantity(e.target.value)}>
+                                                        {[...Array(product.countInStock).keys()].map(item => (
+                                                            <option key={item + 1} value={item + 1}>{item + 1}</option>
+                                                        ))}
+                                                    </FormControl>
+                                                </Col>
+                                            </Row>
+                                    )}
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                    {isCartLoading && <Loader/>}
+                                    {!isCartLoading &&
+                                        <div className="d-grid">
+                                            <Button className='btn-block mx-3 my-3' type="button" disabled={product.countInStock === 0} onClick={addToCartHandler} size="lg"><AddShoppingCartIcon/> ADD TO CART</Button>
+                                        </div>}
+                                </ListGroupItem>
+                            </>
+                        }
+                        
                     </ListGroup>
                 </Col>
                 <Col md={12}>
