@@ -73,9 +73,9 @@ const ProductPage = () => {
                         <Image src={item.url} variant="top" fluid style={imageStyleProps}/>
                     </CarouselItem>)}
                 </Carousel>
-                <Row className="me-5 my-3 justify-content-start flex-row" >
-                {productImages.map((item, index) => <Col key={item.id} style={{width: "fit-content", flex: "none"}}>
-                    <Button variant="light" className={`p-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}>
+                <Row className=" my-3 justify-content-start flex-row" style={{width: "fit-content"}}>
+                {productImages.map((item, index) => <Col key={item.id} className="px-1" style={{flex:"none", width: "fit-content"}}>
+                    <Button variant="light" size="sm" className={`p-0 px-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}>
                         <Image src={item.thumbnail} alt={item.name} fluid style={{maxHeight: "80px", maxWidth: "100px"}}/>
                     </Button>
                 </Col>)}
