@@ -23,6 +23,9 @@ const ProductPage = () => {
     const [ showModal, setShowModal ] = useState(false);
     const imageStyleProps = { objectFit: "cover", height:"100%", width: "100%", cursor: "pointer" }
 
+    let productImages;
+    if(product) productImages = [product.image, ...product.additionalImages];
+
     useEffect(() => {
         if(!products.find(item => item._id === params.id)) {
             axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/products/${params.id}`)
@@ -47,7 +50,7 @@ const ProductPage = () => {
     const handleClick = () => {
       
     }
-    console.log(product)
+
   if(isLoading) return <Loader/>
   if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
   return (
@@ -65,12 +68,21 @@ const ProductPage = () => {
             <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"} state={{from: "product"}}>Go Back</Link>
             <Row>
                 <Col md={6}>
-                <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel">
-                    <CarouselItem><Image src={product.image.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/></CarouselItem>
-                    {product.additionalImages.map(item => <CarouselItem key={item._id}>
+                <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel" indicators={false} activeIndex={0}>
+                    {/* <CarouselItem><Image src={product.image.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/></CarouselItem> */}
+                    {productImages.map(item => <CarouselItem key={item._id}>
                         <Image src={item.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/>
                     </CarouselItem>)}
                 </Carousel>
+                <Row className="mx-5 my-3">
+                    <Col><Image src={product.additionalImages[0].url} fluid/></Col>
+                    <Col><Image src={product.additionalImages[1].url} fluid/></Col>
+                    <Col><Image src={product.additionalImages[2].url} fluid/></Col>
+                
+                
+                
+
+                </Row>
                 </Col>
                 <Col md={3}>
                     <ListGroup variant="flush">
