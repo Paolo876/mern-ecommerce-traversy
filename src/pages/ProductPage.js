@@ -70,12 +70,14 @@ const ProductPage = () => {
                 <Col md={7}>
                 <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel" indicators={false} activeIndex={activeImageIndex}>
                     {productImages.map(item => <CarouselItem key={item.id}>
-                        <Image src={item.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/>
+                        <Image src={item.url} variant="top" fluid style={imageStyleProps}/>
                     </CarouselItem>)}
                 </Carousel>
-                <Row className="mx-5 my-3">
-                {productImages.map((item, index) => <Col key={item.id}>
-                    <Button variant="light" className={`p-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}><Image src={item.thumbnail} alt={item.name} fluid/></Button>
+                <Row className="me-5 my-3 justify-content-start flex-row" >
+                {productImages.map((item, index) => <Col key={item.id} style={{width: "fit-content", flex: "none"}}>
+                    <Button variant="light" className={`p-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}>
+                        <Image src={item.thumbnail} alt={item.name} fluid style={{maxHeight: "80px", maxWidth: "100px"}}/>
+                    </Button>
                 </Col>)}
                 </Row>
                 </Col>
@@ -130,25 +132,25 @@ const ProductPage = () => {
                 </Col>
             </Row>
             <CreateRatingForm product={product}/>
+            <Modal show={showModal} onHide={handleHideModal}>
+                <ModalHeader closeButton>
+                    <ModalTitle>Successfully Added To Cart! <CheckCircleOutlineIcon style={{color: "green", marginLeft: ".25em"}}/> </ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                    <Row>
+                        <Col md={3}><Image src={product.image.thumbnail} alt={product.image.name} fluid style={{maxHeight: "100px"}} rounded/></Col>
+                        <Col md={5}><h6>{product.name}</h6></Col>
+                        <Col md={2}><span>Price: <p>${product.price}</p></span></Col>
+                        <Col md={2}><span>Quantity: <p>{quantity}</p></span></Col>
+                    </Row>
+                </ModalBody>
+                <ModalFooter>
+                    <Button variant="secondary" onClick={handleHideModal}>Close</Button>
+                    <Button variant="primary" onClick={() => navigate("/cart")}>Go To Cart</Button>
+                </ModalFooter>
+            </Modal>
         </>
         }
-        {product && <Modal show={showModal} onHide={handleHideModal}>
-            <ModalHeader closeButton>
-                <ModalTitle>Successfully Added To Cart! <CheckCircleOutlineIcon style={{color: "green", marginLeft: ".25em"}}/> </ModalTitle>
-            </ModalHeader>
-            <ModalBody>
-                <Row>
-                    <Col md={3}><Image src={product.image.thumbnail} alt={product.image.name} fluid style={{maxHeight: "100px"}} rounded/></Col>
-                    <Col md={5}><h6>{product.name}</h6></Col>
-                    <Col md={2}><span>Price: <p>${product.price}</p></span></Col>
-                    <Col md={2}><span>Quantity: <p>{quantity}</p></span></Col>
-                </Row>
-            </ModalBody>
-            <ModalFooter>
-                <Button variant="secondary" onClick={handleHideModal}>Close</Button>
-                <Button variant="primary" onClick={() => navigate("/cart")}>Go To Cart</Button>
-            </ModalFooter>
-        </Modal>}
     </>
   )
 }
