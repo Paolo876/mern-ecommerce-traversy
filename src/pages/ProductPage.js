@@ -19,6 +19,7 @@ const ProductPage = () => {
     const { productsList: { error, isLoading, products } } = useProductsRedux();
     const { addToCart, cart: {error: cartError, isLoading: isCartLoading} } = useCartRedux();
     const [ product, setProduct ] = useState(null);
+    const [ activeImageIndex, setActiveImageIndex ] = useState(0);
     const [ quantity, setQuantity ] = useState(1);  //default quantity is 1
     const [ showModal, setShowModal ] = useState(false);
     const imageStyleProps = { objectFit: "cover", height:"100%", width: "100%", cursor: "pointer" }
@@ -68,20 +69,14 @@ const ProductPage = () => {
             <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"} state={{from: "product"}}>Go Back</Link>
             <Row>
                 <Col md={6}>
-                <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel" indicators={false} activeIndex={0}>
+                <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel" indicators={false} activeIndex={activeImageIndex}>
                     {/* <CarouselItem><Image src={product.image.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/></CarouselItem> */}
                     {productImages.map(item => <CarouselItem key={item._id}>
                         <Image src={item.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/>
                     </CarouselItem>)}
                 </Carousel>
                 <Row className="mx-5 my-3">
-                    <Col><Image src={product.additionalImages[0].url} fluid/></Col>
-                    <Col><Image src={product.additionalImages[1].url} fluid/></Col>
-                    <Col><Image src={product.additionalImages[2].url} fluid/></Col>
-                
-                
-                
-
+                {productImages.map((item, index) => <Col key={item._id}><Button variant="light" className={`p-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}><Image src={item.thumbnail} alt={item.name} fluid/></Button></Col>)}
                 </Row>
                 </Col>
                 <Col md={3}>
