@@ -67,31 +67,23 @@ const ProductPage = () => {
             </Row>
             <Link className='btn btn-light my-3' to={locationState ? locationState.from : "/"} state={{from: "product"}}>Go Back</Link>
             <Row>
-                <Col md={6}>
+                <Col md={7}>
                 <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel" indicators={false} activeIndex={activeImageIndex}>
                     {productImages.map(item => <CarouselItem key={item.id}>
                         <Image src={item.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/>
                     </CarouselItem>)}
                 </Carousel>
                 <Row className="mx-5 my-3">
-                {productImages.map((item, index) => <Col key={item.id}><Button variant="light" className={`p-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}><Image src={item.thumbnail} alt={item.name} fluid/></Button></Col>)}
+                {productImages.map((item, index) => <Col key={item.id}>
+                    <Button variant="light" className={`p-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}><Image src={item.thumbnail} alt={item.name} fluid/></Button>
+                </Col>)}
                 </Row>
                 </Col>
-                <Col md={3}>
+                <Col md={5}>
                     <ListGroup variant="flush">
                         <ListGroupItem><h2>{product.name}</h2></ListGroupItem>
                         <ListGroupItem><Rating value={product.rating} text={`${product.numReviews} reviews`}/></ListGroupItem>
-                        <ListGroupItem>Price: ${product.price}</ListGroupItem>
                         <ListGroupItem>{product.description}</ListGroupItem>
-                        <ListGroupItem><p>Features:</p>
-                            <ul>
-                                {product.features.map(item => <li key={item}>{item}</li>)}
-                            </ul>
-                        </ListGroupItem>
-                    </ListGroup>
-                </Col>
-                <Col>
-                    <ListGroup variant="flush">
                         <ListGroupItem>
                             <Row>
                                 <Col>Price:</Col>
@@ -104,8 +96,8 @@ const ProductPage = () => {
                                 <Col>{product.countInStock > 0 ? `In Stock (${product.countInStock})` : "Out of Stock"}</Col>
                             </Row>
                         </ListGroupItem>
+                        <ListGroupItem>
                             {product.countInStock > 0 && (
-                                <ListGroupItem>
                                     <Row>
                                         <Col>Qty:</Col>
                                         <Col>
@@ -116,11 +108,23 @@ const ProductPage = () => {
                                             </FormControl>
                                         </Col>
                                     </Row>
-                                </ListGroupItem>
                             )}
+                        </ListGroupItem>
                         <ListGroupItem>
                             {isCartLoading && <Loader/>}
-                            {!isCartLoading &&<Button className='btn-block' type="button" disabled={product.countInStock === 0} onClick={addToCartHandler}><AddShoppingCartIcon/> ADD TO CART</Button>}
+                            {!isCartLoading &&
+                                <div className="d-grid">
+                                    <Button className='btn-block mx-3 my-3' type="button" disabled={product.countInStock === 0} onClick={addToCartHandler} size="lg"><AddShoppingCartIcon/> ADD TO CART</Button>
+                                </div>}
+                        </ListGroupItem>
+                    </ListGroup>
+                </Col>
+                <Col md={12}>
+                    <ListGroup variant="flush">
+                        <ListGroupItem><p>Features:</p>
+                            <ul>
+                                {product.features.map(item => <li key={item}>{item}</li>)}
+                            </ul>
                         </ListGroupItem>
                     </ListGroup>
                 </Col>
