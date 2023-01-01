@@ -51,7 +51,6 @@ const ProductPage = () => {
     const handleClick = () => {
       
     }
-
   if(isLoading) return <Loader/>
   if(error || cartError) return <Message variant="danger">{error || cartError}</Message>
   return (
@@ -70,13 +69,12 @@ const ProductPage = () => {
             <Row>
                 <Col md={6}>
                 <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel" indicators={false} activeIndex={activeImageIndex}>
-                    {/* <CarouselItem><Image src={product.image.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/></CarouselItem> */}
-                    {productImages.map(item => <CarouselItem key={item._id}>
+                    {productImages.map(item => <CarouselItem key={item.id}>
                         <Image src={item.url} variant="top" fluid style={imageStyleProps} onClick={handleClick}/>
                     </CarouselItem>)}
                 </Carousel>
                 <Row className="mx-5 my-3">
-                {productImages.map((item, index) => <Col key={item._id}><Button variant="light" className={`p-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}><Image src={item.thumbnail} alt={item.name} fluid/></Button></Col>)}
+                {productImages.map((item, index) => <Col key={item.id}><Button variant="light" className={`p-0 m-0 opacity-${activeImageIndex === index ? '100' : '50'}`} onClick={() => setActiveImageIndex(index)}><Image src={item.thumbnail} alt={item.name} fluid/></Button></Col>)}
                 </Row>
                 </Col>
                 <Col md={3}>
