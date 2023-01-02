@@ -30,7 +30,6 @@ const CartPage = () => {
       return updatedItems;
     })
   }
-
   const handleRemoveFromCart = (id) => {
     removeFromCart(id) //redux dispatch
     setUpdatedCartItems(prevState => prevState.filter(item => item._id !== id))
@@ -44,6 +43,7 @@ const CartPage = () => {
       navigate("/shipping")
     }
   }
+  console.log(updatedCartItems)
   return (
     <Row>
       <Col md={8}>

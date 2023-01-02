@@ -45,7 +45,8 @@ const cartSlice = createSlice({
 
             if(payload.noUser) {
                 const { countInStock } = payload.item;
-                const item = { _id: payload.item._id, quantity: payload.item.quantity };   
+                const item = { ...payload.item };   
+                // const item = { _id: payload.item._id, quantity: payload.item.quantity };   
                 state.isLoading = false;
                 state.error = null;
                 const cartItems = [ ...state.cartItems ];

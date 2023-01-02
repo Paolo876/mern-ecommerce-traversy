@@ -43,7 +43,7 @@ const ProductPage = () => {
 
     const addToCartHandler = () => {
         setShowModal(true)
-        addToCart({...product, quantity})
+        addToCart({_id: product._id, quantity})
     }
 
     const handleHideModal = () => {

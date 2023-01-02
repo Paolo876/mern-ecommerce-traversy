@@ -13,7 +13,7 @@ const ProductOptions = ({ options, selected, setSelected, quantity, setQuantity,
   const [ showModal, setShowModal ] = useState(false);
   const addToCartHandler = () => {
     setShowModal(true)
-    console.log({...product, quantity, option: selected})
+    addToCart({ _id: product._id, quantity, hasOption: true, selectedOption: selected._id})
   }
   const handleHideModal = () => {
     setShowModal(false);
