@@ -98,7 +98,9 @@ const ProductPage = () => {
                                     selected={selectedProduct} 
                                     setSelected={setSelectedProduct} 
                                     quantity={quantity} 
-                                    setQuantity={setQuantity}/>
+                                    setQuantity={setQuantity}
+                                    product={product}
+                                    />
                             </>
                             :
                             <>
