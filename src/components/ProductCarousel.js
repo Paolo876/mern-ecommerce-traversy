@@ -12,7 +12,7 @@ import productOptionsPrices from '../utils/productOptionsPrices';
 const ProductCarousel = () => {
   const { productsList:{ showcaseProducts, isLoading, error} } = useProductsRedux();
   const [ showOverlay, setShowOverlay ] = useState(false)
-  
+  console.log(showcaseProducts)
   if(isLoading) return <Loader/>
   if(error) return <Message variant="danger">{error}</Message>
   return (

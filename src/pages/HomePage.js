@@ -18,7 +18,6 @@ const HomePage = () => {
       fetchProducts({keyword, pageNumber})
     }
   }, [keyword, pageNumber])
-  console.log(products)
   return (
     <>
       <DocumentHead
