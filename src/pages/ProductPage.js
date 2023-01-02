@@ -13,6 +13,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ProductOptions from '../components/ProductOptions'
 import currencyFormatter from '../utils/currencyFormatter'
+
 const ProductPage = () => {
     const params = useParams();
     const navigate = useNavigate();
@@ -92,7 +93,12 @@ const ProductPage = () => {
                         {product.hasOptions 
                             ? 
                             <>
-                                <ProductOptions options={product.productOptions} selected={selectedProduct} setSelected={setSelectedProduct}/>
+                                <ProductOptions 
+                                    options={product.productOptions} 
+                                    selected={selectedProduct} 
+                                    setSelected={setSelectedProduct} 
+                                    quantity={quantity} 
+                                    setQuantity={setQuantity}/>
                             </>
                             :
                             <>
