@@ -11,6 +11,7 @@ const Product = ({ product }) => {
   const handleClick = () => {
     navigate(`/product/${product._id}`, {state: {from: location.pathname}})
   }
+
   return (
     <Card className="my-3 p-3 rounded" style={{height: "30rem"}}>
       <Carousel variant="dark" interval={null} fade controls={false} className="product-carousel">

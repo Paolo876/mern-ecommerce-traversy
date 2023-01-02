@@ -18,6 +18,7 @@ const HomePage = () => {
       fetchProducts({keyword, pageNumber})
     }
   }, [keyword, pageNumber])
+  console.log(products)
   return (
     <>
       <DocumentHead
@@ -37,11 +38,11 @@ const HomePage = () => {
       <Row>
         {error && <Message variant="danger">Error: {error}</Message>}
         {isLoading && <Loader/>}
-        {/* {!isLoading && products.map((product) => (
+        {!isLoading && products.map((product) => (
           <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
             <Product product={product} />
           </Col>
-        ))} */}
+        ))}
       </Row>
       <Paginate pages={pages} page={page} keyword={keyword && keyword}/>
     </>
