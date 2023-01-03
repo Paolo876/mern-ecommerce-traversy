@@ -22,7 +22,7 @@ const PlaceOrderPage = () => {
     const { createOrder, order: { createdOrder, isLoading, error } } = useOrderRedux();
     const navigate = useNavigate();
 
-    const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
+    const [ updatedCartItems, setUpdatedCartItems ] = useState(null);
     const [ costDetails, setCostDetails ] = useState(null)
     const [ paymentResult, setPaymentResult ] = useState(null)
 
@@ -41,10 +41,16 @@ const PlaceOrderPage = () => {
     }, [userData, shippingAddress])
 
     // fetch product informations saved on cart
+    // useEffect(() => {
+    //     fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
+    // }, [products, cartItems])
     useEffect(() => {
-        fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
-    }, [products, cartItems])
-
+        if(cartItems.length !== 0 && !updatedCartItems){
+          axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/cart/cart-items-information`, { cartItems }, { withCredentials: true })
+          .then(res => setUpdatedCartItems(res.data))
+        }
+      }, [ cartItems, updatedCartItems ])
+      
     useEffect(() => {
         if(createdOrder){
             navigate(`/order/${createdOrder._id}`, { state: { newOrder: true } })
@@ -108,19 +114,19 @@ const PlaceOrderPage = () => {
                     <ListGroupItem>
                         <h2>Order Items</h2>
                         <ListGroup variant="flush">
-                            {updatedCartItems.map( item => (
+                            {updatedCartItems && updatedCartItems.map( item => (
                                 <ListGroupItem key={item._id}>
-                                <Row>
-                                    <Col md={1}>
-                                        <Image src={item.image.thumbnail} alt={item.image.name} fluid rounded/>
-                                    </Col>
-                                    <Col>
-                                        <Link to={`/product/${item._id}`} state={{from: "/place-order"}}>{item.name}</Link>
-                                    </Col>
-                                    <Col md={4} style={{ textAlign: 'right' }}>
-                                       {item.quantity} x {currencyFormatter(item.price)} = <strong>{currencyFormatter(parseInt(item.quantity) * parseFloat(item.price.toFixed(2)))}</strong>
-                                    </Col>
-                                </Row>
+                                    <Row>
+                                        <Col md={1}>
+                                            <Image src={item.hasOption ? item.selectedOption.image.thumbnail : item.image.thumbnail} alt={item.hasOption ? item.selectedOption.image.name: item.image.name} fluid rounded/>
+                                        </Col>
+                                        <Col>
+                                            <Link to={`/product/${item._id}`} state={{from: "/place-order"}}>{item.name} {item.hasOption && `- ${item.selectedOption.name}`}</Link>
+                                        </Col>
+                                        <Col md={4} style={{ textAlign: 'right' }}>
+                                        {item.quantity} x {currencyFormatter(item.hasOption ? item.selectedOption.price : item.price)} = <strong>{currencyFormatter(parseInt(item.quantity) * parseFloat(item.hasOption ? item.selectedOption.price : item.price))}</strong>
+                                        </Col>
+                                    </Row>
                                 </ListGroupItem>
                             ))}
                         </ListGroup>
@@ -160,7 +166,7 @@ const PlaceOrderPage = () => {
                         </ListGroupItem>
                         <ListGroupItem className="d-grid gap-2 py-3">
                             {error && <Message variant="danger">{error}</Message>}
-                            <PayPalCheckout disabled={updatedCartItems.length === 0} setPaymentResult={setPaymentResult} shippingAddress={shippingAddress}/>
+                            <PayPalCheckout disabled={updatedCartItems && updatedCartItems.length === 0} setPaymentResult={setPaymentResult} shippingAddress={shippingAddress}/>
                         </ListGroupItem>
                     </ListGroup>
                 </Card>
