@@ -82,7 +82,7 @@ const CartPage = () => {
       </Col>
       <Col md={4}>
         {updatedCartItems &&
-          <Card>
+          <Card className='mt-3'>
             <ListGroup variant='flush'>
               <ListGroupItem>
                 <h2 className='mb-3'>Subtotal: ({updatedCartItems.reduce(( acc, item) => parseInt(acc) + parseInt(item.quantity), 0)}) Items</h2>
