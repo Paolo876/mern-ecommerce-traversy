@@ -9,7 +9,7 @@ import useUserRedux from "../hooks/useUserRedux";
 import useCartRedux from "../hooks/useCartRedux";
 const Header = () => {
   const { user: { userData }, logout } = useUserRedux();
-  const { cart: {cartItems } } = useCartRedux();
+  const { cart: { cartItems } } = useCartRedux();
   const cartQuantity = cartItems.reduce(( acc, item) => parseInt(acc) + parseInt(item.quantity), 0)
   const navigate = useNavigate();
   const handleLogout = () => {

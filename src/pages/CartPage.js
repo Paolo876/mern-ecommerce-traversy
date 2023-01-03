@@ -2,26 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem, FormControl } from 'react-bootstrap';
 import useCartRedux from '../hooks/useCartRedux';
+import useUserRedux from '../hooks/useUserRedux';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
-import useProductsRedux from '../hooks/useProductsRedux';
-import useUserRedux from '../hooks/useUserRedux';
-import fetchProductInformations from '../utils/fetchProductInformations';
-import useDocumentTitle from '../hooks/useDocumentTitle';
+import currencyFormatter from '../utils/currencyFormatter';
 
 const CartPage = () => {
   useDocumentTitle("MernShop | Cart")
   const { cart:{ cartItems, isLoading, error }, changeCartItemQuantity, removeFromCart } = useCartRedux();
-  const { productsList: { products }} = useProductsRedux();
+  // const { productsList: { products }} = useProductsRedux();
   const { user: {userData} } = useUserRedux();
   const [ updatedCartItems, setUpdatedCartItems ] = useState(null);
   const navigate = useNavigate();
-  // console.log(cartItems)
-  // useEffect(() => {
-  //   // fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
-  // }, [products, cartItems])
 
   useEffect(() => {
     if(cartItems.length !== 0 && !updatedCartItems){
@@ -50,6 +45,7 @@ const CartPage = () => {
       navigate("/shipping")
     }
   } 
+  console.log(updatedCartItems)
   return (
     <Row>
       <Col md={8}>
@@ -63,14 +59,14 @@ const CartPage = () => {
             :
             <ListGroup variant="flush">
               {updatedCartItems.map(item => (
-                <ListGroupItem key={item._id}>
+                <ListGroupItem key={item.hasOption ? item.selectedOption._id : item._id}>
                   <Row>
-                    <Col md={2}><Image src={item.image.thumbnail} alt={item.image.name} fluid rounded></Image></Col>
-                    <Col md={3}><Link to={`/product/${item._id}`} state={{from: "/cart"}}>{item.name}</Link></Col>
-                    <Col md={2}>${item.price}</Col>
+                    <Col md={2}><Image src={item.hasOption ? item.selectedOption.image.thumbnail : item.image.thumbnail} alt={item.hasOption ? item.selectedOption.image.name: item.image.name} fluid rounded></Image></Col>
+                    <Col md={3}><Link to={`/product/${item._id}`} state={{from: "/cart"}}>{item.name} {item.hasOption && `- ${item.selectedOption.name}`}</Link></Col>
+                    <Col md={2}>{item.hasOption ? currencyFormatter(item.selectedOption.price) : currencyFormatter(item.price)}</Col>
                     <Col md={2}>                                            
                       <FormControl as="select" value={item.quantity} onChange={e => handleChangeQuantity({...item, quantity: e.target.value})}>
-                        {[...Array(item.countInStock).keys()].map(item => (
+                        {[...Array(item.hasOption ? parseInt(item.selectedOption.countInStock) : parseInt(item.countInStock)).keys()].map(item => (
                             <option key={item + 1} value={item + 1}>{item + 1}</option>
                         ))}
                       </FormControl>
