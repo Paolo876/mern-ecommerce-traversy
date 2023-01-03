@@ -16,12 +16,18 @@ const CartPage = () => {
   const { cart:{ cartItems, isLoading, error }, changeCartItemQuantity, removeFromCart } = useCartRedux();
   const { productsList: { products }} = useProductsRedux();
   const { user: {userData} } = useUserRedux();
-  const [ updatedCartItems, setUpdatedCartItems ] = useState([]);
+  const [ updatedCartItems, setUpdatedCartItems ] = useState(null);
   const navigate = useNavigate();
-  useEffect(() => {
-    fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
-  }, [products, cartItems])
+  // useEffect(() => {
+  //   // fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
+  // }, [products, cartItems])
 
+  useEffect(() => {
+    if(cartItems.length !== 0 && !updatedCartItems){
+      axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/cart/cart-items-information`, { cartItems }, { withCredentials: true })
+      .then(res => console.log(res.data))
+    }
+  }, [ cartItems, updatedCartItems ])
   const handleChangeQuantity = ( payload ) => {
     changeCartItemQuantity(payload);  //redux dispatch
     setUpdatedCartItems(prevState => {
@@ -43,18 +49,18 @@ const CartPage = () => {
       navigate("/shipping")
     }
   }
-  console.log(updatedCartItems)
+  // console.log(cartItems)
   return (
     <Row>
       <Col md={8}>
         <h1>Your Shopping Cart</h1>
-        {updatedCartItems.length === 0 ? 
+        {updatedCartItems ? 
           <Message>You have no items in your cart yet. <Link to="/">Back to Home Page</Link></Message> : 
           <ListGroup variant="flush">
             {error && <Message variant="danger">Error: {error}</Message>}
             {isLoading && <Loader/>}
 
-            {!isLoading && updatedCartItems.map(item => (
+            {!isLoading && updatedCartItems && updatedCartItems.map(item => (
               <ListGroupItem key={item._id}>
                 <Row>
                   <Col md={2}><Image src={item.image.thumbnail} alt={item.image.name} fluid rounded></Image></Col>
@@ -75,7 +81,7 @@ const CartPage = () => {
         }
       </Col>
       <Col md={4}>
-        {updatedCartItems.length !== 0 &&
+        {updatedCartItems &&
           <Card>
             <ListGroup variant='flush'>
               <ListGroupItem>
