@@ -10,7 +10,6 @@ const useUspsAddressVerification = () => {
     const verifyAddress = async ({address1, address2, city, state, zip5}) => {
         setIsLoading(true)
         const res = await axios.get(`http://production.shippingapis.com/ShippingAPI.dll?API=Verify&xml=${uspsAddressValidationToUri({address1, address2, city, state, zip5})}`)
-        console.log(res.data)
         var data = new XMLParser().parseFromString(res.data).getElementsByTagName('Address')[0].children;    
         let result = {}
         data.forEach(item => result[item.name.charAt(0).toLowerCase() + item.name.slice(1)] = item.value)
