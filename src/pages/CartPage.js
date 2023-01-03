@@ -18,6 +18,7 @@ const CartPage = () => {
   const { user: {userData} } = useUserRedux();
   const [ updatedCartItems, setUpdatedCartItems ] = useState(null);
   const navigate = useNavigate();
+  // console.log(cartItems)
   // useEffect(() => {
   //   // fetchProductInformations( cartItems, products ).then(data => setUpdatedCartItems(data))
   // }, [products, cartItems])
@@ -25,7 +26,7 @@ const CartPage = () => {
   useEffect(() => {
     if(cartItems.length !== 0 && !updatedCartItems){
       axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/cart/cart-items-information`, { cartItems }, { withCredentials: true })
-      .then(res => console.log(res.data))
+      .then(res => setUpdatedCartItems(res.data))
     }
   }, [ cartItems, updatedCartItems ])
   const handleChangeQuantity = ( payload ) => {
@@ -48,37 +49,39 @@ const CartPage = () => {
     } else {
       navigate("/shipping")
     }
-  }
-  // console.log(cartItems)
+  } 
   return (
     <Row>
       <Col md={8}>
         <h1>Your Shopping Cart</h1>
-        {updatedCartItems ? 
-          <Message>You have no items in your cart yet. <Link to="/">Back to Home Page</Link></Message> : 
-          <ListGroup variant="flush">
-            {error && <Message variant="danger">Error: {error}</Message>}
-            {isLoading && <Loader/>}
-
-            {!isLoading && updatedCartItems && updatedCartItems.map(item => (
-              <ListGroupItem key={item._id}>
-                <Row>
-                  <Col md={2}><Image src={item.image.thumbnail} alt={item.image.name} fluid rounded></Image></Col>
-                  <Col md={3}><Link to={`/product/${item._id}`} state={{from: "/cart"}}>{item.name}</Link></Col>
-                  <Col md={2}>${item.price}</Col>
-                  <Col md={2}>                                            
-                    <FormControl as="select" value={item.quantity} onChange={e => handleChangeQuantity({...item, quantity: e.target.value})}>
-                      {[...Array(item.countInStock).keys()].map(item => (
-                          <option key={item + 1} value={item + 1}>{item + 1}</option>
-                      ))}
-                    </FormControl>
-                  </Col>
-                  <Col md={2}><Button type="button" variant="light" onClick={() => handleRemoveFromCart(item._id)}><DeleteIcon style={{margin: 0}}/></Button></Col>
-                </Row>
-              </ListGroupItem>
-            ))}
-          </ListGroup>
-        }
+        {updatedCartItems &&
+        <>
+          {error && <Message variant="danger">Error: {error}</Message>}
+          {isLoading && <Loader/>}
+          {!isLoading && updatedCartItems.length === 0 ?
+            <Message>You have no items in your cart yet. <Link to="/">Back to Home Page</Link></Message> 
+            :
+            <ListGroup variant="flush">
+              {updatedCartItems.map(item => (
+                <ListGroupItem key={item._id}>
+                  <Row>
+                    <Col md={2}><Image src={item.image.thumbnail} alt={item.image.name} fluid rounded></Image></Col>
+                    <Col md={3}><Link to={`/product/${item._id}`} state={{from: "/cart"}}>{item.name}</Link></Col>
+                    <Col md={2}>${item.price}</Col>
+                    <Col md={2}>                                            
+                      <FormControl as="select" value={item.quantity} onChange={e => handleChangeQuantity({...item, quantity: e.target.value})}>
+                        {[...Array(item.countInStock).keys()].map(item => (
+                            <option key={item + 1} value={item + 1}>{item + 1}</option>
+                        ))}
+                      </FormControl>
+                    </Col>
+                    <Col md={2}><Button type="button" variant="light" onClick={() => handleRemoveFromCart(item._id)}><DeleteIcon style={{margin: 0}}/></Button></Col>
+                  </Row>
+                </ListGroupItem>
+              ))}
+            </ListGroup>
+          }
+        </>}
       </Col>
       <Col md={4}>
         {updatedCartItems &&
