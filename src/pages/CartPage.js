@@ -24,6 +24,7 @@ const CartPage = () => {
       .then(res => setUpdatedCartItems(res.data))
     }
   }, [ cartItems, updatedCartItems ])
+
   const handleChangeQuantity = ( payload ) => {
     changeCartItemQuantity(payload);  //redux dispatch
     setUpdatedCartItems(prevState => {
@@ -32,9 +33,11 @@ const CartPage = () => {
       return updatedItems;
     })
   }
-  const handleRemoveFromCart = (id) => {
+
+  /* if product hasOption, the id of the selectedOption is passed  */
+  const handleRemoveFromCart = (id) => {  
     removeFromCart(id) //redux dispatch
-    setUpdatedCartItems(prevState => prevState.filter(item => item._id !== id))
+    setUpdatedCartItems(prevState => prevState.filter(item => item.hasOption ? item.selectedOption._id !== id : item._id !== id))
   }
   
   const handleCheckout = () => {
@@ -45,7 +48,6 @@ const CartPage = () => {
       navigate("/shipping")
     }
   } 
-  console.log(updatedCartItems)
   return (
     <Row>
       <Col md={8}>
@@ -71,7 +73,7 @@ const CartPage = () => {
                         ))}
                       </FormControl>
                     </Col>
-                    <Col md={2}><Button type="button" variant="light" onClick={() => handleRemoveFromCart(item._id)}><DeleteIcon style={{margin: 0}}/></Button></Col>
+                    <Col md={2}><Button type="button" variant="light" onClick={() => handleRemoveFromCart(item.hasOption ? item.selectedOption._id : item._id)}><DeleteIcon style={{margin: 0}}/></Button></Col>
                   </Row>
                 </ListGroupItem>
               ))}

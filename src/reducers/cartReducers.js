@@ -10,7 +10,6 @@ export const fetchCartItems = createAsyncThunk('cart/fetchCartItems', async ( id
         } else {
           const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/cart`, { withCredentials: true });
           const cartFromStorage = JSON.parse(localStorage.getItem("cartItems"))
-          //push existing cartItems(from LS) to user's cart
           if(cartFromStorage) {
             const updatedCart = await axios.post(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/cart/add`, { cartItems }, { withCredentials: true })  
             localStorage.removeItem("cartItems")   //remove items from storage
@@ -43,11 +42,13 @@ export const changeCartItemQuantity = createAsyncThunk( 'cart/changeCartItemQuan
   try {
     if(userData) {
       const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/cart/change-quantity`, { item }, { withCredentials: true })
+      console.log(res.data)
       return { noUser: false, item: res.data } 
     } else {
       return { noUser: true, item } 
     }
   } catch (err){
+    console.log(err)
     return rejectWithValue(err.response.data)
   }
 

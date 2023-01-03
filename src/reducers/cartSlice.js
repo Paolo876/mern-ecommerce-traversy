@@ -100,7 +100,7 @@ const cartSlice = createSlice({
         [removeFromCart.fulfilled.type]: ( state, { payload }) => {
             state.isLoading = false;
             state.error = null;
-            const cartItems = state.cartItems.filter(item => item._id !== payload.id);
+            const cartItems = state.cartItems.filter(item => item.hasOption ? item.selectedOption !== payload.id : item._id !== payload.id);
             state.cartItems = cartItems;
             if(payload.noUser) localStorage.setItem("cartItems", JSON.stringify(cartItems));
         },
