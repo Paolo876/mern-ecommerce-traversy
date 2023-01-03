@@ -47,6 +47,7 @@ const CartPage = () => {
       navigate("/shipping")
     }
   } 
+  console.log(isLoading)
   return (
     <Row>
       <Col md={8}>

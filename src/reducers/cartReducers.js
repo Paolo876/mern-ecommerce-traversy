@@ -42,16 +42,13 @@ export const changeCartItemQuantity = createAsyncThunk( 'cart/changeCartItemQuan
   try {
     if(userData) {
       const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL || "http://localhost:3001"}/api/cart/change-quantity`, { item }, { withCredentials: true })
-      console.log(res.data)
       return { noUser: false, item: res.data } 
     } else {
       return { noUser: true, item } 
     }
   } catch (err){
-    console.log(err)
     return rejectWithValue(err.response.data)
   }
-
 })
 
 export const removeFromCart = createAsyncThunk( 'cart/removeFromCart', async ( id, { rejectWithValue, getState } ) => {
