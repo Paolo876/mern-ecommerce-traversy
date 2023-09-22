@@ -60,17 +60,17 @@ const PlaceOrderPage = () => {
     useEffect(() => {
         if(paymentResult && paymentResult.status === "COMPLETED"){
             console.log(paymentResult)
-            // createOrder({
-            //     orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
-            //     shippingAddress, 
-            //     paymentMethod,
-            //     itemsTotalAmount,
-            //     shippingAmount,
-            //     taxAmount,
-            //     totalAmount,
-            //     paymentResult,
-            //     isPaid: paymentResult ? true : false
-            //   })
+            createOrder({
+                orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
+                shippingAddress, 
+                paymentMethod,
+                itemsTotalAmount,
+                shippingAmount,
+                taxAmount,
+                totalAmount,
+                paymentResult,
+                isPaid: paymentResult ? true : false
+              })
         }
     }, [paymentResult])
 
