@@ -5,9 +5,9 @@ import Message from "../components/Message"
 import CheckoutSteps from '../components/CheckoutSteps'
 import useCartRedux from '../hooks/useCartRedux'
 import useUserRedux from '../hooks/useUserRedux'
-import useProductsRedux from '../hooks/useProductsRedux'
+// import useProductsRedux from '../hooks/useProductsRedux'
 import useOrderRedux from '../hooks/useOrderRedux'
-import fetchProductInformations from '../utils/fetchProductInformations'
+// import fetchProductInformations from '../utils/fetchProductInformations'
 import currencyFormatter from '../utils/currencyFormatter'
 import Loader from '../components/Loader'
 import useDocumentTitle from '../hooks/useDocumentTitle'
@@ -18,14 +18,13 @@ const PlaceOrderPage = () => {
     useDocumentTitle("MernShop | Place Order")
     const { cart: { cartItems, shippingAddress, paymentMethod } } = useCartRedux();
     const { user: { userData } } = useUserRedux();
-    const { productsList: { products }} = useProductsRedux();
+    // const { productsList: { products }} = useProductsRedux();
     const { createOrder, order: { createdOrder, isLoading, error } } = useOrderRedux();
     const navigate = useNavigate();
 
     const [ updatedCartItems, setUpdatedCartItems ] = useState(null);
     const [ costDetails, setCostDetails ] = useState(null)
     const [ paymentResult, setPaymentResult ] = useState(null)
-
     // if not logged in, redirect to /login
     useEffect(() => {
         if(!userData) {
@@ -56,18 +55,18 @@ const PlaceOrderPage = () => {
             navigate(`/order/${createdOrder._id}`, { state: { newOrder: true } })
         }
     }, [createdOrder]) 
-
+    console.log(shippingAddress)
     useEffect(() => {
-        if(paymentResult && paymentResult.status === "COMPLETED"){
-            console.log(paymentResult)
+        if(costDetails && paymentResult && paymentResult.status === "COMPLETED"){
+            // console.log(paymentResult)
             createOrder({
                 orderItems: updatedCartItems.map( item => ( { _id:item._id, price:item.price, quantity: item.quantity } )), 
-                shippingAddress, 
+                shippingAddress: { ...shippingAddress, address: shippingAddress.address2, country: "USA", postalCode: shippingAddress.zip5}, 
                 paymentMethod,
-                itemsTotalAmount,
-                shippingAmount,
-                taxAmount,
-                totalAmount,
+                itemsTotalAmount: costDetails.itemsTotalAmount,
+                shippingAmount: costDetails.shippingAmount,
+                taxAmount: costDetails.taxAmount,
+                totalAmount: costDetails.totalAmount,
                 paymentResult,
                 isPaid: paymentResult ? true : false
               })
