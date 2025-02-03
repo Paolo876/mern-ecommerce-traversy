@@ -36,6 +36,7 @@ const App = () => {
       authorizeToken()
   }, [])
 
+
   //if user, check for cart items
   useEffect(() => {
     if(isAuthReady){
@@ -49,6 +50,8 @@ const App = () => {
     }
   }, [userData, isAuthReady])
   if(!isAuthReady) return <Loader/>
+
+  
   return (
     <BrowserRouter>
       <DocumentHead
